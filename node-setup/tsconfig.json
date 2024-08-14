@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "commonjs",
+    "types": ["node", "jest"],
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true  ,                            /* Skip type checking all .d.ts files. */
+    // "exclude": ["**/*.test.*", "**/__mocks__/*", "**/__tests__/*"]
+  }
+}

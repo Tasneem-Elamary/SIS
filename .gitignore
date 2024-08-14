@@ -1,0 +1,7 @@
+.env
+dev.env
+links.txt
+node_modules
+.vscode
+/node-setup/node_modules/
+/react-setup/node_modules/
