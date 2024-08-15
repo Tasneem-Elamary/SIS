@@ -1,38 +1,39 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
+import { UserType } from '../../types/index';
 
-const user = (db: Sequelize) => db.define('User', {
-  // id: {
-  //   type: DataTypes.INTEGER,
-  //   autoIncrement: true,
-  //   allowNull: false,
-  // },
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: () => uuidv4(),
-    primaryKey: true,
-    unique: true,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  mobile: {
-    type: DataTypes.STRING,
-  },
-  password: {
-    type: DataTypes.STRING,
-  },
-}, {
-  freezeTableName: true,
-  timestamps: false,
-  createdAt: false,
-  updatedAt: false,
-});
+class User extends Model<UserType> {}
+export const UserModel = (sequelize: Sequelize) => {
+  User.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: uuidv4,
+        primaryKey: true,
+        unique: true,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'User',
+      timestamps: false,
+    },
+  );
+  return User;
+};
 
-export default user;
+export default UserModel;

@@ -1,4 +1,4 @@
-import  user  from './user.model';
+import user from './user.model';
 import { db } from '../../../config/postgresDB.config';
 
 const User = user(db);
