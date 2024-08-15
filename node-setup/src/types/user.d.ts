@@ -1,8 +1,7 @@
 type User = {
     id?: number,
-    name: string,
     email: string,
-    mobile?: string,
     password: string,
+    role: string,
 }
 export default User;
