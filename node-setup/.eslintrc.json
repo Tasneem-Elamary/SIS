@@ -19,6 +19,7 @@
         "ecmaVersion": "latest" 
     },
     "rules": {
+        "linebreak-style": ["error", "unix"],
         "no-console":"off",
         "import/no-unresolved":"off",
         "import/extensions":"off",
