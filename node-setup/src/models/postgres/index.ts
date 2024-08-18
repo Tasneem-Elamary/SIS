@@ -39,7 +39,6 @@ const Semster = semster(db);
 const Room = room(db);
 const Faculty = faculty(db);
 
-
 User.hasOne(Student, {
   foreignKey: 'userId',
 });
@@ -94,14 +93,14 @@ Student.belongsToMany(Schedule, { through: 'StudentSchedule' });
 Faculty.hasMany(Room, { foreignKey: 'facultyId' });
 Room.belongsTo(Faculty, { foreignKey: 'facultyId' });
 
-Department.hasMany(Bylaw, { foreignKey: 'DepartmentId' });
-Bylaw.belongsTo(Department, { foreignKey: 'DepartmentId' });
+Department.hasMany(Bylaw, { foreignKey: 'departmentId' });
+Bylaw.belongsTo(Department, { foreignKey: 'departmentId' });
 
-Bylaw.hasMany(Grade, { foreignKey: 'BylawId' });
-Grade.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+Bylaw.hasMany(Grade, { foreignKey: 'bylawId' });
+Grade.belongsTo(Bylaw, { foreignKey: 'bylawId' });
 
-Bylaw.hasMany(BylawRule, { foreignKey: 'BylawId' });
-BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+Bylaw.hasMany(BylawRule, { foreignKey: 'bylawId' });
+BylawRule.belongsTo(Bylaw, { foreignKey: 'bylawId' });
 
 Course.belongsToMany(Course, {
   through: 'CoursePrerequisites',
@@ -119,17 +118,19 @@ Department.belongsToMany(Course, { through: 'DepartmentCourses' });
 Course.belongsToMany(Student, { through: 'CourseEnrollments' });
 Student.belongsToMany(Course, { through: 'CourseEnrollments' });
 
-Student.hasMany(Result, { foreignKey: 'StudentId' });
-Result.belongsTo(Student, { foreignKey: 'StudentId' });
+Student.hasMany(Result, { foreignKey: 'studentId' });
+Result.belongsTo(Student, { foreignKey: 'studentId' });
 
-Course.hasMany(Result, { foreignKey: 'CourseId' });
-Result.belongsTo(Course, { foreignKey: 'CourseId' });
+Course.hasMany(Result, { foreignKey: 'courseId' });
+Result.belongsTo(Course, { foreignKey: 'courseId' });
 
-Grade.hasMany(Result, { foreignKey: 'GradeID' });
-Result.belongsTo(Grade, { foreignKey: 'GradeID' });
+Grade.hasMany(Result, { foreignKey: 'gradeId' });
+Result.belongsTo(Grade, { foreignKey: 'gradeId' });
 
-Semster.hasMany(Result, { foreignKey: 'SemsterId' });
-Result.belongsTo(Semster, { foreignKey: 'SemsterId' });
+Semster.hasMany(Result, { foreignKey: 'semsterId' });
+Result.belongsTo(Semster, { foreignKey: 'semsterId' });
+
+Instructor.sync({ alter: true });
 
 db.sync({ force: false })
   .then(() => {

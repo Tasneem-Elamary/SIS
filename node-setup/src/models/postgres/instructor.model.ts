@@ -48,6 +48,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -57,7 +58,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      departmentID: {
+      departmentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

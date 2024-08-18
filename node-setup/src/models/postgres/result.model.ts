@@ -33,7 +33,7 @@ const result = (db: Sequelize) => db.define('Result', {
       key: 'id',
     },
   },
-  gradeID: {
+  gradeId: {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
