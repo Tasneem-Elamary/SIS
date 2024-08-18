@@ -7,42 +7,42 @@ class Department extends Model<DepartmentType> {}
 
 const DepartmentModel = (sequelize: Sequelize) => {
   Department.init(
-  {
+    {
       id: {
-      type: DataTypes.UUID,
-      defaultValue: uuidv4,
-      primaryKey: true,
-      unique: true,
-      allowNull: false,
-    },
-    departmentCode: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    headID: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    facultyID: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      references: {
-        model: FacultyModel(sequelize),
-        key: 'id',
+        type: DataTypes.UUID,
+        defaultValue: uuidv4,
+        primaryKey: true,
+        unique: true,
+        allowNull: false,
       },
-      onDelete: 'CASCADE',
+      departmentCode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      headID: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      facultyID: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        // references: {
+        //   model: FacultyModel(sequelize),
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
+      },
     },
-  },
-  {
-    sequelize,
-    modelName: 'Department',
-    timestamps: false,
-  },
-);
+    {
+      sequelize,
+      modelName: 'Department',
+      timestamps: false,
+    },
+  );
 
   return Department;
 };

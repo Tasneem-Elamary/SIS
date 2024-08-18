@@ -1,9 +1,8 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { Bylaw, Course } from '.';
 
-const bylawRule = (db: Sequelize) => db.define(
-  'BylawRule',
+const semster = (db: Sequelize) => db.define(
+  'Semster',
   {
     id: {
       type: DataTypes.UUID,
@@ -12,27 +11,23 @@ const bylawRule = (db: Sequelize) => db.define(
       unique: true,
       allowNull: false,
     },
-    min_GPA: {
-      type: DataTypes.FLOAT,
+    season: {
+      type: DataTypes.ENUM('Winter', 'spring', 'fall', 'summer'),
       allowNull: false,
+      unique: true, // Enforces that each course code is unique
     },
-    hoursAllowed: {
+    creditHours: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    bylawId: {
-      type: DataTypes.UUID,
+    year: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Bylaws',
-        key: 'id',
-      },
     },
-
   },
   {
     timestamps: false,
   },
 );
 
-export default bylawRule;
+export default semster;

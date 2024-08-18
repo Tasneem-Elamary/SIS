@@ -1,44 +1,44 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-const result =(db: Sequelize) => db.define('Result', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: () => uuidv4(),
-        primaryKey: true,
-        unique: true,
-        allowNull: false,
-      },
+const result = (db: Sequelize) => db.define('Result', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: () => uuidv4(),
+    primaryKey: true,
+    unique: true,
+    allowNull: false,
+  },
   studentId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Students', 
-      key: 'id',         
+      model: 'Students',
+      key: 'id',
     },
   },
   courseId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Courses', 
-      key: 'id',         
+      model: 'Courses',
+      key: 'id',
     },
   },
   semsterId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Semsters', 
-      key: 'id',         
+      model: 'Semsters',
+      key: 'id',
     },
   },
   gradeID: {
     type: DataTypes.UUID,
     allowNull: true,
     references: {
-      model: 'Grades', 
-      key: 'id',         
+      model: 'Grades',
+      key: 'id',
     },
   },
   finalGrade: {
@@ -53,10 +53,10 @@ const result =(db: Sequelize) => db.define('Result', {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
- 
+
 }, {
-  timestamps: false, 
- 
+  timestamps: false,
+
 });
 
 export default result;

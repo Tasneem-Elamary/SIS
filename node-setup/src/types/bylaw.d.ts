@@ -8,4 +8,4 @@
     departmentId: string;
   };
 
-export default  BylawType;
+export default BylawType;

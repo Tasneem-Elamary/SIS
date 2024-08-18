@@ -1,8 +1,8 @@
  type BylawRuleType = {
-    id?: string;            
+    id?: string;
     min_GPA: number;
     hoursAllowed: number;
-    bylawId: string;       
+    bylawId: string;
   };
 
-  export default BylawRuleType;
+export default BylawRuleType;
