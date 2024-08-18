@@ -1,13 +1,14 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { FacultyType } from '../../types/index';
+import UniversityModel from './university.model';
 
 class Faculty extends Model<FacultyType> {}
 
 const FacultyModel = (sequelize: Sequelize) => {
     Faculty.init(
     {
-        facultyID: {
+        id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,
@@ -15,6 +16,10 @@ const FacultyModel = (sequelize: Sequelize) => {
         allowNull: false,
       },
       facultyCode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -29,6 +34,11 @@ const FacultyModel = (sequelize: Sequelize) => {
       universityID: {
         type: DataTypes.STRING,
         allowNull: false,
+        references: {
+          model: UniversityModel(sequelize),
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
     },
     {

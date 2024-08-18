@@ -7,7 +7,7 @@ class Section extends Model<SectionType> {}
 const SectionModel = (sequelize: Sequelize) => {
   Section.init(
     {
-        sectionID: {
+        id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,

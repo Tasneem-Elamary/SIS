@@ -7,7 +7,7 @@ class Group extends Model<GroupType> {}
 const GroupModel = (sequelize: Sequelize) => {
   Group.init(
     {
-      groupID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,

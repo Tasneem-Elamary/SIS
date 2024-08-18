@@ -1,5 +1,5 @@
 type GroupType ={
-    groupID?:string,
+    id?:string,
     groupCode:string,
     capacity: int,
   };

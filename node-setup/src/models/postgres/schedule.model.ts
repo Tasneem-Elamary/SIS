@@ -14,7 +14,7 @@ class Schedule extends Model<ScheduleType> {}
 const ScheduleModel = (sequelize: Sequelize) => {
   Schedule.init(
     {
-      scheduleID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,
@@ -30,7 +30,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: GroupModel(sequelize),
-          key: 'groupID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
       },
@@ -39,7 +39,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: SectionModel(sequelize),
-          key: 'sectionID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
       },
@@ -49,7 +49,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         /**
         references: {
           model: SlotModel(sequelize),
-          key: 'slotID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
          */
@@ -60,7 +60,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         /**
         references: {
           model: RoomModel(sequelize),
-          key: 'roomID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
         */
@@ -71,7 +71,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         /**
         references: {
           model: CourseModel(sequelize),
-          key: 'courseID',
+          key: 'id',
         },
        onDelete: 'CASCADE',
         */
@@ -82,7 +82,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: InstructorModel(sequelize),
-          key: 'instructorID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
       },
@@ -92,7 +92,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         /**
         references: {
           model: SemesterModel(sequelize),
-          key: 'semesterID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
         */
