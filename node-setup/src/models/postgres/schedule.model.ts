@@ -21,7 +21,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      type: {
+      scheduleType: {
         type: DataTypes.ENUM('lab', 'lecture'),
         allowNull: false,
       },
@@ -29,7 +29,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: GroupModel(sequelize),
+          model: 'Groups',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -38,7 +38,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: SectionModel(sequelize),
+          model: 'Sections',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -48,7 +48,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
 
         references: {
-          model: SlotModel(sequelize),
+          model: 'Slots',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -59,7 +59,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
 
         references: {
-          model: RoomModel(sequelize),
+          model: 'Rooms',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -70,7 +70,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
 
         references: {
-          model: CourseModel(sequelize),
+          model: 'Courses',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -80,7 +80,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: InstructorModel(sequelize),
+          model: 'Instructors',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -90,7 +90,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
 
         references: {
-          model: SemesterModel(sequelize),
+          model: 'Semesters',
           key: 'id',
         },
         onDelete: 'CASCADE',

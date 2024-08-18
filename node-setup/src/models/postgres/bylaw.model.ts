@@ -36,7 +36,7 @@ const bylaw = (db: Sequelize) => db.define('Bylaw', {
     allowNull: false,
     references: {
       model: 'Departments',
-      key: 'DepartmentId',
+      key: 'id',
     },
   },
 }, {

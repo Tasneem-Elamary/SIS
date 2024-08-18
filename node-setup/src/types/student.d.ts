@@ -4,7 +4,7 @@ type StudentType ={
   firstName: string,
   lastName: string,
   birthDate: Date,
-  gender: string,
+  gender: 'Male'|'Female',
   profilePhoto?: string,
   phone: string,
   gainedHours: number,

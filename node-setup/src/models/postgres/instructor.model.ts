@@ -29,11 +29,11 @@ const InstructorModel = (sequelize: Sequelize) => {
         allowNull: false,
       },
       gender: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Male','Female'),
         allowNull: false,
       },
       type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Professor','TA'),
         allowNull: false,
       },
       employmentType: {
@@ -61,7 +61,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: DepartmentModel(sequelize),
+          model: 'Departments',
           key: 'id',
         },
         onDelete: 'CASCADE',

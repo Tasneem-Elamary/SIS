@@ -1,6 +1,6 @@
 type ScheduleType ={
     id?:string,
-    type: 'lab' | 'lecture';
+    scheduleType: 'lab' | 'lecture';
     groupId: string,
     sectionId: string,
     slotId: string,

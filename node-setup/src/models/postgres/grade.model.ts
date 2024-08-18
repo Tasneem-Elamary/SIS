@@ -6,7 +6,6 @@ const grade = (db: Sequelize) => db.define('Grade', {
     type: DataTypes.UUID,
     defaultValue: () => uuidv4(),
     primaryKey: true,
-    autoIncrement: true,
     unique: true,
   },
   letter: {

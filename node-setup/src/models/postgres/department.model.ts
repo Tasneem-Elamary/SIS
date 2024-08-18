@@ -28,7 +28,7 @@ const DepartmentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: InstructorModel(sequelize),
+          model: 'Instructors',
           key: 'id',
         },
         onDelete: 'CASCADE',

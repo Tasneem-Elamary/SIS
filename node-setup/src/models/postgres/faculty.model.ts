@@ -35,7 +35,7 @@ const FacultyModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: UniversityModel(sequelize),
+          model: 'Universities',
           key: 'id',
         },
         onDelete: 'CASCADE',

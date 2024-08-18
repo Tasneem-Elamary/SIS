@@ -106,8 +106,8 @@ Student.belongsTo(Department, { foreignKey: 'departmentId' });
 Department.hasMany(Instructor, { foreignKey: 'departmentId' });
 Instructor.belongsTo(Department, { foreignKey: 'departmentId' });
 
-Student.belongsToMany(Instructor, { through: 'StudentAdvisor' });
-Instructor.belongsToMany(Student, { through: 'StudentAdvisor' });
+Student.belongsToMany(Instructor, { through: 'StudentAdvisors' });
+Instructor.belongsToMany(Student, { through: 'StudentAdvisors' });
 
 Slot.hasMany(Schedule);
 Schedule.belongsTo(Slot);
@@ -127,10 +127,10 @@ Schedule.belongsTo(Group);
 Section.hasOne(Schedule);
 Schedule.belongsTo(Section);
 
-Schedule.belongsToMany(Student, { through: 'StudentSchedule' });
-Student.belongsToMany(Schedule, { through: 'StudentSchedule' });
+Schedule.belongsToMany(Student, { through: 'StudentSchedules' });
+Student.belongsToMany(Schedule, { through: 'StudentSchedules' });
 
-db.sync({ force: false })
+db.sync({ force: true })
   .then(() => {
     console.log('Tables Created');
   });
