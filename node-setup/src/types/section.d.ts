@@ -1,5 +1,5 @@
 type SectionType ={
-    sectionID?:string,
+    id?:string,
     sectionCode: string,
     capacity: int,
   };

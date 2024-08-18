@@ -7,7 +7,7 @@ class Slot extends Model<SlotType> {}
 const SlotModel = (sequelize: Sequelize) => {
   Slot.init(
     {
-      slotID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,
@@ -15,12 +15,12 @@ const SlotModel = (sequelize: Sequelize) => {
         allowNull: false,
       },
       startTime: {
-        type: DataTypes.UUID,
+        type: DataTypes.DATE,
         allowNull: false,
 
       },
       endTime: {
-        type: DataTypes.UUID,
+        type: DataTypes.DATE,
         allowNull: false,
 
       },

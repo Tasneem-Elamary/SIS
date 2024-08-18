@@ -7,7 +7,7 @@ class University extends Model<UniversityType> {}
 const UniversityModel = (sequelize: Sequelize) => {
   University.init(
     {
-      universityID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,

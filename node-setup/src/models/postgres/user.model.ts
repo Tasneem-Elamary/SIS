@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { UserType } from '../../types/index';
 
 class User extends Model<UserType> {}
-const UserModel = (sequelize: Sequelize) => {
+ const UserModel = (sequelize: Sequelize) => {
   User.init(
     {
       id: {
@@ -29,7 +29,7 @@ const UserModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'Users',
       timestamps: false,
     },
   );

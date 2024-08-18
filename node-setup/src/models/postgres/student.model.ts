@@ -10,7 +10,7 @@ class Student extends Model<StudentType> {}
 const StudentModel = (sequelize: Sequelize) => {
   Student.init(
     {
-      studentID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,
@@ -67,7 +67,7 @@ const StudentModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: DepartmentModel(sequelize),
-          key: 'departmentID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
       },

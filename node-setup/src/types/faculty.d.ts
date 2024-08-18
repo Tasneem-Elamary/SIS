@@ -1,5 +1,5 @@
 type FacultyType ={
-    facultyID?:string,
+    id?:string,
     facultyCode: string,
     name: string,
     location: string,

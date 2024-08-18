@@ -1,6 +1,6 @@
 type SlotType ={
-    slotID?:string,
-    startTime: string,
-    endTime: string,
+    id?:string,
+    startTime: Date,
+    endTime: Date,
     };
 export default SlotType;

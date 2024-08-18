@@ -9,7 +9,7 @@ class Instructor extends Model<InstructorType> {}
 const InstructorModel = (sequelize: Sequelize) => {
   Instructor.init(
     {
-      instructorID: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4, // Correct usage
         primaryKey: true,
@@ -62,7 +62,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: DepartmentModel(sequelize),
-          key: 'departmentID',
+          key: 'id',
         },
         onDelete: 'CASCADE',
       },

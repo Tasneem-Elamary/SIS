@@ -1,5 +1,5 @@
 type User = {
-    id?: number,
+    readonly id?: number,
     email: string,
     password: string,
     role: string,

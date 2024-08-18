@@ -1,5 +1,5 @@
 type DepartmentType ={
-  departmentID?:string,
+  id?:string,
   departmentCode: string,
   name: string,
   headID: string,

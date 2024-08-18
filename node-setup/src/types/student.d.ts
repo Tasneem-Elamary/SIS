@@ -1,5 +1,5 @@
 type StudentType ={
-  studentID?:number,
+  id?:number,
   studentCode: string,
   firstName: string,
   lastName: string,

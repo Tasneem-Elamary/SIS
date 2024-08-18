@@ -1,5 +1,5 @@
 type UniversityType ={
-    universityID?:string,
+    id?:string,
     universityCode: string,
     name: string,
     location: string,
