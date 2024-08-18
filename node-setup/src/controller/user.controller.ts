@@ -21,54 +21,54 @@ class UserController {
 
   @Get('/{id}')
   public async getById(id: string): Promise<any> {
-    const user = await this.user.getById(id);
-    return user;
+    // const user = await this.user.getById(id);
+    // return user;
   }
 
   create = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { body } = req;
-      console.log(body);
+    // try {
+    //   const { body } = req;
+    //   console.log(body);
 
-      const user = await this.user.create({ ...body, password: hashPassword(body.password) });
+    //   const user = await this.user.create({ ...body, password: hashPassword(body.password) });
 
-      res.send({
-        msg: 'User added successfully', user,
-      });
-    } catch (e) {
-      next(e);
-    }
+    //   res.send({
+    //     msg: 'User added successfully', user,
+    //   });
+    // } catch (e) {
+    //   next(e);
+    // }
   };
 
   public async get(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.user.user;
-      const user = await this.user.getById(id);
-      res.send({
-        msg: 'User got successfully', user,
-      });
-    } catch (e) {
-      next(e);
-    }
+    // try {
+    //   const { id } = req.user.user;
+    //   const user = await this.user.getById(id);
+    //   res.send({
+    //     msg: 'User got successfully', user,
+    //   });
+    // } catch (e) {
+    //   next(e);
+    // }
   }
 
   login = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { body: { email, password } } = req;
-      const user = await this.user.getByEmail(email);
-      if (user && isPasswordValid(user.password, password)) {
-        const token = signUser(user);
-        res.send({
-          msg: 'Signin successfully',
-          token,
-        });
-      } else {
-        throw new Error('Email and password not match, Please try again !!');
-      }
-    } catch (e) {
-      next(e);
-    }
+  //   try {
+  //     const { body: { email, password } } = req;
+  //     const user = await this.user.getByEmail(email);
+  //     if (user && isPasswordValid(user.password, password)) {
+  //       const token = signUser(user);
+  //       res.send({
+  //         msg: 'Signin successfully',
+  //         token,
+  //       });
+  //     } else {
+  //       throw new Error('Email and password not match, Please try again !!');
+  //     }
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // };
   };
 }
-
 export default new UserController();

@@ -1,10 +1,11 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { UserType } from '../../types/index';
+import { GroupType } from '../../types/index';
 
-class User extends Model<UserType> {}
-const UserModel = (sequelize: Sequelize) => {
-  User.init(
+class Group extends Model<GroupType> {}
+
+const GroupModel = (sequelize: Sequelize) => {
+  Group.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -13,27 +14,23 @@ const UserModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      password: {
+      groupCode: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      role: {
-        type: DataTypes.STRING,
+      capacity: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'Users',
+      modelName: 'Section',
       timestamps: false,
     },
   );
-  return User;
+
+  return Group;
 };
 
-export default UserModel;
+export default GroupModel;

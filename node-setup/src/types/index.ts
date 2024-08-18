@@ -1,5 +1,15 @@
 import ErrorType from './error.d';
 import UserType from './user.d';
+
+import StudentType from './student.d';
+import InstructorType from './instructor.d';
+import DepartmentType from './department.d';
+import ScheduleType from './schedule.d';
+import FacultyType from './faculty.d';
+import UniversityType from './university.d';
+import GroupType from './group.d';
+import SectionType from './section.d';
+import SlotType from './slot.d';
 import CourseType from './course';
 import BylawType from './bylaw';
 import GradeType from './grade';
@@ -13,6 +23,15 @@ import BylawRuleType from './bylawRule';
 export {
   ErrorType,
   UserType,
+  StudentType,
+  InstructorType,
+  DepartmentType,
+  ScheduleType,
+  FacultyType,
+  UniversityType,
+  GroupType,
+  SectionType,
+  SlotType,
   CourseType,
   BylawType,
   GradeType,
@@ -21,6 +40,6 @@ export {
   RoomType,
   ResultType,
   SemesterType,
-  BylawRuleType
+  BylawRuleType,
 
 };

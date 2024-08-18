@@ -6,11 +6,10 @@ const grade = (db: Sequelize) => db.define('Grade', {
     type: DataTypes.UUID,
     defaultValue: () => uuidv4(),
     primaryKey: true,
-    autoIncrement: true,
     unique: true,
   },
   letter: {
-    type: DataTypes.ENUM('A+','A','A-', 'B+','B','B-', 'C+','C','C-', 'D+','D','D-', 'F'),
+    type: DataTypes.ENUM('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'),
     allowNull: false,
   },
   point: {
@@ -21,8 +20,8 @@ const grade = (db: Sequelize) => db.define('Grade', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Bylaws', 
-      key: 'id', 
+      model: 'Bylaws',
+      key: 'id',
     },
   },
 }, {
