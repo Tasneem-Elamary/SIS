@@ -6,9 +6,9 @@ import UniversityModel from './university.model';
 class Faculty extends Model<FacultyType> {}
 
 const FacultyModel = (sequelize: Sequelize) => {
-    Faculty.init(
+  Faculty.init(
     {
-        id: {
+      id: {
         type: DataTypes.UUID,
         defaultValue: uuidv4,
         primaryKey: true,
@@ -31,8 +31,8 @@ const FacultyModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      universityID: {
-        type: DataTypes.STRING,
+      universityId: {
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: UniversityModel(sequelize),

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { StudentType } from '../../types/index';
 import UserModel from './user.model';
 import DepartmentModel from './department.model';
-// import BylawModel from './bylaw.model';
+import BylawModel from './bylaw.model';
 
 class Student extends Model<StudentType> {}
 
@@ -62,7 +62,7 @@ const StudentModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      departmentID: {
+      departmentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -74,13 +74,13 @@ const StudentModel = (sequelize: Sequelize) => {
       BylawId: {
         type: DataTypes.UUID,
         allowNull: false,
-        /**
+        
         references: {
           model: BylawModel(sequelize),
           key: 'id',
         },
         onDelete: 'CASCADE',
-        */
+        
       },
     },
     {

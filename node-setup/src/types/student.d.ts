@@ -10,7 +10,7 @@ type StudentType ={
   gainedHours: number,
   GPA: number,
   userId:string,
-  departmentID:string,
+  departmentId:string,
   BylawId:string,
 };
 

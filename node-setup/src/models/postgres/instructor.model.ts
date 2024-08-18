@@ -57,7 +57,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      departmentID: {
+      departmentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

@@ -1,12 +1,12 @@
 type ScheduleType ={
     id?:string,
     type: 'lab' | 'lecture';
-    groupID: string,
-    sectionID: string,
-    slotID: string,
-    roomID: string,
-    courseID: string,
-    instructorID: string,
-    semesterID: string,
+    groupId: string,
+    sectionId: string,
+    slotId: string,
+    roomId: string,
+    courseId: string,
+    instructorId: string,
+    semesterId: string,
     };
 export default ScheduleType;

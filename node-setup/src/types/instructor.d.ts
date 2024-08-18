@@ -9,7 +9,7 @@ type InstructorType = {
   profilePhoto?: string,
   phone: string,
   userId:string,
-  departmentID:string,
+  departmentId:string,
 
 };
 export default InstructorType;

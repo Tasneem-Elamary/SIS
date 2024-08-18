@@ -5,4 +5,4 @@ type CourseType = {
     credit_Hours: number;
   };
 
-export default  CourseType;
+export default CourseType;

@@ -4,6 +4,6 @@ type FacultyType ={
     name: string,
     location: string,
     phone: string,
-    universityID: string,
+    universityId: string,
   };
 export default FacultyType;

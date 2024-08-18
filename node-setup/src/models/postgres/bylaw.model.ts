@@ -2,16 +2,15 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 import { v4 as uuidv4 } from 'uuid';
 
-
 // Define the Bylaw model
 const bylaw = (db: Sequelize) => db.define('Bylaw', {
   id: {
-        type: DataTypes.UUID,
-        defaultValue: () => uuidv4(),
-        primaryKey: true,
-        unique: true,
-        allowNull: false,
-      },
+    type: DataTypes.UUID,
+    defaultValue: () => uuidv4(),
+    primaryKey: true,
+    unique: true,
+    allowNull: false,
+  },
   code: {
     type: DataTypes.STRING(10),
     allowNull: false,
@@ -36,15 +35,13 @@ const bylaw = (db: Sequelize) => db.define('Bylaw', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Departments', 
-      key: 'DepartmentId'
+      model: 'Departments',
+      key: 'DepartmentId',
     },
   },
 }, {
   timestamps: false,
-  
+
 });
-
-
 
 export default bylaw;

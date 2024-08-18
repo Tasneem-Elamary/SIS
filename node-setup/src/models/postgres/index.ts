@@ -37,24 +37,25 @@ const CourseEnrollment = courseEnrollment(db);
 const CourseBylaw = courseBylaw(db);
 const Result = result(db);
 const Semester = semester(db);
-const Room=room(db);
+const Room = room(db);
 
 Faculty.hasMany(Room, { foreignKey: 'facultyId' });
-Room.belongsTo(Faculty, { foreignKey: 'facultyId' });  
+Room.belongsTo(Faculty, { foreignKey: 'facultyId' });
 
 Department.hasMany(Bylaw, { foreignKey: 'DepartmentId' });
-Bylaw.belongsTo(Department, { foreignKey: 'DepartmentId' });  
+Bylaw.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
 Bylaw.hasMany(Grade, { foreignKey: 'BylawId' });
-Grade.belongsTo(Bylaw, { foreignKey: 'BylawId' });  
+Grade.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Bylaw.hasMany(BylawRule, { foreignKey: 'BylawId' });
-BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });  
+BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
-Course.belongsToMany(Course, { 
-  through: 'CoursePrerequisite', 
+Course.belongsToMany(Course, {
+  through: 'CoursePrerequisite',
   foreignKey: 'CourseId',
-  otherKey: 'PrerequisiteId'
+  otherKey: 'PrerequisiteId',
+  as: 'Prerequisites',
 });
 
 Course.belongsToMany(Bylaw, { through: 'CourseBylaws' });
@@ -67,21 +68,16 @@ Course.belongsToMany(Student, { through: 'CourseEnrollments' });
 Student.belongsToMany(Course, { through: 'CourseEnrollments' });
 
 Student.hasMany(Result, { foreignKey: 'StudentId' });
-Result.belongsTo(Student, { foreignKey: 'StudentId' });  
+Result.belongsTo(Student, { foreignKey: 'StudentId' });
 
 Course.hasMany(Result, { foreignKey: 'CourseId' });
-Result.belongsTo(Course, { foreignKey: 'CourseId' });  
+Result.belongsTo(Course, { foreignKey: 'CourseId' });
 
 Grade.hasMany(Result, { foreignKey: 'GradeID' });
-Result.belongsTo(Grade, { foreignKey: 'GradeID' });  
+Result.belongsTo(Grade, { foreignKey: 'GradeID' });
 
 Semester.hasMany(Result, { foreignKey: 'SemsterId' });
-Result.belongsTo(Semester, { foreignKey: 'SemsterId' });  
-
-db.sync({ force: false })
-  .then(() => {
-    console.log('Tables Created');
-  });
+Result.belongsTo(Semester, { foreignKey: 'SemsterId' });
 
 User.hasOne(Student, {
   foreignKey: 'userId',
@@ -134,6 +130,10 @@ Schedule.belongsTo(Section);
 Schedule.belongsToMany(Student, { through: 'StudentSchedule' });
 Student.belongsToMany(Schedule, { through: 'StudentSchedule' });
 
+db.sync({ force: false })
+  .then(() => {
+    console.log('Tables Created');
+  });
 export {
   User,
   Student,

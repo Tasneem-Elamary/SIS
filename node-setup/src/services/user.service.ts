@@ -8,7 +8,7 @@ class User implements IUser {
 
   login = async (email: string, password: string) => {
     try {
-      return ""
+      return '';
     } catch {
       throw new Error('Fail to login the user, Please try again !!');
     }

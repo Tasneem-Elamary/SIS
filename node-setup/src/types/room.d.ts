@@ -1,9 +1,9 @@
  type RoomType = {
-    id?: string;              
-    code: string;            
-    type: 'section' | 'lab' | 'hall'; 
-    capacity: number;         
-    facultyId: string;        
+    id?: string;
+    code: string;
+    type: 'section' | 'lab' | 'hall';
+    capacity: number;
+    facultyId: string;
   };
 
-  export default  RoomType;
+export default RoomType;

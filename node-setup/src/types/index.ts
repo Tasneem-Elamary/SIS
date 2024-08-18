@@ -39,6 +39,6 @@ export {
   RoomType,
   ResultType,
   SemesterType,
-  BylawRuleType
+  BylawRuleType,
 
 };
