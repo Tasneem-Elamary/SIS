@@ -40,7 +40,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
   },
   approvalStatus: {
     type: DataTypes.ENUM('Approved', 'pending', 'unApproved'),
-    defaultValue: false,
+   
   },
 }, {
   timestamps: false,
