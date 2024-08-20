@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { InstructorType } from '../../types/index';
+import { InstructorType } from '../types/index';
 import UserModel from './user.model';
 import DepartmentModel from './department.model';
 
@@ -29,7 +29,7 @@ const InstructorModel = (sequelize: Sequelize) => {
         allowNull: false,
       },
       gender: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Male', 'Female'),
         allowNull: false,
       },
       type: {
@@ -52,26 +52,27 @@ const InstructorModel = (sequelize: Sequelize) => {
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: UserModel(sequelize),
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: UserModel(sequelize),
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       departmentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: DepartmentModel(sequelize),
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: DepartmentModel(sequelize),
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
     },
     {
       sequelize,
       modelName: 'Instructor',
       timestamps: false,
+
     },
   );
 

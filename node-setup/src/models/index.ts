@@ -17,7 +17,7 @@ import result from './result.model';
 import room from './room.model';
 import slot from './slot.model';
 import semster from './semster.model';
-import { db } from '../../../config/postgresDB.config';
+import { db } from '../../config/postgresDB.config';
 
 const User = user(db);
 const Student = student(db);
@@ -44,6 +44,14 @@ User.hasOne(Student, {
 });
 Student.belongsTo(User, {
   foreignKey: 'userId',
+});
+
+Instructor.hasOne(Department, {
+  foreignKey: 'headId',
+});
+Department.belongsTo(Instructor, {
+  foreignKey: 'headId',
+
 });
 
 User.hasOne(Instructor, {
@@ -130,14 +138,14 @@ Result.belongsTo(Grade, { foreignKey: 'gradeId' });
 Semster.hasMany(Result, { foreignKey: 'semsterId' });
 Result.belongsTo(Semster, { foreignKey: 'semsterId' });
 
-Instructor.sync({ alter: true });
+// Instructor.sync({ alter: true });
 
-db.sync({ force: false })
-  .then(() => {
-    console.log('Tables Created');
-  });
+// db.sync({ alter: true })
+//   .then(() => {
+//     console.log('Tables Created');
+//   });
 
-export {
+export const models = {
   User,
   Course,
   Bylaw,
@@ -152,3 +160,8 @@ export {
   Slot,
 
 };
+
+export const sequelize = db;
+
+// This export is specifically for sequelize-mig compatibility
+export default models;

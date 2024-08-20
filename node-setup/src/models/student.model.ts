@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { StudentType } from '../../types/index';
+import { StudentType } from '../types/index';
 import UserModel from './user.model';
 import DepartmentModel from './department.model';
 // import BylawModel from './bylaw.model';
@@ -43,7 +43,7 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       gainedHours: {
         type: DataTypes.FLOAT,

@@ -1,11 +1,11 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { SectionType } from '../../types/index';
+import { SlotType } from '../types/index';
 
-class Section extends Model<SectionType> {}
+class Slot extends Model<SlotType> {}
 
-const SectionModel = (sequelize: Sequelize) => {
-  Section.init(
+const SlotModel = (sequelize: Sequelize) => {
+  Slot.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -14,24 +14,26 @@ const SectionModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      sectionCode: {
-        type: DataTypes.STRING,
+      startTime: {
+        type: DataTypes.DATE,
         allowNull: false,
+
       },
-      capacity: {
-        type: DataTypes.INTEGER,
+      endTime: {
+        type: DataTypes.DATE,
         allowNull: false,
+
       },
 
     },
     {
       sequelize,
-      modelName: 'Section',
+      modelName: 'Slot',
       timestamps: false,
     },
   );
 
-  return Section;
+  return Slot;
 };
 
-export default SectionModel;
+export default SlotModel;

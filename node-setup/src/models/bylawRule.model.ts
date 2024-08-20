@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { Bylaw, Course } from '.';
+
 
 const bylawRule = (db: Sequelize) => db.define(
   'BylawRule',
