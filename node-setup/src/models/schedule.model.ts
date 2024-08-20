@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { ScheduleType } from '../../types/index';
+import { ScheduleType } from '../types/index';
 import GroupModel from './group.model';
 import SectionModel from './section.model';
 import InstructorModel from './instructor.model';

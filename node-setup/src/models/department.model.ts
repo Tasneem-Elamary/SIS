@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { DepartmentType } from '../../types/index';
+import { DepartmentType } from '../types/index';
 import FacultyModel from './faculty.model';
 
 class Department extends Model<DepartmentType> {}
@@ -23,18 +23,23 @@ const DepartmentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      headID: {
-        type: DataTypes.STRING,
+      headId: {
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: 'Instructors',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
-      facultyID: {
-        type: DataTypes.STRING,
+      facultyId: {
+        type: DataTypes.UUID,
         allowNull: false,
-        // references: {
-        //   model: FacultyModel(sequelize),
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Faculties',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
     },
     {

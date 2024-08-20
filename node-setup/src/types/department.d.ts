@@ -2,8 +2,8 @@ type DepartmentType ={
   id?:string,
   departmentCode: string,
   name: string,
-  headID: string,
-  facultyID: string,
+  headId: string,
+  facultyId: string,
 };
 
 export default DepartmentType;

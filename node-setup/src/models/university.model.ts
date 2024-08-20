@@ -1,10 +1,11 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { UserType } from '../../types/index';
+import { UniversityType } from '../types/index';
 
-class User extends Model<UserType> {}
-const UserModel = (sequelize: Sequelize) => {
-  User.init(
+class University extends Model<UniversityType> {}
+
+const UniversityModel = (sequelize: Sequelize) => {
+  University.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -13,27 +14,31 @@ const UserModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      password: {
+      universityCode: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      role: {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phone: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'Users',
+      modelName: 'University',
       timestamps: false,
     },
   );
-  return User;
+
+  return University;
 };
 
-export default UserModel;
+export default UniversityModel;
