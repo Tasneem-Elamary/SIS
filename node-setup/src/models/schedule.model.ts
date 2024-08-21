@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { ScheduleType } from '../../types/index';
+import { ScheduleType } from '../types/index';
 import GroupModel from './group.model';
 import SectionModel from './section.model';
 import InstructorModel from './instructor.model';
@@ -22,10 +22,10 @@ const ScheduleModel = (sequelize: Sequelize) => {
         allowNull: false,
       },
       scheduleType: {
-        type: DataTypes.ENUM('lab', 'lecture'),
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      groupId: {
+      GroupId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -34,7 +34,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      sectionId: {
+      SectionId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -43,7 +43,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      slotId: {
+      SlotId: {
         type: DataTypes.UUID,
         allowNull: false,
 
@@ -54,7 +54,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         onDelete: 'CASCADE',
 
       },
-      roomId: {
+      RoomId: {
         type: DataTypes.UUID,
         allowNull: false,
 
@@ -65,7 +65,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         onDelete: 'CASCADE',
 
       },
-      courseId: {
+      CourseId: {
         type: DataTypes.UUID,
         allowNull: false,
 
@@ -76,7 +76,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         onDelete: 'CASCADE',
 
       },
-      instructorId: {
+      InstructorId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -85,7 +85,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      semesterId: {
+      SemesterId: {
         type: DataTypes.UUID,
         allowNull: false,
 

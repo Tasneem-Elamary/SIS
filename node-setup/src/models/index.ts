@@ -17,7 +17,7 @@ import result from './result.model';
 import semester from './semester.model';
 import room from './room.model';
 import slot from './slot.model';
-import { db } from '../../../config/postgresDB.config';
+import { db } from '../../config/postgresDB.config';
 
 const User = user(db);
 const Student = student(db);
@@ -39,8 +39,8 @@ const Result = result(db);
 const Semester = semester(db);
 const Room = room(db);
 
-Faculty.hasMany(Room, { foreignKey: 'facultyId' });
-Room.belongsTo(Faculty, { foreignKey: 'facultyId' });
+Faculty.hasMany(Room, { foreignKey: 'FacultyId' });
+Room.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 
 Department.hasMany(Bylaw, { foreignKey: 'DepartmentId' });
 Bylaw.belongsTo(Department, { foreignKey: 'DepartmentId' });
@@ -52,14 +52,13 @@ Bylaw.hasMany(BylawRule, { foreignKey: 'BylawId' });
 BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Course.belongsToMany(Course, {
-  through: 'CoursePrerequisite',
-  foreignKey: 'CourseId',
-  otherKey: 'PrerequisiteId',
-  as: 'Prerequisites',
+  through: 'CoursePrerequisites',
+  as: 'Prerequisites',  
+  foreignKey: 'courseId', 
+  otherKey: 'prerequisiteId', 
 });
-
-Course.belongsToMany(Bylaw, { through: 'CourseBylaws' });
-Bylaw.belongsToMany(Course, { through: 'CourseBylaws' });
+Course.belongsToMany(Bylaw, { through: 'BylawCourses' });
+Bylaw.belongsToMany(Course, { through: 'BylawCourses' });
 
 Course.belongsToMany(Department, { through: 'DepartmentCourses' });
 Department.belongsToMany(Course, { through: 'DepartmentCourses' });
@@ -73,67 +72,64 @@ Result.belongsTo(Student, { foreignKey: 'StudentId' });
 Course.hasMany(Result, { foreignKey: 'CourseId' });
 Result.belongsTo(Course, { foreignKey: 'CourseId' });
 
-Grade.hasMany(Result, { foreignKey: 'GradeID' });
-Result.belongsTo(Grade, { foreignKey: 'GradeID' });
+Grade.hasMany(Result, { foreignKey: 'GradeId' });
+Result.belongsTo(Grade, { foreignKey: 'GradeId' });
 
-Semester.hasMany(Result, { foreignKey: 'SemsterId' });
-Result.belongsTo(Semester, { foreignKey: 'SemsterId' });
+Semester.hasMany(Result, { foreignKey: 'SemesterId' });
+Result.belongsTo(Semester, { foreignKey: 'SemesterId' });
 
-User.hasOne(Student, {
-  foreignKey: 'userId',
-});
-Student.belongsTo(User, {
-  foreignKey: 'userId',
-});
+User.hasOne(Student, {foreignKey: 'UserId',});
+Student.belongsTo(User, { foreignKey: 'UserId',}); 
 
-User.hasOne(Instructor, {
-  foreignKey: 'userId',
-});
-Instructor.belongsTo(User, {
-  foreignKey: 'userId',
+Instructor.hasOne(Department, { foreignKey: 'HeadId',});
+Department.belongsTo(Instructor, {foreignKey: 'HeadId',});
 
-});
+User.hasOne(Instructor, { foreignKey: 'UserId',});
+Instructor.belongsTo(User, {foreignKey: 'UserId',});
 
-University.hasMany(Faculty, { foreignKey: 'universityId' });
-Faculty.belongsTo(University, { foreignKey: 'universityId' });
+University.hasMany(Faculty, { foreignKey: 'UniversityId' });
+Faculty.belongsTo(University, { foreignKey: 'UniversityId' });
 
-Faculty.hasMany(Department, { foreignKey: 'facultyId' });
-Department.belongsTo(Faculty, { foreignKey: 'facultyId' });
+Faculty.hasMany(Department, { foreignKey: 'FacultyId' });
+Department.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 
-Department.hasMany(Student, { foreignKey: 'departmentId' });
-Student.belongsTo(Department, { foreignKey: 'departmentId' });
+Department.hasMany(Student, { foreignKey: 'DepartmentId' });
+Student.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
-Department.hasMany(Instructor, { foreignKey: 'departmentId' });
-Instructor.belongsTo(Department, { foreignKey: 'departmentId' });
+Department.hasMany(Instructor, { foreignKey: 'DepartmentId' });
+Instructor.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
 Student.belongsToMany(Instructor, { through: 'StudentAdvisors' });
 Instructor.belongsToMany(Student, { through: 'StudentAdvisors' });
 
-Slot.hasMany(Schedule);
-Schedule.belongsTo(Slot);
+Slot.hasMany(Schedule,{ foreignKey: 'SlotId' });
+Schedule.belongsTo(Slot,{ foreignKey: 'SlotId' });
 
-Room.hasMany(Schedule);
-Schedule.belongsTo(Room);
+Room.hasMany(Schedule,{ foreignKey: 'RoomId' });
+Schedule.belongsTo(Room,{ foreignKey: 'RoomId' });
 
-Instructor.hasMany(Schedule);
-Schedule.belongsTo(Instructor);
+Instructor.hasMany(Schedule,{ foreignKey: 'InstructorId' });
+Schedule.belongsTo(Instructor,{ foreignKey: 'InstructorId' });
 
-Semester.hasMany(Schedule);
-Schedule.belongsTo(Semester);
+Semester.hasMany(Schedule,{ foreignKey: 'SemesterId' });
+Schedule.belongsTo(Semester,{ foreignKey: 'SemesterId' });
 
-Group.hasOne(Schedule);
-Schedule.belongsTo(Group);
+Group.hasOne(Schedule,{ foreignKey: 'GroupId' });
+Schedule.belongsTo(Group,{ foreignKey: 'GroupId' });
 
-Section.hasOne(Schedule);
-Schedule.belongsTo(Section);
+Section.hasOne(Schedule,{ foreignKey: 'SectionId' });
+Schedule.belongsTo(Section,{ foreignKey: 'SectionId' });
 
 Schedule.belongsToMany(Student, { through: 'StudentSchedules' });
 Student.belongsToMany(Schedule, { through: 'StudentSchedules' });
 
-db.sync({ force: true })
-  .then(() => {
-    console.log('Tables Created');
-  });
+// db.drop().then(() => {
+//   console.log('All tables dropped successfully!');
+// })
+db.sync({force:true}).then(()=>{
+  console.log("tables created successfully")
+}
+)
 export {
   User,
   Student,

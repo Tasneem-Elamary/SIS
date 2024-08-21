@@ -1,9 +1,9 @@
  type ResultType = {
     id?: string;
-    studentId: string;
-    courseId: string;
-    semsterId: string;
-    gradeID?: string;
+    StudentId: string;
+    CourseId: string;
+    SemesterId: string;
+    GradeID?: string;
     finalGrade?: number;
     midtermGrade?: number;
     courseWork?: number;

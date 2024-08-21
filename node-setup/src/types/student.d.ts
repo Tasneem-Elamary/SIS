@@ -9,8 +9,8 @@ type StudentType ={
   phone: string,
   gainedHours: number,
   GPA: number,
-  userId:string,
-  departmentId:string,
+  UserId:string,
+  DepartmentId:string,
   BylawId:string,
 };
 

@@ -9,7 +9,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     unique: true,
     allowNull: false,
   },
-  studentId: {
+  StudentId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -17,7 +17,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
       key: 'id',
     },
   },
-  courseID: {
+  CourseID: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -26,7 +26,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     },
   },
   enrollmentType: {
-    type: DataTypes.ENUM('regular', 'selfstudy', 'overload'), // Adjust enum values as necessary
+    type: DataTypes.STRING, // Adjust enum values as necessary
     allowNull: false,
   },
   hasPaidFees: {
@@ -39,7 +39,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     defaultValue: DataTypes.NOW,
   },
   approvalStatus: {
-    type: DataTypes.ENUM('Approved', 'pending', 'unApproved'),
+    type: DataTypes.STRING,
     defaultValue: 'pending',
   },
 }, {

@@ -3,7 +3,7 @@
     code: string;
     type: 'section' | 'lab' | 'hall';
     capacity: number;
-    facultyId: string;
+    FacultyId: string;
   };
 
 export default RoomType;

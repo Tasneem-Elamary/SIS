@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { SlotType } from '../../types/index';
+import { SlotType } from '../types/index';
 
 class Slot extends Model<SlotType> {}
 

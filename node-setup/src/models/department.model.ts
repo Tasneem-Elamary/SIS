@@ -1,12 +1,13 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { FacultyType } from '../../types/index';
-import UniversityModel from './university.model';
+import { DepartmentType } from '../types/index';
+import FacultyModel from './faculty.model';
+import InstructorModel from './instructor.model';
 
-class Faculty extends Model<FacultyType> {}
+class Department extends Model<DepartmentType> {}
 
-const FacultyModel = (sequelize: Sequelize) => {
-  Faculty.init(
+const DepartmentModel = (sequelize: Sequelize) => {
+  Department.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -15,7 +16,7 @@ const FacultyModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      facultyCode: {
+      departmentCode: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -23,19 +24,20 @@ const FacultyModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      location: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      universityId: {
+      headId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Universities',
+          model: 'Instructors',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      FacultyId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: FacultyModel(sequelize),
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -43,12 +45,12 @@ const FacultyModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Faculty',
+      modelName: 'Department',
       timestamps: false,
     },
   );
 
-  return Faculty;
+  return Department;
 };
 
-export default FacultyModel;
+export default DepartmentModel;

@@ -31,7 +31,7 @@ const bylaw = (db: Sequelize) => db.define('Bylaw', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  departmentId: {
+  DepartmentId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {

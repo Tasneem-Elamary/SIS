@@ -1,13 +1,12 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { DepartmentType } from '../../types/index';
-import FacultyModel from './faculty.model';
-import InstructorModel from './instructor.model';
+import { FacultyType } from '../types/index';
+import UniversityModel from './university.model';
 
-class Department extends Model<DepartmentType> {}
+class Faculty extends Model<FacultyType> {}
 
-const DepartmentModel = (sequelize: Sequelize) => {
-  Department.init(
+const FacultyModel = (sequelize: Sequelize) => {
+  Faculty.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -16,7 +15,7 @@ const DepartmentModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      departmentCode: {
+      facultyCode: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -24,20 +23,19 @@ const DepartmentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      headId: {
-        type: DataTypes.UUID,
+      location: {
+        type: DataTypes.STRING,
         allowNull: false,
-        references: {
-          model: 'Instructors',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
       },
-      facultyId: {
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      UniversityId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: FacultyModel(sequelize),
+          model: 'Universities',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -45,12 +43,12 @@ const DepartmentModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Department',
+      modelName: 'Faculty',
       timestamps: false,
     },
   );
 
-  return Department;
+  return Faculty;
 };
 
-export default DepartmentModel;
+export default FacultyModel;

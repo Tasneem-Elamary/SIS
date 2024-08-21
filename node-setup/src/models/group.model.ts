@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { GroupType } from '../../types/index';
+import { GroupType } from '../types/index';
 
 class Group extends Model<GroupType> {}
 
@@ -25,7 +25,7 @@ const GroupModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Section',
+      modelName: 'Group',
       timestamps: false,
     },
   );

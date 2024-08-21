@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { UniversityType } from '../../types/index';
+import { UniversityType } from '../types/index';
 
 class University extends Model<UniversityType> {}
 

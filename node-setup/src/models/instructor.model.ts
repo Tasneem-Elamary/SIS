@@ -1,24 +1,19 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { StudentType } from '../../types/index';
+import { InstructorType } from '../types/index';
 import UserModel from './user.model';
 import DepartmentModel from './department.model';
-import BylawModel from './bylaw.model';
 
-class Student extends Model<StudentType> {}
+class Instructor extends Model<InstructorType> {}
 
-const StudentModel = (sequelize: Sequelize) => {
-  Student.init(
+const InstructorModel = (sequelize: Sequelize) => {
+  Instructor.init(
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue: uuidv4,
+        defaultValue: uuidv4, // Correct usage
         primaryKey: true,
         unique: true,
-        allowNull: false,
-      },
-      studentCode: {
-        type: DataTypes.STRING,
         allowNull: false,
       },
       firstName: {
@@ -31,38 +26,38 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       birthDate: {
         type: DataTypes.DATE,
-        allowNull: false,
+
       },
       gender: {
-        type: DataTypes.ENUM('Male','Female'),
+        type: DataTypes.STRING,
+
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      employmentType: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       profilePhoto: {
         type: DataTypes.STRING,
-        allowNull: true,
+
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+
       },
-      gainedHours: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      GPA: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      userId: {
+      UserId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: UserModel(sequelize),
           key: 'id',
         },
         onDelete: 'CASCADE',
       },
-      departmentId: {
+      DepartmentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -71,26 +66,15 @@ const StudentModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      BylawId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-
-        references: {
-          model: 'Bylaws',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-
-      },
     },
     {
       sequelize,
-      modelName: 'Student',
+      modelName: 'Instructor',
       timestamps: false,
     },
   );
 
-  return Student;
+  return Instructor;
 };
 
-export default StudentModel;
+export default InstructorModel;

@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { Bylaw, Course } from '.';
+
 
 const courseBylaw = (db: Sequelize) => db.define(
   'CourseBylaw',
@@ -12,7 +12,7 @@ const courseBylaw = (db: Sequelize) => db.define(
       unique: true,
       allowNull: false,
     },
-    bylawId: {
+    BylawId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
@@ -20,7 +20,7 @@ const courseBylaw = (db: Sequelize) => db.define(
         key: 'id',
       },
     },
-    courseId: {
+    CourseId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {

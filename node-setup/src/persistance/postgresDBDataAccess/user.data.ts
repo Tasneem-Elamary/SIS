@@ -1,4 +1,4 @@
-import { User } from '../../models/postgres';
+import { User } from '../../models';
 import { UserRepo } from '../Repositories';
 import { UserType } from '../../types';
 

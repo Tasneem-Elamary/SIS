@@ -1,11 +1,10 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import { SectionType } from '../../types/index';
+import { UserType } from '../types/index';
 
-class Section extends Model<SectionType> {}
-
-const SectionModel = (sequelize: Sequelize) => {
-  Section.init(
+class User extends Model<UserType> {}
+const UserModel = (sequelize: Sequelize) => {
+  User.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -14,24 +13,27 @@ const SectionModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      sectionCode: {
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      capacity: {
-        type: DataTypes.INTEGER,
+      role: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-
     },
     {
       sequelize,
-      modelName: 'Section',
+      modelName: 'User',
       timestamps: false,
     },
   );
-
-  return Section;
+  return User;
 };
 
-export default SectionModel;
+export default UserModel;

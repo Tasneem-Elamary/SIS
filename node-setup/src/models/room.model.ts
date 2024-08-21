@@ -17,14 +17,14 @@ const room = (db: Sequelize) => db.define(
       unique: true,
     },
     type: {
-      type: DataTypes.ENUM('section', 'lab', 'hall'),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     capacity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    facultyId: {
+    FacultyId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
