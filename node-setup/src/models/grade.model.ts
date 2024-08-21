@@ -9,7 +9,7 @@ const grade = (db: Sequelize) => db.define('Grade', {
     unique: true,
   },
   letter: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'),
     allowNull: false,
   },
   point: {

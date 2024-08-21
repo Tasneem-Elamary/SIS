@@ -31,7 +31,7 @@ const StudentModel = (sequelize: Sequelize) => {
        
       },
       gender: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('male','female'),
          
       },
       profilePhoto: {

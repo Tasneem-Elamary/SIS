@@ -1,16 +1,16 @@
-// import FacultyAdmin from './facultyAdmin.service';
+import FacultyAdmin from './facultyAdmin.service';
 import { IUniversityAdmin } from './interfaces';
 import { UserRepo } from '../persistance/Repositories';
-// import { facultyAdminType } from '../types';
+import { UserType } from '../types';
 
-// class UniversityAdmin extends FacultyAdmin implements IUniversityAdmin {
-// constructor(private userData:UserRepo) {
-//   super(userData);
-// }
+class UniversityAdmin extends FacultyAdmin implements IUniversityAdmin {
+  // constructor(private userData:UserRepo) {
+  //   super(userData);
+  // }
 
-// createFacultyAdmin = async (): Promise<void> => {
-// implementation here
-// };
-// }
+  createFacultyAdmin = async (facultyAdmin:UserType): Promise<void> => {
+    // implementation here
+  };
+}
 
-// export default UniversityAdmin;
+export default UniversityAdmin;

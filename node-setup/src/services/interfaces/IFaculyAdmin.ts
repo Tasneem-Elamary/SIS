@@ -1,15 +1,17 @@
-/// interface facultyAdminRepo {
-// createStudent(student:studentType ): Promise<void>;
-// createInstructor(instructor:instructorType ): Promise<void>;
-// createCourse(course:courseType ): Promise<void>;
-// createSchedule(schedule:scheduleType ): Promise<void>;
-// createBylaw(bylaw:bylawType ): Promise<void>;
+import { StudentType } from '../../types';
 
-// deleteStudent(id: string) : Promise<void>;
-// deleteInstructor(id: string): Promise<void>;
-// deleteCourse(id: string) : Promise<void>;
-// deleteSchedule(id: string) : Promise<void>;
-// deleteBylaw(id: string) : Promise<void>;
+interface facultyAdminRepo {
+  createStudent(student:StudentType): Promise<void>;
+  // createInstructor(instructor:instructorType ): Promise<void>;
+  // createCourse(course:courseType ): Promise<void>;
+  // createSchedule(schedule:scheduleType ): Promise<void>;
+  // createBylaw(bylaw:bylawType ): Promise<void>;
 
-// }
-// export default facultyAdminRepo;
+  // deleteStudent(id: string) : Promise<void>;
+  // deleteInstructor(id: string): Promise<void>;
+  // deleteCourse(id: string) : Promise<void>;
+  // deleteSchedule(id: string) : Promise<void>;
+  // deleteBylaw(id: string) : Promise<void>;
+
+  }
+export default facultyAdminRepo;

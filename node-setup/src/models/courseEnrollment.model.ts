@@ -26,7 +26,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     },
   },
   enrollmentType: {
-    type: DataTypes.STRING, // Adjust enum values as necessary
+    type: DataTypes.ENUM('regular', 'selfstudy', 'overload'), // Adjust enum values as necessary
     allowNull: false,
   },
   hasPaidFees: {
@@ -39,7 +39,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     defaultValue: DataTypes.NOW,
   },
   approvalStatus: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('Approved', 'pending', 'unApproved'),
     defaultValue: 'pending',
   },
 }, {

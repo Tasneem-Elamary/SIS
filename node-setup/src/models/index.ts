@@ -1,4 +1,3 @@
-import user from './user.model';
 import student from './student.model';
 import instructor from './instructor.model';
 import schedule from './schedule.model';
@@ -130,7 +129,7 @@ db.sync({force:true}).then(()=>{
   console.log("tables created successfully")
 }
 )
-export {
+export const models={
   User,
   Student,
   Instructor,
@@ -144,3 +143,6 @@ export {
   Course,
   Bylaw,
 };
+export const sequelize = db;
+// This export is specifically for sequelize-mig compatibility
+export default models;import user from './user.model';
