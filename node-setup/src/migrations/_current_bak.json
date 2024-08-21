@@ -55,435 +55,71 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "birthDate": {
+                    "allowNull": false,
                     "field": "birthDate",
                     "seqType": "Sequelize.DATE"
                 },
                 "gender": {
+                    "allowNull": false,
                     "field": "gender",
-                    "seqType": "Sequelize.ENUM('male', 'female')"
+                    "seqType": "Sequelize.STRING"
                 },
                 "profilePhoto": {
+                    "allowNull": true,
                     "field": "profilePhoto",
                     "seqType": "Sequelize.STRING"
                 },
                 "phone": {
+                    "allowNull": true,
                     "field": "phone",
                     "seqType": "Sequelize.STRING"
                 },
                 "gainedHours": {
                     "allowNull": false,
-                    "defaultValue": {
-                        "value": 0
-                    },
                     "field": "gainedHours",
                     "seqType": "Sequelize.FLOAT"
                 },
                 "GPA": {
                     "allowNull": false,
-                    "defaultValue": {
-                        "value": 0
-                    },
                     "field": "GPA",
                     "seqType": "Sequelize.FLOAT"
                 },
-                "UserId": {
+                "userId": {
                     "allowNull": false,
                     "references": {
                         "model": "Users",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
-                    "field": "UserId",
+                    "field": "userId",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
                 },
-                "DepartmentId": {
+                "departmentID": {
                     "allowNull": false,
                     "references": {
                         "model": "Departments",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
-                    "field": "DepartmentId",
-                    "onUpdate": "CASCADE",
+                    "field": "departmentID",
                     "seqType": "Sequelize.UUID"
                 },
                 "BylawId": {
                     "allowNull": false,
-                    "references": {
-                        "model": "Bylaws",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
                     "field": "BylawId",
                     "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "Instructors": {
-            "tableName": "Instructors",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
                 },
-                "firstName": {
-                    "allowNull": false,
-                    "field": "firstName",
-                    "seqType": "Sequelize.STRING"
-                },
-                "lastName": {
-                    "allowNull": false,
-                    "field": "lastName",
-                    "seqType": "Sequelize.STRING"
-                },
-                "birthDate": {
-                    "field": "birthDate",
-                    "seqType": "Sequelize.DATE"
-                },
-                "gender": {
-                    "allowNull": false,
-                    "field": "gender",
-                    "seqType": "Sequelize.ENUM('Male', 'Female')"
-                },
-                "type": {
-                    "allowNull": false,
-                    "field": "type",
-                    "seqType": "Sequelize.STRING"
-                },
-                "employmentType": {
-                    "allowNull": false,
-                    "field": "employmentType",
-                    "seqType": "Sequelize.STRING"
-                },
-                "profilePhoto": {
-                    "field": "profilePhoto",
-                    "seqType": "Sequelize.STRING"
-                },
-                "phone": {
-                    "field": "phone",
-                    "seqType": "Sequelize.STRING"
-                },
-                "UserId": {
-                    "allowNull": false,
-                    "field": "UserId",
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "DepartmentId": {
-                    "allowNull": false,
+                "departmentId": {
+                    "allowNull": true,
                     "references": {
                         "model": "Departments",
                         "key": "id"
                     },
-                    "onDelete": "CASCADE",
-                    "field": "DepartmentId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "Schedules": {
-            "tableName": "Schedules",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "scheduleType": {
-                    "allowNull": false,
-                    "field": "scheduleType",
-                    "seqType": "Sequelize.STRING"
-                },
-                "GroupId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Groups",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "GroupId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "SectionId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Sections",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "SectionId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "SlotId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Slots",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "SlotId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "RoomId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Rooms",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "RoomId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "CourseId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Courses",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "CourseId",
-                    "seqType": "Sequelize.UUID"
-                },
-                "InstructorId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Instructors",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "InstructorId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "SemesterId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Semesters",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "SemesterId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "Departments": {
-            "tableName": "Departments",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "departmentCode": {
-                    "allowNull": false,
-                    "field": "departmentCode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "name": {
-                    "allowNull": false,
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "headId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Instructors",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "headId",
-                    "seqType": "Sequelize.UUID"
-                },
-                "FacultyId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Faculty",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "FacultyId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                },
-                "HeadId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Instructors",
-                        "key": "id"
-                    },
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
-                    "field": "HeadId",
+                    "field": "departmentId",
                     "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "Faculties": {
-            "tableName": "Faculties",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "facultyCode": {
-                    "allowNull": false,
-                    "field": "facultyCode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "name": {
-                    "allowNull": false,
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "location": {
-                    "allowNull": false,
-                    "field": "location",
-                    "seqType": "Sequelize.STRING"
-                },
-                "phone": {
-                    "allowNull": false,
-                    "field": "phone",
-                    "seqType": "Sequelize.STRING"
-                },
-                "UniversityId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Universities",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "UniversityId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "Universities": {
-            "tableName": "Universities",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "universityCode": {
-                    "allowNull": false,
-                    "field": "universityCode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "name": {
-                    "allowNull": false,
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "location": {
-                    "allowNull": false,
-                    "field": "location",
-                    "seqType": "Sequelize.STRING"
-                },
-                "phone": {
-                    "allowNull": false,
-                    "field": "phone",
-                    "seqType": "Sequelize.STRING"
-                }
-            },
-            "indexes": []
-        },
-        "Sections": {
-            "tableName": "Sections",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "sectionCode": {
-                    "allowNull": false,
-                    "field": "sectionCode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "capacity": {
-                    "allowNull": false,
-                    "field": "capacity",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
-        "Groups": {
-            "tableName": "Groups",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "groupCode": {
-                    "allowNull": false,
-                    "field": "groupCode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "capacity": {
-                    "allowNull": false,
-                    "field": "capacity",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
-        "Slots": {
-            "tableName": "Slots",
-            "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
-                    "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
-                },
-                "startTime": {
-                    "allowNull": false,
-                    "field": "startTime",
-                    "seqType": "Sequelize.DATE"
-                },
-                "endTime": {
-                    "allowNull": false,
-                    "field": "endTime",
-                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -552,13 +188,13 @@
                     "field": "min_Hours",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "DepartmentId": {
+                "departmentId": {
                     "allowNull": false,
                     "references": {
                         "model": "Departments",
                         "key": "id"
                     },
-                    "field": "DepartmentId",
+                    "field": "departmentId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
@@ -586,16 +222,338 @@
                     "field": "hoursAllowed",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "BylawId": {
+                "bylawId": {
                     "allowNull": false,
                     "references": {
                         "model": "Bylaws",
                         "key": "id"
                     },
-                    "field": "BylawId",
+                    "field": "bylawId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Departments": {
+            "tableName": "Departments",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "departmentCode": {
+                    "allowNull": false,
+                    "field": "departmentCode",
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "headId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Instructors",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "headId",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "facultyId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Faculties",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "facultyId",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Instructors": {
+            "tableName": "Instructors",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "firstName": {
+                    "allowNull": false,
+                    "field": "firstName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "lastName": {
+                    "allowNull": false,
+                    "field": "lastName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "birthDate": {
+                    "allowNull": false,
+                    "field": "birthDate",
+                    "seqType": "Sequelize.DATE"
+                },
+                "gender": {
+                    "allowNull": false,
+                    "field": "gender",
+                    "seqType": "Sequelize.ENUM('Male', 'Female')"
+                },
+                "type": {
+                    "allowNull": false,
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "employmentType": {
+                    "allowNull": false,
+                    "field": "employmentType",
+                    "seqType": "Sequelize.STRING"
+                },
+                "profilePhoto": {
+                    "allowNull": true,
+                    "field": "profilePhoto",
+                    "seqType": "Sequelize.STRING"
+                },
+                "phone": {
+                    "allowNull": false,
+                    "field": "phone",
+                    "seqType": "Sequelize.STRING"
+                },
+                "userId": {
+                    "allowNull": false,
+                    "field": "userId",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "departmentId": {
+                    "allowNull": false,
+                    "field": "departmentId",
+                    "references": {
+                        "model": "Departments",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Schedules": {
+            "tableName": "Schedules",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "type": {
+                    "allowNull": false,
+                    "field": "type",
+                    "seqType": "Sequelize.ENUM('lab', 'lecture')"
+                },
+                "groupID": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Sections",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "groupID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "sectionID": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Sections",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "sectionID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "slotID": {
+                    "allowNull": false,
+                    "field": "slotID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "roomID": {
+                    "allowNull": false,
+                    "field": "roomID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "courseID": {
+                    "allowNull": false,
+                    "field": "courseID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "instructorID": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Instructors",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "instructorID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "semesterID": {
+                    "allowNull": false,
+                    "field": "semesterID",
+                    "seqType": "Sequelize.UUID"
+                },
+                "SlotId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Slots",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "SlotId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "RoomId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Rooms",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "RoomId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "InstructorId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Instructors",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "InstructorId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "SemsterId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Semsters",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "SemsterId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "SectionId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Sections",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "SectionId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "Universities": {
+            "tableName": "Universities",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "universityCode": {
+                    "allowNull": false,
+                    "field": "universityCode",
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "location": {
+                    "allowNull": false,
+                    "field": "location",
+                    "seqType": "Sequelize.STRING"
+                },
+                "phone": {
+                    "allowNull": false,
+                    "field": "phone",
+                    "seqType": "Sequelize.STRING"
+                }
+            },
+            "indexes": []
+        },
+        "Sections": {
+            "tableName": "Sections",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "groupCode": {
+                    "allowNull": false,
+                    "field": "groupCode",
+                    "seqType": "Sequelize.STRING"
+                },
+                "capacity": {
+                    "allowNull": false,
+                    "field": "capacity",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "Slots": {
+            "tableName": "Slots",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "startTime": {
+                    "allowNull": false,
+                    "field": "startTime",
+                    "seqType": "Sequelize.DATE"
+                },
+                "endTime": {
+                    "allowNull": false,
+                    "field": "endTime",
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -619,13 +577,13 @@
                     "field": "point",
                     "seqType": "Sequelize.FLOAT"
                 },
-                "BylawId": {
+                "bylawId": {
                     "allowNull": false,
                     "references": {
                         "model": "Bylaws",
                         "key": "id"
                     },
-                    "field": "BylawId",
+                    "field": "bylawId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
@@ -674,35 +632,37 @@
         "CourseBylaws": {
             "tableName": "CourseBylaws",
             "schema": {
-                "id": {
-                    "primaryKey": true,
-                    "unique": true,
+                "createdAt": {
                     "allowNull": false,
-                    "field": "id",
-                    "seqType": "Sequelize.UUID"
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
                 },
-                "BylawId": {
+                "updatedAt": {
                     "allowNull": false,
-                    "references": {
-                        "model": "Bylaws",
-                        "key": "id"
-                    },
-                    "field": "BylawId",
-                    "seqType": "Sequelize.UUID"
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
                 },
                 "CourseId": {
-                    "allowNull": false,
+                    "primaryKey": true,
                     "references": {
                         "model": "Courses",
                         "key": "id"
                     },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
                     "field": "CourseId",
                     "seqType": "Sequelize.UUID"
                 },
-                "isElective": {
-                    "allowNull": false,
-                    "field": "isElective",
-                    "seqType": "Sequelize.BOOLEAN"
+                "BylawId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "Bylaws",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "BylawId",
+                    "seqType": "Sequelize.UUID"
                 }
             },
             "indexes": []
@@ -717,46 +677,48 @@
                     "field": "id",
                     "seqType": "Sequelize.UUID"
                 },
-                "StudentId": {
+                "studentId": {
                     "allowNull": false,
                     "references": {
                         "model": "Students",
                         "key": "id"
                     },
-                    "field": "StudentId",
+                    "field": "studentId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
                 },
-                "CourseId": {
+                "courseId": {
                     "allowNull": false,
                     "references": {
                         "model": "Courses",
                         "key": "id"
                     },
-                    "field": "CourseId",
+                    "field": "courseId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
                 },
-                "SemesterId": {
+                "semsterId": {
                     "allowNull": false,
                     "references": {
-                        "model": "Semesters",
+                        "model": "Semsters",
                         "key": "id"
                     },
-                    "field": "SemesterId",
+                    "field": "semsterId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
                 },
-                "GradeID": {
+                "gradeId": {
                     "allowNull": true,
                     "references": {
                         "model": "Grades",
                         "key": "id"
                     },
-                    "field": "GradeID",
+                    "field": "gradeId",
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
                 },
                 "finalGrade": {
@@ -773,23 +735,12 @@
                     "allowNull": true,
                     "field": "courseWork",
                     "seqType": "Sequelize.FLOAT"
-                },
-                "GradeId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Grades",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "field": "GradeId",
-                    "seqType": "Sequelize.UUID"
                 }
             },
             "indexes": []
         },
-        "Semesters": {
-            "tableName": "Semesters",
+        "Semsters": {
+            "tableName": "Semsters",
             "schema": {
                 "id": {
                     "primaryKey": true,
@@ -802,7 +753,7 @@
                     "allowNull": false,
                     "unique": true,
                     "field": "season",
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.ENUM('Winter', 'spring', 'fall', 'summer')"
                 },
                 "creditHours": {
                     "allowNull": false,
@@ -843,13 +794,13 @@
                     "field": "capacity",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "FacultyId": {
+                "facultyId": {
                     "allowNull": false,
                     "references": {
                         "model": "Faculties",
                         "key": "id"
                     },
-                    "field": "FacultyId",
+                    "field": "facultyId",
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
@@ -857,8 +808,52 @@
             },
             "indexes": []
         },
-        "CoursePrerequisites": {
-            "tableName": "CoursePrerequisites",
+        "Faculties": {
+            "tableName": "Faculties",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "facultyCode": {
+                    "allowNull": false,
+                    "field": "facultyCode",
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "location": {
+                    "allowNull": false,
+                    "field": "location",
+                    "seqType": "Sequelize.STRING"
+                },
+                "phone": {
+                    "allowNull": false,
+                    "field": "phone",
+                    "seqType": "Sequelize.STRING"
+                },
+                "universityId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Universities",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "field": "universityId",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "StudentAdvisor": {
+            "tableName": "StudentAdvisor",
             "schema": {
                 "createdAt": {
                     "allowNull": false,
@@ -870,33 +865,71 @@
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
                 },
-                "courseId": {
+                "StudentId": {
                     "primaryKey": true,
                     "references": {
-                        "model": "Courses",
+                        "model": "Students",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "courseId",
+                    "field": "StudentId",
                     "seqType": "Sequelize.UUID"
                 },
-                "prerequisiteId": {
+                "InstructorId": {
                     "primaryKey": true,
                     "references": {
-                        "model": "Courses",
+                        "model": "Instructors",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "prerequisiteId",
+                    "field": "InstructorId",
                     "seqType": "Sequelize.UUID"
                 }
             },
             "indexes": []
         },
-        "BylawCourses": {
-            "tableName": "BylawCourses",
+        "StudentSchedule": {
+            "tableName": "StudentSchedule",
+            "schema": {
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "ScheduleId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "Schedules",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "ScheduleId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "StudentId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "Students",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "StudentId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "CoursePrerequisites": {
+            "tableName": "CoursePrerequisites",
             "schema": {
                 "createdAt": {
                     "allowNull": false,
@@ -919,15 +952,15 @@
                     "field": "CourseId",
                     "seqType": "Sequelize.UUID"
                 },
-                "BylawId": {
+                "PrerequisiteId": {
                     "primaryKey": true,
                     "references": {
-                        "model": "Bylaws",
+                        "model": "Courses",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "BylawId",
+                    "field": "PrerequisiteId",
                     "seqType": "Sequelize.UUID"
                 }
             },
@@ -970,86 +1003,10 @@
                 }
             },
             "indexes": []
-        },
-        "StudentAdvisors": {
-            "tableName": "StudentAdvisors",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "StudentId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Students",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "StudentId",
-                    "seqType": "Sequelize.UUID"
-                },
-                "InstructorId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Instructors",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "InstructorId",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
-        },
-        "StudentSchedules": {
-            "tableName": "StudentSchedules",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "ScheduleId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Schedules",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "ScheduleId",
-                    "seqType": "Sequelize.UUID"
-                },
-                "StudentId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Students",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "StudentId",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
         }
     },
     "path": "F:\\post_grad\\Corelia\\setups-main\\node-setup\\src\\migrations\\_current.json",
     "backupPath": "F:\\post_grad\\Corelia\\setups-main\\node-setup\\src\\migrations\\_current_bak.json",
-    "exists": true,
-    "revision": 2
+    "exists": false,
+    "revision": 1
 }

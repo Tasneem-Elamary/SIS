@@ -26,6 +26,12 @@
         "import/prefer-default-export":"off",
         "@typescript-eslint/no-unused-vars":"off",
         "@typescript-eslint/no-explicit-any":"off",
-        "no-empty-function":"off"
+        "no-empty-function":"off",
+        // "@typescript-eslint/no-require-imports":"off", 
+        "max-len": "off", 
+        "no-plusplus": "off" ,
+        "@typescript-eslint/no-var-requires":"off",
+        "import/no-extraneous-dependencies":"off"
+        
     }
 }

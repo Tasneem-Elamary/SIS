@@ -1,11 +1,11 @@
-import { User } from '../../models';
+import models from '../../models';
 import { UserRepo } from '../Repositories';
 import { UserType } from '../../types';
 
 class UserData implements UserRepo {
   create = async (user: UserType): Promise<UserType | undefined> => {
     try {
-      const newUser = await User.create(user);
+      const newUser = await models.User.create(user);
       return newUser.get();
     } catch (error) {
       console.error(error);
@@ -15,7 +15,7 @@ class UserData implements UserRepo {
 
   getById = async (id: string): Promise<UserType | undefined> => {
     try {
-      const user = await User.findOne({ where: { id } });
+      const user = await models.User.findOne({ where: { id } });
       return user ? (user.get() as UserType) : undefined;
     } catch (error) {
       console.error(error);
@@ -25,7 +25,7 @@ class UserData implements UserRepo {
 
   getByEmail = async (email: string): Promise<UserType | undefined> => {
     try {
-      const user = await User.findOne({ where: { email } });
+      const user = await models.User.findOne({ where: { email } });
       return user ? (user.get() as UserType) : undefined;
     } catch (error) {
       console.error(error);
