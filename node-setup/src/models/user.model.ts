@@ -29,7 +29,7 @@ const UserModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Users',
+      modelName: 'User',
       timestamps: false,
     },
   );

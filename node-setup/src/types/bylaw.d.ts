@@ -5,7 +5,7 @@
     credit_Hours: number;
     min_GPA: number;
     min_Hours: number;
-    departmentId: string;
+    DepartmentId: string;
   };
 
 export default BylawType;

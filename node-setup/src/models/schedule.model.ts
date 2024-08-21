@@ -4,10 +4,10 @@ import { ScheduleType } from '../types/index';
 import GroupModel from './group.model';
 import SectionModel from './section.model';
 import InstructorModel from './instructor.model';
-// import CourseModel from './course.model';
-// import SlotModel from './slot.model';
-// import RoomModel from './room.model';
-// import SemesterModel from './semester.model';
+import CourseModel from './course.model';
+import SlotModel from './slot.model';
+import RoomModel from './room.model';
+import SemesterModel from './semester.model';
 
 class Schedule extends Model<ScheduleType> {}
 
@@ -21,81 +21,80 @@ const ScheduleModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.ENUM('lab', 'lecture'),
+      scheduleType: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      groupID: {
+      GroupId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: GroupModel(sequelize),
+          model: 'Groups',
           key: 'id',
         },
         onDelete: 'CASCADE',
       },
-      sectionID: {
+      SectionId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: SectionModel(sequelize),
+          model: 'Sections',
           key: 'id',
         },
         onDelete: 'CASCADE',
       },
-      slotID: {
+      SlotId: {
         type: DataTypes.UUID,
         allowNull: false,
-        /**
+
         references: {
-          model: SlotModel(sequelize),
+          model: 'Slots',
           key: 'id',
         },
         onDelete: 'CASCADE',
-         */
-      },
-      roomID: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        /**
-        references: {
-          model: RoomModel(sequelize),
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-        */
-      },
-      courseID: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        /**
-        references: {
-          model: CourseModel(sequelize),
-          key: 'id',
-        },
-       onDelete: 'CASCADE',
-        */
 
       },
-      instructorID: {
+      RoomId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+
+        references: {
+          model: 'Rooms',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+
+      },
+      CourseId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+
+        references: {
+          model: 'Courses',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+
+      },
+      InstructorId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: InstructorModel(sequelize),
+          model: 'Instructors',
           key: 'id',
         },
         onDelete: 'CASCADE',
       },
-      semesterID: {
+      SemesterId: {
         type: DataTypes.UUID,
         allowNull: false,
-        /**
+
         references: {
-          model: SemesterModel(sequelize),
+          model: 'Semesters',
           key: 'id',
         },
         onDelete: 'CASCADE',
-        */
+
       },
     },
     {

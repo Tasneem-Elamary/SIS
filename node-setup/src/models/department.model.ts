@@ -32,11 +32,11 @@ const DepartmentModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      facultyId: {
+      FacultyId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Faculties',
+          model: 'Faculty',
           key: 'id',
         },
         onDelete: 'CASCADE',

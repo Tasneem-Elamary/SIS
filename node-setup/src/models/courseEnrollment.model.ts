@@ -9,7 +9,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
     unique: true,
     allowNull: false,
   },
-  studentId: {
+  StudentId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -17,7 +17,7 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
       key: 'id',
     },
   },
-  courseID: {
+  CourseID: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {

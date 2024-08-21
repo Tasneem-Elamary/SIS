@@ -3,13 +3,13 @@ type InstructorType = {
   firstName: string,
   lastName: string,
   birthDate: Date,
-  gender: string,
-  type: string,
-  employmentType: string,
+  gender: 'Male'|'Female',
+  type: 'Professor'|'TA',
+  employmentType: 'part time'|'full time',
   profilePhoto?: string,
   phone: string,
-  userId:string,
-  departmentId:string,
+  UserId:string,
+  DepartmentId:string,
 
 };
 export default InstructorType;

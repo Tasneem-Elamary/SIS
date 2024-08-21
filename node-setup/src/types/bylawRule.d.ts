@@ -2,7 +2,7 @@
     id?: string;
     min_GPA: number;
     hoursAllowed: number;
-    bylawId: string;
+    BylawId: string;
   };
 
 export default BylawRuleType;

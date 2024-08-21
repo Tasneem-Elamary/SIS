@@ -1,8 +1,8 @@
 type CourseBylawType = {
     id?: string;
     isElective: boolean;
-    courseId: number;
-    bylawId: string;
+    CourseId: number;
+    BylawId: string;
   };
 
 export default CourseBylawType;

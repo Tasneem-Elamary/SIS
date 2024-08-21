@@ -6,6 +6,7 @@ import { User } from '../services';
 import { IUser } from '../services/interfaces';
 import { DataAccess } from '../persistance';
 import { UserType } from '../types';
+import { UserRepo } from '../persistance/Repositories';
 
 const { UserDataAccess } = DataAccess;
 

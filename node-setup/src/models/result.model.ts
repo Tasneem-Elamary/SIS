@@ -9,7 +9,7 @@ const result = (db: Sequelize) => db.define('Result', {
     unique: true,
     allowNull: false,
   },
-  studentId: {
+  StudentId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -17,7 +17,7 @@ const result = (db: Sequelize) => db.define('Result', {
       key: 'id',
     },
   },
-  courseId: {
+  CourseId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -25,15 +25,15 @@ const result = (db: Sequelize) => db.define('Result', {
       key: 'id',
     },
   },
-  semsterId: {
+  SemesterId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'Semsters',
+      model: 'Semesters',
       key: 'id',
     },
   },
-  gradeId: {
+  GradeID: {
     type: DataTypes.UUID,
     allowNull: true,
     references: {

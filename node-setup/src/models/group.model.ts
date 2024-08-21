@@ -25,7 +25,7 @@ const GroupModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Section',
+      modelName: 'Group',
       timestamps: false,
     },
   );

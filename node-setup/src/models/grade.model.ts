@@ -16,7 +16,7 @@ const grade = (db: Sequelize) => db.define('Grade', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  bylawId: {
+  BylawId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {

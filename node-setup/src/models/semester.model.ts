@@ -1,8 +1,8 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-const room = (db: Sequelize) => db.define(
-  'Room',
+const semester = (db: Sequelize) => db.define(
+  'Semester',
   {
     id: {
       type: DataTypes.UUID,
@@ -11,26 +11,18 @@ const room = (db: Sequelize) => db.define(
       unique: true,
       allowNull: false,
     },
-    code: {
+    season: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: true, // Enforces that each course code is unique
     },
-    type: {
-      type: DataTypes.ENUM('section', 'lab', 'hall'),
-      allowNull: false,
-    },
-    capacity: {
+    creditHours: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    FacultyId: {
-      type: DataTypes.UUID,
+    year: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Faculties',
-        key: 'id',
-      },
     },
   },
   {
@@ -38,4 +30,4 @@ const room = (db: Sequelize) => db.define(
   },
 );
 
-export default room;
+export default semester;

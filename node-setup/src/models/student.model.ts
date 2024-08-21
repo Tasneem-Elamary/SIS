@@ -1,9 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { StudentType } from '../types/index';
-import UserModel from './user.model';
-import DepartmentModel from './department.model';
-// import BylawModel from './bylaw.model';
 
 class Student extends Model<StudentType> {}
 
@@ -31,42 +28,45 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       birthDate: {
         type: DataTypes.DATE,
-        allowNull: false,
+       
       },
       gender: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.ENUM('male','female'),
+         
       },
       profilePhoto: {
         type: DataTypes.STRING,
-        allowNull: true,
+         
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: true,
+         
       },
       gainedHours: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        defaultValue:0,
+        
       },
       GPA: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        defaultValue:0.0,
       },
-      userId: {
+      UserId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: UserModel(sequelize),
+          model: 'Users',
           key: 'id',
         },
         onDelete: 'CASCADE',
       },
-      departmentID: {
+      DepartmentId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: DepartmentModel(sequelize),
+          model: 'Departments',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -74,13 +74,13 @@ const StudentModel = (sequelize: Sequelize) => {
       BylawId: {
         type: DataTypes.UUID,
         allowNull: false,
-        /**
+
         references: {
-          model: BylawModel(sequelize),
+          model: 'Bylaws',
           key: 'id',
         },
         onDelete: 'CASCADE',
-        */
+
       },
     },
     {

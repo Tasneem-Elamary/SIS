@@ -1,8 +1,6 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { InstructorType } from '../types/index';
-import UserModel from './user.model';
-import DepartmentModel from './department.model';
 
 class Instructor extends Model<InstructorType> {}
 
@@ -26,7 +24,7 @@ const InstructorModel = (sequelize: Sequelize) => {
       },
       birthDate: {
         type: DataTypes.DATE,
-        allowNull: false,
+
       },
       gender: {
         type: DataTypes.ENUM('Male', 'Female'),
@@ -42,14 +40,13 @@ const InstructorModel = (sequelize: Sequelize) => {
       },
       profilePhoto: {
         type: DataTypes.STRING,
-        allowNull: true,
+
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
 
-      userId: {
+      },
+      UserId: {
         type: DataTypes.UUID,
         allowNull: false,
         // references: {
@@ -58,14 +55,14 @@ const InstructorModel = (sequelize: Sequelize) => {
         // },
         // onDelete: 'CASCADE',
       },
-      departmentId: {
+      DepartmentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        // references: {
-        //   model: DepartmentModel(sequelize),
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Departments',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
     },
     {

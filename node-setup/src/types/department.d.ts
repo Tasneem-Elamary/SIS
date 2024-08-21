@@ -3,7 +3,7 @@ type DepartmentType ={
   departmentCode: string,
   name: string,
   headId: string,
-  facultyId: string,
+  FacultyId: string,
 };
 
 export default DepartmentType;

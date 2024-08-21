@@ -4,13 +4,13 @@ type StudentType ={
   firstName: string,
   lastName: string,
   birthDate: Date,
-  gender: string,
+  gender: 'Male'|'Female',
   profilePhoto?: string,
   phone: string,
   gainedHours: number,
   GPA: number,
-  userId:string,
-  departmentID:string,
+  UserId:string,
+  DepartmentId:string,
   BylawId:string,
 };
 

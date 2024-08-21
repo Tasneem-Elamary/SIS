@@ -31,7 +31,7 @@ const FacultyModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      universityId: {
+      UniversityId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

@@ -1,7 +1,7 @@
  type CourseEnrollmentType = {
     id?: string;
-    studentId: string;
-    courseId: string;
+    StudentId: string;
+    CourseId: string;
     enrollmentType: 'regular' | 'selfstudy' | 'overload';
     hasPaidFees: boolean;
     registrationDate: Date;
