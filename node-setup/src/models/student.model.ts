@@ -56,30 +56,30 @@ const StudentModel = (sequelize: Sequelize) => {
       UserId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'User',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       DepartmentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: 'Departments',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Department',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       BylawId: {
         type: DataTypes.UUID,
         allowNull: false,
 
-        references: {
-          model: 'Bylaws',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Bylaw',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
 
       },
     },

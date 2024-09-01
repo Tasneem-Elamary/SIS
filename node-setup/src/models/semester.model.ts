@@ -12,9 +12,8 @@ const semester = (db: Sequelize) => db.define(
       allowNull: false,
     },
     season: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('Winter', 'spring', 'fall', 'summer'),
       allowNull: false,
-      unique: true, // Enforces that each course code is unique
     },
     creditHours: {
       type: DataTypes.INTEGER,

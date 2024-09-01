@@ -1,0 +1,54 @@
+/* Navbar styles */
+.navbar-custom {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  
+  /* Navbar brand styles */
+ .navbar-brand-custom {
+    color: white; /* You can adjust this color as needed */
+  }
+  
+  /* Form styles */
+  .form-custom {
+    display: flex;
+    align-items: center;
+    position: relative;
+    // width: 350px;
+    
+   
+  }
+  
+  #searchBar {
+    // padding-right: 30px;
+    margin-right: 30px;
+    border-radius: 5px;
+    width: 350px;
+   
+   
+  }
+  
+  /* Search icon styles */
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+  }
+  
+  /* User circle styles */
+  .user-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #6c757d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+  }
+  // .navbar-dark .navbar-toggler {
+  //   color :aqua !important
+  // }

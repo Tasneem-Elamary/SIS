@@ -31,7 +31,9 @@
         "max-len": "off", 
         "no-plusplus": "off" ,
         "@typescript-eslint/no-var-requires":"off",
-        "import/no-extraneous-dependencies":"off"
+        "import/no-extraneous-dependencies":"off",
+        "no-param-reassign" :"off",
+        "no-useless-constructor":"off"
         
     }
 }

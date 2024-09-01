@@ -63,8 +63,14 @@ Bylaw.belongsToMany(Course, { through: 'BylawCourses' });
 Course.belongsToMany(Department, { through: 'DepartmentCourses' });
 Department.belongsToMany(Course, { through: 'DepartmentCourses' });
 
-Course.belongsToMany(Student, { through: 'CourseEnrollments' });
-Student.belongsToMany(Course, { through: 'CourseEnrollments' });
+Student.hasMany(CourseEnrollment, { foreignKey: 'studentId' });
+CourseEnrollment.belongsTo(Student, { foreignKey: 'studentId' });
+
+Course.hasMany(CourseEnrollment, { foreignKey: 'CourseId' });
+CourseEnrollment.belongsTo(Course, { foreignKey: 'CourseId' });
+
+// Course.belongsToMany(Student, { through: 'CourseEnrollments' });
+// Student.belongsToMany(Course, { through: 'CourseEnrollments' });
 
 Student.hasMany(Result, { foreignKey: 'StudentId' });
 Result.belongsTo(Student, { foreignKey: 'StudentId' });
@@ -96,6 +102,9 @@ Department.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 Department.hasMany(Student, { foreignKey: 'DepartmentId' });
 Student.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
+Bylaw.hasMany(Student, { foreignKey: 'BylawId' });
+Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+
 Department.hasMany(Instructor, { foreignKey: 'DepartmentId' });
 Instructor.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
@@ -126,10 +135,9 @@ Student.belongsToMany(Schedule, { through: 'StudentSchedules' });
 // db.drop().then(() => {
 //   console.log('All tables dropped successfully!');
 // })
-// db.sync({force:true}).then(()=>{
-//   console.log("tables created successfully")
-// }
-// )
+// db.sync({ alter: true }).then(() => {
+//   console.log('tables created successfully');
+// });
 export const models = {
   User,
   Course,

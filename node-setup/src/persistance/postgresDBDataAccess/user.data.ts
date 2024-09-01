@@ -9,7 +9,7 @@ class UserData implements UserRepo {
       return newUser.get();
     } catch (error) {
       console.error(error);
-      throw new Error('Fail to save the user, Please try again !!');
+      throw new Error('Fail to create the user, Please try again !!');
     }
   };
 
@@ -30,6 +30,18 @@ class UserData implements UserRepo {
     } catch (error) {
       console.error(error);
       throw new Error('Fail to get the user, Please try again !!');
+    }
+  };
+
+  delete = async (id: string): Promise<boolean> => {
+    try {
+      const deletedRowsCount = await models.User.destroy({ where: { id } });
+
+      // Sequelize destroy returns the number of rows deleted
+      return deletedRowsCount > 0;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to delete the user, please try again!');
     }
   };
 }

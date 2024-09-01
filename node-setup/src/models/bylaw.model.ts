@@ -34,10 +34,10 @@ const bylaw = (db: Sequelize) => db.define('Bylaw', {
   DepartmentId: {
     type: DataTypes.UUID,
     allowNull: false,
-    references: {
-      model: 'Departments',
-      key: 'id',
-    },
+    // references: {
+    //   model: 'Department',
+    //   key: 'id',
+    // },
   },
 }, {
   timestamps: false,
