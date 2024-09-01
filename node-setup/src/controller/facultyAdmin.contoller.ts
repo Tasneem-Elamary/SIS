@@ -5,10 +5,14 @@ import { signUser } from '../util/auth.util';
 import { FacultyAdmin } from '../services';
 import { IfacultyAdmin } from '../services/interfaces';
 import { DataAccess } from '../persistance';
-import { UserType, InstructorType, CourseType ,DepartmentType} from '../types';
+import {
+  UserType, InstructorType, CourseType, DepartmentType,
+} from '../types';
 import { UserRepo } from '../persistance/Repositories';
 
-const { UserDataAccess, InstructorDataAccess, CourseDataAcces ,DepartmentDataAccess,FacultyDataAccess} = DataAccess;
+const {
+  UserDataAccess, InstructorDataAccess, CourseDataAcces, DepartmentDataAccess, FacultyDataAccess,
+} = DataAccess;
 
 @Route('user')
 class FacultyAdminController {
@@ -18,8 +22,8 @@ class FacultyAdminController {
     const userDataAccess = new UserDataAccess();
     const instructorDataAccess = new InstructorDataAccess();
     const courseDataAcces = new CourseDataAcces();
-    const departmentDataAccess=new DepartmentDataAccess();
-    const facultyAdmin = new FacultyAdmin(userDataAccess, instructorDataAccess, courseDataAcces,departmentDataAccess);
+    const departmentDataAccess = new DepartmentDataAccess();
+    const facultyAdmin = new FacultyAdmin(userDataAccess, instructorDataAccess, courseDataAcces, departmentDataAccess);
     this.facultyAdmin = facultyAdmin;
   }
 
@@ -52,6 +56,7 @@ class FacultyAdminController {
       next(e);
     }
   };
+
   getInstructorById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
@@ -86,11 +91,12 @@ class FacultyAdminController {
   getAllInstructors = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const instructors = await this.facultyAdmin.getAllInstructors();
-      res.status(200).json({ instructors });
+      res.status(200).json({ message: 'done', instructors });
     } catch (e) {
       next(e);
     }
   };
+
   // Update instructor
   updateInstructor = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -183,7 +189,6 @@ class FacultyAdminController {
       const { body } = req;
       console.log(body);
 
-  
       const newDepartment = await this.facultyAdmin.createDepartment(body);
 
       res.status(201).json({ message: 'Department created successfully', newDepartment });
@@ -199,7 +204,7 @@ class FacultyAdminController {
       const department = await this.facultyAdmin.getDepartmentById(id);
 
       if (!department) {
-        return res.status(404).json({ message: 'Department not found' });
+        res.status(404).json({ message: 'Department not found' });
       }
 
       res.status(200).json({ department });
@@ -216,7 +221,7 @@ class FacultyAdminController {
       const department = await this.facultyAdmin.getDepartmentByCode(code);
 
       if (!department) {
-        return res.status(404).json({ message: 'Department not found' });
+        res.status(404).json({ message: 'Department not found' });
       }
 
       res.status(200).json({ department });
@@ -245,7 +250,7 @@ class FacultyAdminController {
       const updatedDepartment = await this.facultyAdmin.updateDepartment(id, updatedData);
 
       if (!updatedDepartment) {
-        return res.status(404).json({ message: 'Department not found' });
+        res.status(404).json({ message: 'Department not found' });
       }
 
       res.status(200).json({ message: 'Department updated successfully', updatedDepartment });
@@ -262,7 +267,7 @@ class FacultyAdminController {
       const deletedDepartment = await this.facultyAdmin.deleteDepartment(id);
 
       if (!deletedDepartment) {
-        return res.status(404).json({ message: 'Department not found' });
+        res.status(404).json({ message: 'Department not found' });
       }
 
       res.status(200).json({ message: 'Department deleted successfully' });

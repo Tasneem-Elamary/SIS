@@ -1,4 +1,4 @@
-import { InstructorType, UserType,CourseType } from '../../types';
+import { InstructorType, UserType, CourseType } from '../../types';
 
 interface instructorRepo {
 

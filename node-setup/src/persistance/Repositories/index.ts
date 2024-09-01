@@ -4,4 +4,6 @@ import CourseRepo from './course.repo';
 import DepartmentRepo from './department.repo';
 import FacultyRepo from './faculty.repo';
 
-export { UserRepo, InstructorRepo, CourseRepo ,DepartmentRepo,FacultyRepo};
+export {
+  UserRepo, InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo,
+};

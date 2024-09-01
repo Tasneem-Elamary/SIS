@@ -1,6 +1,9 @@
 .Main-navbar{
   background-color:#FFFFFF;
   padding-left: 80px;
+  position: sticky !important;
+    top: 65px;
+    z-index: 1000;
 }
 
 

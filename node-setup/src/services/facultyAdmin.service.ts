@@ -1,12 +1,14 @@
 import User from './user.service';
 import { IfacultyAdmin } from './interfaces';
-import { UserRepo, InstructorRepo, CourseRepo, DepartmentRepo } from '../persistance/Repositories';
 import {
-  UserType, StudentType, InstructorType, CourseType,DepartmentType
+  UserRepo, InstructorRepo, CourseRepo, DepartmentRepo,
+} from '../persistance/Repositories';
+import {
+  UserType, StudentType, InstructorType, CourseType, DepartmentType,
 } from '../types';
 
 class FacultyAdmin extends User implements IfacultyAdmin {
-  constructor(userData:UserRepo, private instructorData:InstructorRepo, private courseData: CourseRepo ,private departmentData: DepartmentRepo) {
+  constructor(userData:UserRepo, private instructorData:InstructorRepo, private courseData: CourseRepo, private departmentData: DepartmentRepo) {
     super(userData);
   }
 
@@ -30,6 +32,7 @@ class FacultyAdmin extends User implements IfacultyAdmin {
       throw new Error('Fail to create instructor');
     }
   };
+
   getInstructorById = async (id: string): Promise<(InstructorType & { User: UserType }) | undefined> => {
     try {
       const instructor = await this.instructorData.getById(id);

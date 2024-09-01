@@ -1,11 +1,13 @@
 import FacultyAdmin from './facultyAdmin.service';
 import { IUniversityAdmin } from './interfaces';
-import { UserRepo ,FacultyRepo,InstructorRepo,DepartmentRepo,CourseRepo} from '../persistance/Repositories';
-import { UserType,FacultyType } from '../types';
+import {
+  UserRepo, FacultyRepo, InstructorRepo, DepartmentRepo, CourseRepo,
+} from '../persistance/Repositories';
+import { UserType, FacultyType } from '../types';
 
 class UniversityAdmin extends FacultyAdmin implements IUniversityAdmin {
-  constructor( userData:UserRepo,instructorData:InstructorRepo,  courseData: CourseRepo , departmentData: DepartmentRepo,private facultyData:FacultyRepo) {
-    super(userData,instructorData,courseData,departmentData);
+  constructor(userData:UserRepo, instructorData:InstructorRepo, courseData: CourseRepo, departmentData: DepartmentRepo, private facultyData:FacultyRepo) {
+    super(userData, instructorData, courseData, departmentData);
   }
 
   createFacultyAdmin = async (facultyAdmin:UserType): Promise<UserType | undefined> => {
@@ -16,6 +18,7 @@ class UniversityAdmin extends FacultyAdmin implements IUniversityAdmin {
       throw new Error('Fail to create the facultyAdmin, Please try again !!');
     }
   };
+
   createFaculty = async (faculty: FacultyType): Promise<FacultyType | undefined> => {
     try {
       const newFaculty = await this.facultyData.create(faculty);

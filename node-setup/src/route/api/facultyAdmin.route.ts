@@ -7,11 +7,11 @@ const router = express.Router();
 
 router.route('/createInstructor').post(facultyAdminContoller.createInstructor);
 
-router.route('/').get(facultyAdminContoller.getAllInstructors);
+router.route('/getAllInstructors').get(facultyAdminContoller.getAllInstructors);
 
-router.route('/:id').get(facultyAdminContoller.getInstructorById);
+router.route('/getInstructorById/:id').get(facultyAdminContoller.getInstructorById);
 
-router.route('/Email/:email').get(facultyAdminContoller.getInstructorByEmail);
+router.route('/getInstructorByEmail/Email/:email').get(facultyAdminContoller.getInstructorByEmail);
 
 router.route('/updateInstructor/:id').put(facultyAdminContoller.updateInstructor);
 
@@ -23,17 +23,13 @@ router.route('/updateCourse/:id').put(facultyAdminContoller.updateCourse);
 
 router.route('/deleteCourse/:id').delete(facultyAdminContoller.deleteCourse);
 
-
 router.post('/createDepartment', facultyAdminContoller.createDepartment);
-
 
 router.get('/getDepartmentById/:id', facultyAdminContoller.getDepartmentById);
 
 router.get('/getDepartmentByCode/:code', facultyAdminContoller.getDepartmentByCode);
 
-
 router.get('/getAllDepartments', facultyAdminContoller.getAllDepartments);
-
 
 router.put('/updateDepartment/:id', facultyAdminContoller.updateDepartment);
 

@@ -1,6 +1,6 @@
 import { FacultyType } from '../../types';
 
-interface  FacultyRepo {
+interface FacultyRepo {
   create(faculty:FacultyType): Promise<FacultyType | undefined>;
   getById(id: string): Promise<FacultyType | undefined>;
   getByFacultyCode (facultyCode: string): Promise<FacultyType | undefined>
@@ -8,4 +8,4 @@ interface  FacultyRepo {
   update(id: string, updatedData: Partial<FacultyType>): Promise<FacultyType | undefined>;
   delete(id: string): Promise<boolean>;
 }
-export default  FacultyRepo;
+export default FacultyRepo;

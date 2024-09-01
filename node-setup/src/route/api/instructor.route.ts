@@ -9,5 +9,4 @@ router.route('/').get(instructorController.viewprofile);
 
 router.route('/').put(instructorController.editprofile);
 
-
 export default router;

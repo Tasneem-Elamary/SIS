@@ -7,5 +7,5 @@ import FacultyDataAccess from './faculty.data';
 export {
   UserDataAccess,
   InstructorDataAccess,
-  CourseDataAcces,DepartmentDataAccess,FacultyDataAccess
+  CourseDataAcces, DepartmentDataAccess, FacultyDataAccess,
 };

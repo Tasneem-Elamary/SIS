@@ -19,6 +19,7 @@ class Instructor extends User implements IInstuctor {
       throw new Error('Fail to get the instructor');
     }
   };
+
   editProfile = async (id: string, updatedData: Partial<InstructorType>): Promise<InstructorType | undefined> => {
     try {
       const updatedInstructor = await this.instructorData.update(id, updatedData);

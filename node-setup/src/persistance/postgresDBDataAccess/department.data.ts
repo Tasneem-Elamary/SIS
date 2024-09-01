@@ -25,7 +25,7 @@ class DepartmentData implements DepartmentRepo {
 
   getBydepartmentCode = async (departmentCode: string): Promise<DepartmentType | undefined> => {
     try {
-      const department = await models.Department.findOne({ where: {  departmentCode } });
+      const department = await models.Department.findOne({ where: { departmentCode } });
       return department ? (department.get() as DepartmentType) : undefined;
     } catch (error) {
       console.error(error);

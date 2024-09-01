@@ -1,0 +1,52 @@
+// .student-list-page {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100vh; /* Full height for sticky scrolling */
+//   }
+  
+  .content-section {
+    flex: 1;
+    overflow-y: auto; /* Allow scrolling for content section */
+    padding: 16px;
+    margin-left: 70px;
+    margin-right: 70px;
+    margin-top: 20px;
+    background-color:white;
+  }
+  
+  .user-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+    // padding: 16px 0;
+    margin-bottom: 16px;
+  }
+  
+
+  
+ 
+  .search-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .search-section input {
+    width: 25%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .table-section {
+    overflow-y: auto;
+    padding-left: 20px;
+  }
+  
+  .table-title {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background-color: white;
+  }

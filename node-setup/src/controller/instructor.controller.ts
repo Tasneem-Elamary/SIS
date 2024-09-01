@@ -51,7 +51,6 @@ class InstructorController {
       next(e);
     }
   };
-
 }
 
 export default new InstructorController();

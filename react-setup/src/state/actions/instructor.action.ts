@@ -19,6 +19,20 @@ class Instructor {
       dispatch(statusAction.addErrorStatus(e as Error));
     }
   };
+  getInstructorAction = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch(statusAction.clearStatus());
+        dispatch(fetchAction.fetchingTime());
+        const { data: { message, instructors } } = await instructorApi.getAllInstructors();
+        dispatch(statusAction.addSuccessStatus(message));
+        dispatch(fetchAction.fetchingFailed());
+        return instructors;
+    } catch (e) {
+        dispatch(fetchAction.fetchingFailed());
+        dispatch(statusAction.addErrorStatus(e as Error));
+        return [];
+    }
+};
 }
 
 export default new Instructor()
