@@ -4,7 +4,7 @@ import { UserRepo } from '../persistance/Repositories';
 
 class User implements IUser {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private userData: UserRepo) {}
+  constructor(protected userData: UserRepo) {}
 
   login = async (email: string, password: string) => {
     try {

@@ -1,9 +1,8 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-
 const courseBylaw = (db: Sequelize) => db.define(
-  'CourseBylaw',
+  'BylawCourse',
   {
     id: {
       type: DataTypes.UUID,
@@ -15,18 +14,18 @@ const courseBylaw = (db: Sequelize) => db.define(
     BylawId: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'Bylaws',
-        key: 'id',
-      },
+      // references: {
+      //   model: 'Bylaw',
+      //   key: 'id',
+      // },
     },
     CourseId: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'Courses',
-        key: 'id',
-      },
+      // references: {
+      //   model: 'Course',
+      //   key: 'id',
+      // },
     },
     isElective: {
       type: DataTypes.BOOLEAN,

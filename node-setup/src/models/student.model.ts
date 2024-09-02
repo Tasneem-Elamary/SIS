@@ -28,58 +28,58 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       birthDate: {
         type: DataTypes.DATE,
-       
+
       },
       gender: {
-        type: DataTypes.ENUM('male','female'),
-         
+        type: DataTypes.ENUM('male', 'female'),
+
       },
       profilePhoto: {
         type: DataTypes.STRING,
-         
+
       },
       phone: {
         type: DataTypes.STRING,
-         
+
       },
       gainedHours: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue:0,
-        
+        defaultValue: 0,
+
       },
       GPA: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue:0.0,
+        defaultValue: 0.0,
       },
       UserId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'User',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       DepartmentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: 'Departments',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Department',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       BylawId: {
         type: DataTypes.UUID,
         allowNull: false,
 
-        references: {
-          model: 'Bylaws',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Bylaw',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
 
       },
     },

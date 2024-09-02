@@ -14,7 +14,7 @@ const room = (db: Sequelize) => db.define(
     code: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      // unique: true,
     },
     type: {
       type: DataTypes.ENUM('section', 'lab', 'hall'),
@@ -27,10 +27,10 @@ const room = (db: Sequelize) => db.define(
     FacultyId: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'Faculties',
-        key: 'id',
-      },
+      // references: {
+      //   model: 'Faculty',
+      //   key: 'id',
+      // },
     },
   },
   {

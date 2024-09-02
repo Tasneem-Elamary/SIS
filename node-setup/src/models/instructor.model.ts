@@ -50,19 +50,19 @@ const InstructorModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         // references: {
-        //   model: UserModel(sequelize),
+        //   model: 'User',
         //   key: 'id',
         // },
         // onDelete: 'CASCADE',
       },
       DepartmentId: {
         type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'Departments',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        allowNull: true,
+        // references: {
+        //   model: 'Department',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
     },
     {

@@ -10,17 +10,18 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+   
 }
 
 .app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: $color;
-  color: $sec-color;
+  // min-height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: space-between;
+  // padding: 10px;
+  background-color: #F7F7F7;
+  // color: $sec-color;
 }
 
 /* Components Part */

@@ -1,7 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-
 const bylawRule = (db: Sequelize) => db.define(
   'BylawRule',
   {
@@ -23,10 +22,10 @@ const bylawRule = (db: Sequelize) => db.define(
     BylawId: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'Bylaws',
-        key: 'id',
-      },
+      // references: {
+      //   model: 'Bylaw',
+      //   key: 'id',
+      // },
     },
 
   },
