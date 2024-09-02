@@ -8,6 +8,8 @@ const router = express.Router();
 router.route('/createInstructor').post(facultyAdminContoller.createInstructor);
 
 router.route('/getAllInstructors').get(facultyAdminContoller.getAllInstructors);
+router.route('/getAllTAs').get(facultyAdminContoller.getAllTAs);
+router.route('/getAllDoctors').get(facultyAdminContoller.getAllDoctors);
 
 router.route('/getInstructorById/:id').get(facultyAdminContoller.getInstructorById);
 

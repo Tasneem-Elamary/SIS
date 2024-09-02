@@ -5,8 +5,6 @@ import { InstructorType } from '../../interfaces/domain';
 
 class Instructor {
   addInstructorAction = (instructor: InstructorType) => async (dispatch: Dispatch) => {
-   
-
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
@@ -19,11 +17,11 @@ class Instructor {
       dispatch(statusAction.addErrorStatus(e as Error));
     }
   };
-  getInstructorAction = () => async (dispatch: Dispatch) => {
+  getTAAction = () => async (dispatch: Dispatch) => {
     try {
         dispatch(statusAction.clearStatus());
         dispatch(fetchAction.fetchingTime());
-        const { data: { message, instructors } } = await instructorApi.getAllInstructors();
+        const { data: { message, instructors } } = await instructorApi.getAllTAs();
         dispatch(statusAction.addSuccessStatus(message));
         dispatch(fetchAction.fetchingFailed());
         return instructors;
@@ -32,6 +30,20 @@ class Instructor {
         dispatch(statusAction.addErrorStatus(e as Error));
         return [];
     }
+};
+getDoctorAction = () => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instructors } } = await instructorApi.getAllDoctors();
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instructors;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
 };
 }
 

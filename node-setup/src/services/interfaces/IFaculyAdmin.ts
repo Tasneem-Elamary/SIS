@@ -8,6 +8,8 @@ interface facultyAdminRepo {
   getInstructorById(id: string): Promise<(InstructorType & { User: UserType }) | undefined>;
   getInstructorByEmail(email: string): Promise<InstructorType | undefined>;
   getAllInstructors(): Promise<(InstructorType & { User: UserType })[] | undefined[]>
+  getAllTAs(): Promise<(InstructorType & { User: UserType })[] | undefined[]>
+  getAllDoctors(): Promise<(InstructorType & { User: UserType })[] | undefined[]>
   updateInstructor(id: string, updatedData: Partial<InstructorType>): Promise<InstructorType | undefined>;
   deleteInstructor(id: string): Promise<boolean>;
 

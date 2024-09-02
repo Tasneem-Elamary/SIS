@@ -51,11 +51,11 @@ const MainNavBar = ({ activeItem}) => {
             Logistics
           </NavLink>
         </NavItem>
-        <UncontrolledDropdown nav inNavbar>
+        <UncontrolledDropdown nav inNavbar >
           <DropdownToggle nav caret className={activeItem === 'Courses' ? 'navlink-active' : "navlink-custom"}>
             Courses
           </DropdownToggle>
-          <DropdownMenu right>
+          <DropdownMenu right >
             {courses.length > 0 ? (
               courses.map(course => (
                 <DropdownItem key={course.id} href="#">

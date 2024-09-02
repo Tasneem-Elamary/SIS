@@ -8,7 +8,9 @@ console.log(`mmmmmmmmmm${backendUrl}`)
 
 class Instructor {
   addInstructor = (instructor : InstructorType) => axios.post(`http://localhost:5000/facultyAdmin/createInstructor`, instructor);
-  getAllInstructors = () => axios.get(`http://localhost:5000/facultyAdmin/getAllInstructors`);
+  getAllTAs = () => axios.get(`http://localhost:5000/facultyAdmin/getAllTAs`);
+  getAllDoctors = () => axios.get(`http://localhost:5000/facultyAdmin/getAllDoctors`);
+
 }
 
 export default new Instructor();

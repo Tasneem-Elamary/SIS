@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import  instructorAction from '../../../../state/actions/instructor.action';
+import { useNavigate } from 'react-router-dom'
 
 const CreateLecturerForm = ({ addInstructorAction , userType}) => {
+    const navigate = useNavigate();
     const handleFormSubmit = (values, bag) => {
         if (values) {
             addInstructorAction(values);
+            navigate('/');
           } else {
             bag.isSubmitting(false);
           }

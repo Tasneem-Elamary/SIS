@@ -5,13 +5,13 @@ import CreateLecturerForm from '../createLecturerForm';
 
 
 
-function CreateLecturer() {
+function CreateLecturer({userType}) {
     return (
       <div className="CreateLecturer">
         <RegisterationNavbar/>
         <MainNavBar activeItem="Users"/>
-        <UsersNavBar  activeItem="Lecturer"/>
-        <CreateLecturerForm userType='Lecturer'/>
+        <UsersNavBar  activeItem={userType}/>
+        <CreateLecturerForm userType={userType}/>
         
       </div>
     );

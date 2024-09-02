@@ -97,6 +97,24 @@ class FacultyAdminController {
     }
   };
 
+  getAllTAs = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const instructors = await this.facultyAdmin.getAllTAs();
+      res.status(200).json({ message: 'done', instructors });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getAllDoctors = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const instructors = await this.facultyAdmin.getAllDoctors();
+      res.status(200).json({ message: 'done', instructors });
+    } catch (e) {
+      next(e);
+    }
+  };
+
   // Update instructor
   updateInstructor = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -72,6 +72,36 @@ class FacultyAdmin extends User implements IfacultyAdmin {
     }
   };
 
+  getAllTAs = async (): Promise<(InstructorType & { User: UserType })[] | undefined[]> => {
+    try {
+      const instructors = await this.instructorData.getAll();
+
+      // Filter instructors with type 'TA' only
+      const filteredInstructors = (instructors ?? []).filter(
+        (instructor): instructor is InstructorType & { User: UserType } => instructor !== undefined && instructor.type === 'TA',
+      );
+
+      return filteredInstructors;
+    } catch {
+      throw new Error('Failed to get all instructors');
+    }
+  };
+
+  getAllDoctors = async (): Promise<(InstructorType & { User: UserType })[] | undefined[]> => {
+    try {
+      const instructors = await this.instructorData.getAll();
+
+      // Filter instructors with type 'TA' only
+      const filteredInstructors = (instructors ?? []).filter(
+        (instructor): instructor is InstructorType & { User: UserType } => instructor !== undefined && instructor.type === 'Professor',
+      );
+
+      return filteredInstructors;
+    } catch {
+      throw new Error('Failed to get all instructors');
+    }
+  };
+
   // Method to update an instructor
   updateInstructor = async (id: string, updatedData: Partial<InstructorType>): Promise<InstructorType | undefined> => {
     try {
