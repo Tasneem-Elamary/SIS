@@ -9,6 +9,7 @@ console.log(`mmmmmmmmmm${backendUrl}`)
 
 class User {
   addUser = (user : IUser) => axios.post(`http://localhost:5000/user/addUser`, user);
+  login = (user : IUser) => axios.post(`http://localhost:5000/user/login`, user);
 }
 
 export default new User();

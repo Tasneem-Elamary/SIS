@@ -24,8 +24,14 @@
         "import/extensions":"off",
         "class-methods-use-this":"off",
         "import/prefer-default-export":"off",
+        "@typescript-eslint/no-require-imports":"off",
         "@typescript-eslint/no-unused-vars":"off",
         "@typescript-eslint/no-explicit-any":"off",
-        "no-empty-function":"off"
+        "no-empty-function":"off",
+        "max-len":"off",
+        "no-plusplus":"off",
+        "camelcase":"off",
+        "no-param-reassign":"off"
+
     }
 }

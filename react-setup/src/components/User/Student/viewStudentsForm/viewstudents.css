@@ -1,0 +1,18 @@
+
+.container{
+    margin-top: 60px;
+    margin-left: 50px !important;
+}
+.fixed-header{
+    position: sticky;
+    top: 106px; 
+    background-color: #ffffff;
+  padding-top: 0;
+    padding: 10px 0;
+ 
+}
+.header-content{
+    display: flex;
+    flex-direction: row;
+    gap: 75%;
+}

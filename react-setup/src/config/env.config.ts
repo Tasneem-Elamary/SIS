@@ -1,15 +1,14 @@
-// import dotenv from 'dotenv';
-// dotenv.config({ path: './example.dev.env' });
+const vars = new Map<string, string>();
 
+// Fetch the backend URL
+const viteBackendUrl = "http://localhost:5000";
 
-const vars = new Map();
+console.log('VITE_BACKEND_BASE_URL:', viteBackendUrl);
 
-// Config backend url
-if (process.env.REACT_APP_BACKEND_BASE_URL) {
- 
-  vars.set('backendUrl', process.env.REACT_APP_BACKEND_BASE_URL);
-} else if (import.meta.env.REACT_APP_BACKEND_BASE_URL) {
-  vars.set('backendUrl', import.meta.env.REACT_APP_BACKEND_BASE_URL);
+if (typeof viteBackendUrl === 'string' && viteBackendUrl) {
+  vars.set('backendUrl', viteBackendUrl);
+} else {
+  console.warn('Backend URL is not defined. Please check your environment variables.');
 }
 
 export default vars;

@@ -1,0 +1,22 @@
+
+.scroll-tabel{
+    margin-top: 200px; 
+ 
+    overflow-y: auto;
+    padding-top: 50px;
+}
+.table-title{
+    position: sticky;
+    top: 200px; 
+    background-color: #ffffff;
+}
+
+.add-button{
+    width: 150px;
+}
+.splitter{
+    width: 100%;
+    height: 1px;
+    color: black;
+    border: 2px;
+}

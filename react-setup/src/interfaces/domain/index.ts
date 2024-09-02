@@ -1,6 +1,8 @@
-import IUser from './user';
+import UserType from './user';
 import IAction from './action'
-
+import InstructorType from './instructor';
+import AuthCredentials from './auth'
+import StudentType from './student';
 export type {
-  IUser,IAction
+  UserType,IAction,InstructorType,AuthCredentials,StudentType
 };

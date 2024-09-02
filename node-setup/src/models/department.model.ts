@@ -23,7 +23,7 @@ const DepartmentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      headId: {
+      HeadId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
@@ -36,7 +36,16 @@ const DepartmentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Faculty',
+          model: 'Faculties',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      BylawId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'Bylaws',
           key: 'id',
         },
         onDelete: 'CASCADE',

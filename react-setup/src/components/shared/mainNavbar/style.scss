@@ -1,0 +1,22 @@
+.Main-navbar{
+  background-color:#FFFFFF;
+  padding-left: 80px;
+  position: sticky !important;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+}
+
+// .navbar-custom {
+//     padding-left: 80px;
+//   }
+  
+   .navlink-custom {
+    color: black ;
+  }
+  
+  .navlink-active {
+    background-color: black; /* This is to style the active link */
+    color: white !important ;
+  }
+  

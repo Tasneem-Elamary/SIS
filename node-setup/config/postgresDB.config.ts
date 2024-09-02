@@ -15,6 +15,7 @@ const connectToPostgres = async () => {
   try {
     await db.authenticate();
     console.log('Connected successfully to PostgresDB');
+    // console.log(db);
   } catch (error) {
     // db.close();
     console.error('Fail to connect to PostgresDB:', error);

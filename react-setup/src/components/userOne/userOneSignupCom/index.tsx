@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  Button, FormGroup, Label, Input, FormFeedback,
+    Button, FormGroup, Label, Input, FormFeedback,
 } from 'reactstrap';
 import { Formik } from 'formik';
 // import * as Yup from 'yup';

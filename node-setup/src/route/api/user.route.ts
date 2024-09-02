@@ -10,7 +10,7 @@ router.route('/addUser')
   .post(userController.create);
 
 router.route('/login')
-  .all(isUserValid)
+  // .all(isUserValid)
   .post(userController.login);
 
 router.route('/')

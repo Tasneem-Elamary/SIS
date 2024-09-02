@@ -18,40 +18,35 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      firstName: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+
       birthDate: {
         type: DataTypes.DATE,
-       
+
       },
       gender: {
-        type: DataTypes.ENUM('male','female'),
-         
+        type: DataTypes.ENUM('male', 'female'),
+
       },
       profilePhoto: {
         type: DataTypes.STRING,
-         
+
       },
       phone: {
         type: DataTypes.STRING,
-         
+
       },
       gainedHours: {
         type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue:0,
-        
+        defaultValue: 0,
+
       },
       GPA: {
         type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue:0.0,
+        defaultValue: 0.0,
       },
       UserId: {
         type: DataTypes.UUID,
@@ -64,7 +59,6 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       DepartmentId: {
         type: DataTypes.UUID,
-        allowNull: false,
         references: {
           model: 'Departments',
           key: 'id',

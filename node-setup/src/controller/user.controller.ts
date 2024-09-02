@@ -1,23 +1,20 @@
 import { NextFunction, Request, Response } from 'express';
 import { Get, Route } from 'tsoa';
-import { hashPassword, isPasswordValid } from '../util/hashing';
-import { signUser } from '../util/auth.util';
-import { User } from '../services';
+import UserService from '../services/user.service';
 import { IUser } from '../services/interfaces';
 import { DataAccess } from '../persistance';
 import { UserType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
 
 const { UserDataAccess } = DataAccess;
-
+const userService = new UserService(new UserDataAccess());
 @Route('user')
 class UserController {
-  private user: IUser;
+  private user: UserService;
 
   constructor() {
     const userDataAccess = new UserDataAccess();
-    const user = new User(userDataAccess);
-    this.user = user;
+    this.user = new UserService(userDataAccess);
   }
 
   @Get('/{id}')
@@ -26,34 +23,51 @@ class UserController {
     // return user;
   }
 
+  public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    // console.log('debuggingg:- ', this.user);
+    try {
+      const { email, password } = req.body;
+
+      const token = await userService.login(email, password);
+      if (token) {
+        res.json({ token });
+      } else {
+        res.status(400).json({ msg: 'Invalid Credentials' });
+      }
+    } catch (error) {
+      // res.status(400).json({ msg: 'Invalid Credentials' });
+      next(error);
+    }
+  }
+
   create = async (req: Request, res: Response, next: NextFunction) => {
-    // try {
-    //   const { body } = req;
-    //   console.log(body);
+  // try {
+  //   const { body } = req;
+  //   console.log(body);
 
     //   const user = await this.user.create({ ...body, password: hashPassword(body.password) });
 
-    //   res.send({
-    //     msg: 'User added successfully', user,
-    //   });
-    // } catch (e) {
-    //   next(e);
-    // }
+  //   res.send({
+  //     msg: 'User added successfully', user,
+  //   });
+  // } catch (e) {
+  //   next(e);
+  // }
   };
 
   public async get(req: Request, res: Response, next: NextFunction) {
-    // try {
-    //   const { id } = req.user.user;
-    //   const user = await this.user.getById(id);
-    //   res.send({
-    //     msg: 'User got successfully', user,
-    //   });
-    // } catch (e) {
-    //   next(e);
-    // }
+  // try {
+  //   const { id } = req.user.user;
+  //   const user = await this.user.getById(id);
+  //   res.send({
+  //     msg: 'User got successfully', user,
+  //   });
+  // } catch (e) {
+  //   next(e);
+  // }
   }
 
-  login = async (req: Request, res: Response, next: NextFunction) => {
+// login = async (req: Request, res: Response, next: NextFunction) => {
   //   try {
   //     const { body: { email, password } } = req;
   //     const user = await this.user.getByEmail(email);
@@ -70,6 +84,6 @@ class UserController {
   //     next(e);
   //   }
   // };
-  };
+// };
 }
 export default new UserController();
