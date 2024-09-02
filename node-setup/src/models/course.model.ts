@@ -14,7 +14,7 @@ const course = (db: Sequelize) => db.define(
     code: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true, // Enforces that each course code is unique
+      // unique: true, // Enforces that each course code is unique
     },
     name: {
       type: DataTypes.STRING,

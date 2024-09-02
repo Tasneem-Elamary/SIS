@@ -29,9 +29,13 @@
         "@typescript-eslint/no-explicit-any":"off",
         "no-empty-function":"off",
         "max-len":"off",
-        "no-plusplus":"off",
         "camelcase":"off",
-        "no-param-reassign":"off"
-
+        // "@typescript-eslint/no-require-imports":"off", 
+        "no-plusplus": "off" ,
+        "@typescript-eslint/no-var-requires":"off",
+        "import/no-extraneous-dependencies":"off",
+        "no-param-reassign" :"off",
+        "no-useless-constructor":"off"
+        
     }
 }

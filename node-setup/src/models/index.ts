@@ -66,6 +66,12 @@ Bylaw.belongsToMany(Course, { through: 'BylawCourses' });
 Course.belongsToMany(Department, { through: 'DepartmentCourses' });
 Department.belongsToMany(Course, { through: 'DepartmentCourses' });
 
+// Student.hasMany(CourseEnrollment, { foreignKey: 'studentId' });
+// CourseEnrollment.belongsTo(Student, { foreignKey: 'studentId' });
+
+// Course.hasMany(CourseEnrollment, { foreignKey: 'CourseId' });
+// CourseEnrollment.belongsTo(Course, { foreignKey: 'CourseId' });
+
 Course.belongsToMany(Student, { through: 'CourseEnrollments' });
 Student.belongsToMany(Course, { through: 'CourseEnrollments' });
 
@@ -99,6 +105,9 @@ Department.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 Department.hasMany(Student, { foreignKey: 'DepartmentId' });
 Student.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
+Bylaw.hasMany(Student, { foreignKey: 'BylawId' });
+Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+
 Department.hasMany(Instructor, { foreignKey: 'DepartmentId' });
 Instructor.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
@@ -128,12 +137,14 @@ Student.belongsToMany(Schedule, { through: 'StudentSchedules' });
 
 // db.drop().then(() => {
 //   console.log('All tables dropped successfully!');
-// });
-// db.sync({ force: true }).then(() => {
+// })
+// db.sync({ alter: true }).then(() => {
 //   console.log('tables created successfully');
 // });
-export {
+export const models = {
   User,
+  Course,
+  Bylaw,
   Student,
   Instructor,
   Schedule,
@@ -143,23 +154,10 @@ export {
   Section,
   Group,
   Slot,
-  Course,
-  Bylaw,
+
 };
-// export const models = {
-//   User,
-//   Student,
-//   Instructor,
-//   Schedule,
-//   Department,
-//   Faculty,
-//   University,
-//   Section,
-//   Group,
-//   Slot,
-//   Course,
-//   Bylaw,
-// };
-// export const sequelize = db;
-// // This export is specifically for sequelize-mig compatibility
-// export default models;
+
+export const sequelize = db;
+
+// This export is specifically for sequelize-mig compatibility
+export default models;

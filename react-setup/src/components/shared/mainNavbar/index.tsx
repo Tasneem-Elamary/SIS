@@ -1,10 +1,26 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import './style.scss'
+import { useEffect,useState } from 'react';
+import { CourseType } from '../../../interfaces/domain';
+import { useDispatch, useSelector } from 'react-redux';
+import  courseAction from '../../../state/actions/course.action';
 
-const MainNavBar = ({ activeItem }) => {
+const MainNavBar = ({ activeItem}) => {
+  const [courses, setCourses] = useState<CourseType[]>([]);
+  const [regulations, setRegulations] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const fetchedCourses = await dispatch(courseAction.getCourseAction());
+      setCourses(fetchedCourses);
+    };
+
+    fetchCourses();
+  }, [dispatch]);
   return (
-    <Navbar  light  expand="md" className="Main-navbar">
+    <Navbar   expand="md" className="Main-navbar">
       <Nav className="mr-auto" navbar>
         <NavItem>
           <NavLink href="#" className={activeItem === 'Dashboard' ? 'navlink-active' : "navlink-custom"}>
@@ -35,13 +51,20 @@ const MainNavBar = ({ activeItem }) => {
             Logistics
           </NavLink>
         </NavItem>
-        <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret  className={activeItem === 'Courses' ? 'navlink-active' : "navlink-custom"}>
+        <UncontrolledDropdown nav inNavbar >
+          <DropdownToggle nav caret className={activeItem === 'Courses' ? 'navlink-active' : "navlink-custom"}>
             Courses
           </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem href="#">Course 1</DropdownItem>
-            <DropdownItem href="#">Course 2</DropdownItem>
+          <DropdownMenu right >
+            {courses.length > 0 ? (
+              courses.map(course => (
+                <DropdownItem key={course.id} href="#">
+                  {course.code}
+                </DropdownItem>
+              ))
+            ) : (
+              <DropdownItem disabled>No Courses Available</DropdownItem>
+            )}
           </DropdownMenu>
         </UncontrolledDropdown>
         <UncontrolledDropdown nav inNavbar>

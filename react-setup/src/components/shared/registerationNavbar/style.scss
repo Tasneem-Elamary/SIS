@@ -2,10 +2,13 @@
 .navbar-custom {
     padding-left: 80px;
     padding-right: 80px;
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
   }
   
   /* Navbar brand styles */
-  .navbar-brand-custom {
+ .navbar-brand-custom {
     color: white; /* You can adjust this color as needed */
   }
   
@@ -14,14 +17,16 @@
     display: flex;
     align-items: center;
     position: relative;
+    // width: 350px;
     
    
   }
   
   #searchBar {
-    padding-right: 30px;
+    // padding-right: 30px;
+    margin-right: 30px;
     border-radius: 5px;
-    width: 400px;
+    width: 350px;
    
    
   }
@@ -47,3 +52,6 @@
     color: white;
     font-size: 1.2rem;
   }
+  // .navbar-dark .navbar-toggler {
+  //   color :aqua !important
+  // }

@@ -9,7 +9,7 @@ import Env from '../../config';
 const { JWT_SECRET } = Env;
 class UserService implements IUser {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private userData: UserRepo) {}
+  constructor(protected userData: UserRepo) {}
 
   login = async (email: string, password: string) : Promise<{ token: string; user: UserType }> => {
     const user = await this.userData.getByEmail(email);

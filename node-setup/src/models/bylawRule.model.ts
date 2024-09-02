@@ -22,10 +22,10 @@ const bylawRule = (db: Sequelize) => db.define(
     BylawId: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: 'Bylaws',
-        key: 'id',
-      },
+      // references: {
+      //   model: 'Bylaw',
+      //   key: 'id',
+      // },
     },
 
   },
