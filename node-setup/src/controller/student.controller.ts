@@ -10,14 +10,15 @@ import { UserRepo } from '../persistance/Repositories';
 import StudentService from '../services/student.service';
 import { parseCSV } from '../util/csvParser';
 
-const { StudentDataAccess } = DataAccess;
+const { StudentDataAccess,ResultDataAccess } = DataAccess;
 
 class StudentController {
   private student: StudentService;
 
   constructor() {
     const studentDataAccess = new StudentDataAccess();
-    this.student = new StudentService(studentDataAccess);
+    const resultDataAcess= new ResultDataAccess ();
+    this.student = new StudentService(studentDataAccess,resultDataAcess);
   }
 
   @Get('/{id}')

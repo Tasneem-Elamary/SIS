@@ -1,4 +1,4 @@
-import { Bylaw } from '../../models';
+import models from '../../models';
 import { db } from '../../../config/postgresDB.config';
 import { BylawType } from '../../types';
 
@@ -6,7 +6,7 @@ class BylawDataAccess {
   // Method to create a new bylaw
   create = async (bylaw: BylawType, transaction?: any): Promise<BylawType | undefined> => {
     try {
-      const newBylaw = await Bylaw.create(bylaw, { transaction });
+      const newBylaw = await models.Bylaw.create(bylaw, { transaction });
       return newBylaw.get();
     } catch (error) {
       console.error('Failed to create the bylaw:', error);
@@ -17,7 +17,7 @@ class BylawDataAccess {
   // Method to find a bylaw by code
   getByCode = async (code: string): Promise<BylawType | undefined> => {
     try {
-      const bylaw = await Bylaw.findOne({ where: { code } });
+      const bylaw = await models.Bylaw.findOne({ where: { code } });
       return bylaw ? (bylaw.get() as BylawType) : undefined;
     } catch (error) {
       console.error('Failed to find the bylaw by code:', error);
@@ -28,7 +28,7 @@ class BylawDataAccess {
   // Method to find a bylaw by ID
   getById = async (id: string): Promise<BylawType | undefined> => {
     try {
-      const bylaw = await Bylaw.findOne({ where: { id } });
+      const bylaw = await models.Bylaw.findOne({ where: { id } });
       return bylaw ? (bylaw.get() as BylawType) : undefined;
     } catch (error) {
       console.error('Failed to find the bylaw by ID:', error);
@@ -40,7 +40,7 @@ class BylawDataAccess {
   update = async (id: string, updateData: Partial<BylawType>): Promise<BylawType | undefined> => {
     const transaction = await db.transaction();
     try {
-      const bylaw = await Bylaw.findByPk(id, { transaction });
+      const bylaw = await models.Bylaw.findByPk(id, { transaction });
 
       if (!bylaw) {
         console.error('Bylaw not found');
@@ -63,7 +63,7 @@ class BylawDataAccess {
   delete = async (id: string): Promise<boolean> => {
     const transaction = await db.transaction();
     try {
-      const bylaw = await Bylaw.findByPk(id, { transaction });
+      const bylaw = await models.Bylaw.findByPk(id, { transaction });
 
       if (!bylaw) {
         console.error('Bylaw not found');

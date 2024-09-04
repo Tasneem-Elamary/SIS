@@ -1,11 +1,11 @@
-import './addstudent.css';
+import './style.scss';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button, FormGroup, Label, Input, FormFeedback, Alert } from 'reactstrap';
-import studentAction from '../../../state/actions/student.action';
+import studentAction from '../../../../state/actions/student.action';
 import { useState } from 'react';
-import MainNavBar from '../../shared/mainNavbar';
-import SubNavBar from '../../shared/subNavbar';
+import MainNavBar from '../../../shared/mainNavbar';
+import SubNavBar from '../../UsersNavbar';
 import { useNavigate } from 'react-router-dom';
 
 const AddStudent = ({ addStudentAction, addStudentsAction }: any) => {

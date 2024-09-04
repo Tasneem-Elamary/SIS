@@ -1,12 +1,14 @@
+import { QueryTypes } from 'sequelize';
 import User from './user.service';
 import { IInstuctor } from './interfaces';
-import { UserRepo, InstructorRepo, CourseRepo } from '../persistance/Repositories';
+import { UserRepo, InstructorRepo, CourseRepo ,ResultRepo } from '../persistance/Repositories';
 import {
-  UserType, StudentType, InstructorType, CourseType,
+  UserType, StudentType, InstructorType, CourseType, StudentAdvisorType,ResultType
 } from '../types';
+import { sequelize } from '../models';
 
 class Instructor extends User implements IInstuctor {
-  constructor(userData:UserRepo, private instructorData:InstructorRepo) {
+  constructor(userData:UserRepo, private instructorData:InstructorRepo ,private resultData:ResultRepo) {
     super(userData);
   }
 
@@ -29,6 +31,46 @@ class Instructor extends User implements IInstuctor {
       throw new Error('Failed to update the instructor');
     }
   };
+
+  getStudentsByAdvisor = async (instructorId: string): Promise<StudentType[]> => {
+    try {
+      const results = await sequelize.query<StudentType>(
+
+        'SELECT * FROM "Students" WHERE "id" IN (SELECT "StudentId" FROM "StudentAdvisors" WHERE "InstructorId" = :instructorId)',
+        {
+          type: QueryTypes.SELECT, // Use QueryTypes directly
+          replacements: { instructorId }, // Safely pass the instructorId
+        },
+      );
+
+      console.log('Students for Advisor:', results);
+      return results;
+    } catch (error) {
+      console.error('Error fetching records for advisor:', error);
+      throw new Error('Failed to get students for the specified advisor');
+    }
+  };
+
+   uploadResults=async(results: Partial<ResultType>[]): Promise<ResultType[] | undefined[]> =>{
+    try {
+      const createdResults = await this.resultData.bulkCreateResults(results);
+      return createdResults.length > 0 ? createdResults : [];
+    } catch (error) {
+      console.error('Error creating results from CSV:', error);
+      return [];
+    }
+  }
+
+  // Update a result
+   updateResultbyId=async(id: string, updatedData: Partial<ResultType>): Promise<ResultType | undefined> =>{
+    try {
+      const updatedResult = await this.resultData.updateResultById(id, updatedData);
+      return updatedResult;
+    } catch (error) {
+      console.error(`Error updating result with ID ${id}:`, error);
+      return undefined;
+    }
+  }
 }
 
 export default Instructor;

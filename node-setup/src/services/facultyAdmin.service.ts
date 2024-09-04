@@ -1,18 +1,28 @@
+import { QueryTypes } from 'sequelize';
 import User from './user.service';
 import { IfacultyAdmin } from './interfaces';
 import {
-  UserRepo, InstructorRepo, CourseRepo, DepartmentRepo,
+  UserRepo, InstructorRepo, CourseRepo, DepartmentRepo, SemesterRepo,
+  GradesRepo,
 } from '../persistance/Repositories';
 import {
-  UserType, StudentType, InstructorType, CourseType, DepartmentType,
+  UserType, StudentType, InstructorType, CourseType, DepartmentType, StudentAdvisorType, GradeType, SemesterType,
 } from '../types';
+import { sequelize } from '../models';
 
 class FacultyAdmin extends User implements IfacultyAdmin {
-  constructor(userData:UserRepo, private instructorData:InstructorRepo, private courseData: CourseRepo, private departmentData: DepartmentRepo) {
+  constructor(
+    userData: UserRepo,
+    private instructorData: InstructorRepo,
+    private courseData: CourseRepo,
+    private departmentData: DepartmentRepo,
+    private gradeRepo: GradesRepo,
+    private semsterRepo:SemesterRepo,
+  ) {
     super(userData);
   }
 
-  createInstructor = async (user:UserType, instructor:Partial<InstructorType>): Promise<InstructorType| undefined> => {
+  createInstructor = async (user: UserType, instructor: Partial<InstructorType>): Promise<InstructorType | undefined> => {
     try {
       const newUser = await this.userData.create(user);
       const userId = newUser?.id;
@@ -72,17 +82,16 @@ class FacultyAdmin extends User implements IfacultyAdmin {
     }
   };
 
-  getAllTAs = async (): Promise<(InstructorType & { User: UserType })[] | undefined[]> => {
+  getAllTAs = async (): Promise<(InstructorType & { User: UserType })[]> => {
     try {
       const instructors = await this.instructorData.getAll();
 
-      // Filter instructors with type 'TA' only
-      const filteredInstructors = (instructors ?? []).filter(
+      // Filter out undefined values and instructors with type 'TA' only
+      const filteredInstructors = (instructors as (InstructorType & { User: UserType } | undefined)[]).filter(
         (instructor): instructor is InstructorType & { User: UserType } => instructor !== undefined && instructor.type === 'TA',
       );
-
       return filteredInstructors;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to get all instructors');
     }
   };
@@ -91,8 +100,8 @@ class FacultyAdmin extends User implements IfacultyAdmin {
     try {
       const instructors = await this.instructorData.getAll();
 
-      // Filter instructors with type 'TA' only
-      const filteredInstructors = (instructors ?? []).filter(
+      // Filter instructors that are not undefined and have type 'Professor'
+      const filteredInstructors = (instructors as (InstructorType & { User: UserType } | undefined)[]).filter(
         (instructor): instructor is InstructorType & { User: UserType } => instructor !== undefined && instructor.type === 'Professor',
       );
 
@@ -239,6 +248,115 @@ class FacultyAdmin extends User implements IfacultyAdmin {
       return true;
     } catch {
       throw new Error('Failed to delete the department.');
+    }
+  };
+
+  addStudentAdvisor = async (studentId: string, instructorId: string): Promise<void> => {
+    console.log(studentId);
+    try {
+      await sequelize.query(
+        'INSERT INTO "StudentAdvisors"("StudentId", "InstructorId") VALUES (:studentId, :instructorId)',
+        {
+          replacements: { studentId, instructorId },
+          type: QueryTypes.INSERT,
+        },
+      );
+      console.log('Record inserted successfully');
+    } catch (error) {
+      console.error('Error inserting record:', error);
+      throw new Error('Failed to add student advisor association');
+    }
+  };
+
+  updateStudentAdvisor = async (studentId: string, instructorId: string, newInstructorId: string): Promise<void> => {
+    try {
+      await sequelize.query(
+        'UPDATE "StudentAdvisors" SET "InstructorId" = :newInstructorId WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
+        {
+          replacements: { studentId, instructorId, newInstructorId },
+          type: QueryTypes.UPDATE, // Use QueryTypes directly
+        },
+      );
+      console.log('Record updated successfully');
+    } catch (error) {
+      console.error('Error updating record:', error);
+      throw new Error('Failed to update student advisor association');
+    }
+  };
+
+  deleteStudentAdvisor = async (studentId: string, instructorId: string): Promise<void> => {
+    try {
+      await sequelize.query(
+        'DELETE FROM "StudentAdvisors" WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
+        {
+          replacements: { studentId, instructorId },
+          type: QueryTypes.DELETE, // Use QueryTypes directly
+        },
+      );
+      console.log('Record deleted successfully');
+    } catch (error) {
+      console.error('Error deleting record:', error);
+      throw new Error('Failed to delete student advisor association');
+    }
+  };
+
+  createGrade = async (grade: GradeType): Promise<GradeType | undefined> => {
+    try {
+      const newGrade = await this.gradeRepo.create(grade);
+      return newGrade;
+    } catch (error) {
+      console.error('Error creating grade:', error);
+      throw new Error('Failed to create the grade, please try again!');
+    }
+  };
+
+  updateGrade = async (id: string, updatedData: Partial<GradeType>): Promise<GradeType | undefined> => {
+    try {
+      const updatedGrade = await this.gradeRepo.update(id, updatedData);
+      return updatedGrade;
+    } catch (error) {
+      console.error('Error updating grade:', error);
+      throw new Error('Failed to update the grade, please try again!');
+    }
+  };
+
+  deleteGrade = async (id: string): Promise<boolean> => {
+    try {
+      const isDeleted = await this.gradeRepo.delete(id);
+      return isDeleted;
+    } catch (error) {
+      console.error('Error deleting grade:', error);
+      throw new Error('Failed to delete the grade, please try again!');
+    }
+  };
+
+  createSemester = async (semester: SemesterType): Promise<SemesterType | undefined> => {
+    try {
+      const newSemester = await this.semsterRepo.create(semester);
+      return newSemester;
+    } catch (error) {
+      console.error('Error creating semester:', error);
+      throw new Error('Failed to create the semester, please try again!');
+    }
+  };
+
+  updateSemester = async (id: string, updatedData: Partial<SemesterType>): Promise<SemesterType | undefined> => {
+    try {
+      const updatedSemester = await this.semsterRepo.update(id, updatedData);
+      return updatedSemester;
+    } catch (error) {
+      console.error('Error updating semester:', error);
+      throw new Error('Failed to update the semester, please try again!');
+    }
+  };
+
+  deleteSemester = async (id: string): Promise<boolean> => {
+    try {
+      const isDeleted = await this.semsterRepo.delete(id);
+      return isDeleted;
+    } catch (error) {
+      console.error('Error deleting semester:', error);
+      throw new Error('Failed to delete the semester, please try again!');
     }
   };
 

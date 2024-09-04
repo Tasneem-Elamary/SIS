@@ -46,7 +46,6 @@ class BylawController {
       const { id } = req.params;
 
       try {
-      
         const bylaw = await this.bylaw.getById(id);
 
         if (bylaw) {

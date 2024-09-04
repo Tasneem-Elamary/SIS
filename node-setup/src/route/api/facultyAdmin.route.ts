@@ -37,4 +37,22 @@ router.put('/updateDepartment/:id', facultyAdminContoller.updateDepartment);
 
 router.delete('/deleteDepartment/:id', facultyAdminContoller.deleteDepartment);
 
+router.route('/createGrade').post(facultyAdminContoller.createGrade);
+
+router.route('/updateGrade/:id').put(facultyAdminContoller.updateGrade);
+
+router.route('/deleteGrade/:id').delete(facultyAdminContoller.deleteGrade);
+
+router.route('/createSemester').post(facultyAdminContoller.createSemester);
+
+router.route('/updateSemester/:id').put(facultyAdminContoller.updateSemester);
+
+router.route('/deleteSemester/:id').delete(facultyAdminContoller.deleteSemester);
+
+router.post('/addStudentToAdvisor', facultyAdminContoller.addStudentToAdvisor);
+
+router.delete('/removeStudentFromAdvisor/:instructorId/students/:studentId', facultyAdminContoller.removeStudentFromAdvisor);
+
+router.put('updateStudentAdvisor/:instructorId/students/:studentId', facultyAdminContoller.updateStudentAdvisor);
+
 export default router;

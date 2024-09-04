@@ -26,21 +26,17 @@ const StudentModel = (sequelize: Sequelize) => {
       birthDate: {
         type: DataTypes.DATE,
 
-
       },
       gender: {
         type: DataTypes.ENUM('male', 'female'),
-
 
       },
       profilePhoto: {
         type: DataTypes.STRING,
 
-
       },
       phone: {
         type: DataTypes.STRING,
-
 
       },
       gainedHours: {
@@ -63,6 +59,7 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       DepartmentId: {
         type: DataTypes.UUID,
+        allowNull: true,
         references: {
           model: 'Departments',
           key: 'id',

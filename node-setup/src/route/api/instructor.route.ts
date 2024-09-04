@@ -9,4 +9,9 @@ router.route('/').get(instructorController.viewprofile);
 
 router.route('/').put(instructorController.editprofile);
 
+router.get('/:instructorId/students', instructorController.getStudentsByAdvisor);
+
+router.route('/uploadStudentsResults').post(instructorController.uploadStudentsResults);
+router.route('/updateResultById/:id').post(instructorController.updateResultById);
+
 export default router;

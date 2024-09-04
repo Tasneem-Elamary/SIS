@@ -17,8 +17,9 @@ import CourseBylawType from './courseBylaw';
 import CourseEnrollmentType from './courseEnrollment';
 import RoomType from './room';
 import ResultType from './result';
-import SemesterType from './semster';
+import SemesterType from './semester';
 import BylawRuleType from './bylawRule';
+import StudentAdvisorType from './studentAdvisor';
 
 export {
   ErrorType,
@@ -41,5 +42,6 @@ export {
   ResultType,
   SemesterType,
   BylawRuleType,
+  StudentAdvisorType,
 
 };

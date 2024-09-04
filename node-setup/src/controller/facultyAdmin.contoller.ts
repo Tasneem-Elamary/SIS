@@ -6,12 +6,13 @@ import { FacultyAdmin } from '../services';
 import { IfacultyAdmin } from '../services/interfaces';
 import { DataAccess } from '../persistance';
 import {
-  UserType, InstructorType, CourseType, DepartmentType,
+  UserType, InstructorType, CourseType, DepartmentType, StudentAdvisorType, GradeType, SemesterType,
 } from '../types';
 import { UserRepo } from '../persistance/Repositories';
+// import { DataAccess } from '../persistance/postgresDBDataAccess';
 
 const {
-  UserDataAccess, InstructorDataAccess, CourseDataAcces, DepartmentDataAccess, FacultyDataAccess,
+  UserDataAccess, InstructorDataAccess, CourseDataAcces, DepartmentDataAccess, FacultyDataAccess, GradesDataAccess, SemesterDataAccess,
 } = DataAccess;
 
 @Route('user')
@@ -23,8 +24,16 @@ class FacultyAdminController {
     const instructorDataAccess = new InstructorDataAccess();
     const courseDataAcces = new CourseDataAcces();
     const departmentDataAccess = new DepartmentDataAccess();
-    const facultyAdmin = new FacultyAdmin(userDataAccess, instructorDataAccess, courseDataAcces, departmentDataAccess);
-    this.facultyAdmin = facultyAdmin;
+    const gradeDataAccess = new GradesDataAccess();
+    const semesterDataAccess = new SemesterDataAccess();
+    this.facultyAdmin = new FacultyAdmin(
+      userDataAccess,
+      instructorDataAccess,
+      courseDataAcces,
+      departmentDataAccess,
+      gradeDataAccess,
+      semesterDataAccess,
+    );
   }
 
   createInstructor = async (req: Request, res: Response, next: NextFunction) => {
@@ -291,6 +300,144 @@ class FacultyAdminController {
       res.status(200).json({ message: 'Department deleted successfully' });
     } catch (e) {
       next(e);
+    }
+  };
+
+  createGrade = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      const newGrade = await this.facultyAdmin.createGrade(body);
+
+      if (!newGrade) {
+        res.status(500).json({ message: 'Failed to create grade' });
+      }
+
+      res.status(201).json({ message: 'Grade created successfully', newGrade });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  // Update grade
+  updateGrade = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const updatedData: Partial<GradeType> = req.body;
+
+      const updatedGrade = await this.facultyAdmin.updateGrade(id, updatedData);
+
+      if (!updatedGrade) {
+        res.status(404).json({ message: 'Grade not found' });
+      }
+
+      res.status(200).json({ message: 'Grade updated successfully', updatedGrade });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  // Delete grade
+  deleteGrade = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const deletedGrade = await this.facultyAdmin.deleteGrade(id);
+
+      if (!deletedGrade) {
+        res.status(404).json({ message: 'Grade not found' });
+      }
+
+      res.status(200).json({ message: 'Grade deleted successfully' });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  createSemester = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      const newSemester = await this.facultyAdmin.createSemester(body);
+
+      if (!newSemester) {
+        res.status(500).json({ message: 'Failed to create semester' });
+      }
+
+      res.status(201).json({ message: 'Semester created successfully', newSemester });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  updateSemester = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const updatedData: Partial<SemesterType> = req.body;
+
+      const updatedSemester = await this.facultyAdmin.updateSemester(id, updatedData);
+
+      if (!updatedSemester) {
+        res.status(404).json({ message: 'Semester not found' });
+      }
+
+      res.status(200).json({ message: 'Semester updated successfully', updatedSemester });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  deleteSemester = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const deletedSemester = await this.facultyAdmin.deleteSemester(id);
+
+      if (!deletedSemester) {
+        res.status(404).json({ message: 'Semester not found' });
+      }
+
+      res.status(200).json({ message: 'Semester deleted successfully' });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  addStudentToAdvisor = async (req: Request, res: Response): Promise<void> => {
+    const { instructorId, studentId } = req.body;
+    try {
+      await this.facultyAdmin.addStudentAdvisor(instructorId, studentId); // Call service method
+      res.status(201).json({ message: 'Student added to advisor successfully' });
+    } catch (error) {
+      console.error('Error adding student to advisor:', error);
+      res.status(500).json({ message: 'Failed to add student to advisor' });
+    }
+  };
+
+  // Method to remove a student from an advisor
+  removeStudentFromAdvisor = async (req: Request, res: Response): Promise<void> => {
+    const { instructorId, studentId } = req.params;
+
+    try {
+      await this.facultyAdmin.deleteStudentAdvisor(studentId, instructorId); // Call service method
+      res.status(200).json({ message: 'Student removed from advisor successfully' });
+    } catch (error) {
+      console.error('Error removing student from advisor:', error);
+      res.status(500).json({ message: 'Failed to remove student from advisor' });
+    }
+  };
+
+  // Method to update a student-advisor relationship
+  updateStudentAdvisor = async (req: Request, res: Response): Promise<void> => {
+    const { instructorId, studentId } = req.params;
+    const { newInstructorId } = req.body;
+
+    try {
+      await this.facultyAdmin.updateStudentAdvisor(instructorId, studentId, newInstructorId); // Call service method
+      res.status(200).json({ message: 'Student-advisor relationship updated successfully' });
+    } catch (error) {
+      console.error('Error updating student-advisor relationship:', error);
+      res.status(500).json({ message: 'Failed to update student-advisor relationship' });
     }
   };
 }

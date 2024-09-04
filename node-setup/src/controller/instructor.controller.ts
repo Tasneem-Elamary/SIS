@@ -8,7 +8,7 @@ import { DataAccess } from '../persistance';
 import { UserType, InstructorType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
 
-const { UserDataAccess, InstructorDataAccess } = DataAccess;
+const { UserDataAccess, InstructorDataAccess ,ResultDataAccess} = DataAccess;
 
 class InstructorController {
   private instructor: Instructor;
@@ -16,7 +16,8 @@ class InstructorController {
   constructor() {
     const userDataAccess = new UserDataAccess();
     const instructorDataAccess = new InstructorDataAccess();
-    this.instructor = new Instructor(userDataAccess, instructorDataAccess);
+    const resultDataAcess= new ResultDataAccess ();
+    this.instructor = new Instructor(userDataAccess, instructorDataAccess,resultDataAcess);
   }
 
   viewprofile = async (req: Request, res: Response, next: NextFunction) => {
@@ -51,6 +52,37 @@ class InstructorController {
       next(e);
     }
   };
+
+  getStudentsByAdvisor = async (req: Request, res: Response): Promise<void> => {
+    const { instructorId } = req.params;
+
+    try {
+      const students = await this.instructor.getStudentsByAdvisor(instructorId); // Call service method
+      res.status(200).json(students);
+    } catch (error) {
+      console.error('Error fetching students for advisor:', error);
+      res.status(500).json({ message: 'Failed to get students for the advisor' });
+    }
+  };
+  uploadStudentsResults= async(req: Request, res: Response): Promise<void> =>{
+    try {
+      const results = req.body; // Assuming body contains parsed CSV data
+      const createdResults = await this.instructor.uploadResults(results);
+      res.status(201).json(createdResults);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to create results' });
+    }
+  }
+   updateResultById=async(req: Request, res: Response): Promise<void> =>{
+    try {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const updatedResult = await this.instructor.updateResultbyId(id, updatedData);
+      res.status(200).json(updatedResult);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update the result' });
+    }
+  }
 }
 
 export default new InstructorController();

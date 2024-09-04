@@ -18,16 +18,19 @@ function App() {
       <div className="app">
         <Routes>
           {/* Default Route */}
-          <Route path="/" element={<Navigate to="/login" />} />
+          {/* <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/register" element={<RegisterationNavbar />} />
           <Route path="/view-students" element={<ViewAllStudents />} />
           <Route path="/add-student" element={<AddStudent />} />
           <Route path="/All-lecturers" element={<CreateLecturer userType='Lecturer' />} />
-         { //<Route path="/create-lecturer" element={<AllLecturer userType='Lecturer' />} />
-         }
-          <Route path="/list-student-lecturer" element={<ListOfStudents />} />
+          <Route path="/list-student-lecturer" element={<ListOfStudents />} /> */}
+          <Route path="/" element={<AllLecturer  userType="Lecturer" path="/CreateLecturer"/>} />
+          <Route path="/CreateLecturer" element={<CreateLecturer userType="Lecturer"/>} />
+          <Route path="/list-of-students" element={<ListOfStudents />} />
+          <Route path="/CreateDoctor" element={<CreateLecturer userType="Doctor"/>} />
+          <Route path="/Doctors" element={<AllLecturer  userType="Doctor" path="/CreateDoctor"/>} />
         </Routes>
       </div>
     </Router>

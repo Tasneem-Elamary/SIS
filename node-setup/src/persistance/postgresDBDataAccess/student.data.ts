@@ -1,4 +1,4 @@
-import { Bylaw, Student, User } from '../../models';
+import models from '../../models';
 import { StudentRepo } from '../Repositories';
 import { StudentType, UserType, BylawType } from '../../types';
 import { UserDataAccess } from '.';
@@ -9,7 +9,7 @@ import { sendEmail } from '../../util/sendEmail';
 
 class StudentDataAccess implements StudentRepo {
   private async getBylawIdByCode(bylawCode: string|undefined): Promise<string | undefined> {
-    const bylaw = await Bylaw.findOne({ where: { code: bylawCode } });
+    const bylaw = await models.Bylaw.findOne({ where: { code: bylawCode } });
     console.log('Debugging***', bylaw?.getDataValue('id'));
     return bylaw ? bylaw.getDataValue('id') : undefined;
   }
@@ -32,7 +32,7 @@ class StudentDataAccess implements StudentRepo {
       if (!bylawId) {
         throw new Error('Bylaw not found');
       }
-      const newStudent = await Student.create(
+      const newStudent = await models.Student.create(
         {
           studentCode,
           name,
@@ -57,7 +57,7 @@ class StudentDataAccess implements StudentRepo {
 
   getById = async (id: string): Promise<StudentType | undefined> => {
     try {
-      const student = await Student.findOne({ where: { id } });
+      const student = await models.Student.findOne({ where: { id } });
       return student ? (student.get() as StudentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -68,10 +68,10 @@ class StudentDataAccess implements StudentRepo {
   getAll = async (): Promise<(StudentType & { email: string })[]> => {
     try {
       // Use Sequelize's include to join the User model and fetch the email
-      const studentModels = await Student.findAll({
+      const studentModels = await models.Student.findAll({
         include: [
           {
-            model: User,
+            model: models.User,
 
             attributes: ['email'], // Only select the email attribute from the User model
           },
@@ -96,7 +96,7 @@ class StudentDataAccess implements StudentRepo {
 
   getByUserId = async (UserId: string|undefined): Promise<StudentType | undefined> => {
     try {
-      const student = await Student.findOne({ where: { UserId } });
+      const student = await models.Student.findOne({ where: { UserId } });
       return student ? (student.get() as StudentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -108,7 +108,7 @@ class StudentDataAccess implements StudentRepo {
     const transaction = await db.transaction();
 
     try {
-      const student = await Student.findByPk(studentId, { transaction });
+      const student = await models.Student.findByPk(studentId, { transaction });
 
       if (!student) {
         console.error('Student not found');
@@ -139,7 +139,7 @@ class StudentDataAccess implements StudentRepo {
     const transaction = await db.transaction();
 
     try {
-      const student = await Student.findByPk(studentId, { transaction });
+      const student = await models.Student.findByPk(studentId, { transaction });
       if (!student) {
         console.error('Student not found');
         await transaction.rollback();

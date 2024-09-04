@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
 import studentAction from '../../../../state/actions/student.action';
-import './viewstudents.css';
+import './style.scss';
 import ViewTable from '../../../shared/viewTable/ViewTable';
 import { StudentType, UserType } from '../../../../interfaces/domain';
 import studentApi from '../../../../api/student.api';
 import MainNavBar from '../../../shared/mainNavbar';
-import SubNavBar from '../../../shared/subNavbar';
+import SubNavBar from '../../UsersNavbar';
 import { useNavigate } from 'react-router-dom';
 
 function AllStudents() {

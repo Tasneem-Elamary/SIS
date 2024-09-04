@@ -154,7 +154,9 @@ export const models = {
   Section,
   Group,
   Slot,
-
+  Grade,
+  Semester,
+  Result
 };
 
 export const sequelize = db;
