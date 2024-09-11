@@ -1,11 +1,13 @@
-import models from '../../models';
+// import models from '../../models';
+import { Instructor, User } from '../../models';
 import { InstructorRepo } from '../Repositories';
 import { InstructorType, UserType } from '../../types';
 
 class InstructorData implements InstructorRepo {
   create = async (instructor: InstructorType): Promise<InstructorType | undefined> => {
     try {
-      const newInstructor = await models.Instructor.create(instructor);
+      // const newInstructor = await models.Instructor.create(instructor);
+      const newInstructor = await Instructor.create(instructor);
       return newInstructor ? (newInstructor.get() as InstructorType) : undefined;
     } catch (error) {
       console.error(error);
@@ -13,13 +15,15 @@ class InstructorData implements InstructorRepo {
     }
   };
 
-  getById = async (id: string): Promise<(InstructorType & { User: UserType }) | undefined> => {
+  public getById = async (id: string): Promise<(InstructorType & { User: UserType }) | undefined> => {
     try {
-      const instructor = await models.Instructor.findOne({
+      // const instructor = await models.Instructor.findOne({
+      const instructor = await Instructor.findOne({
         where: { id },
         include: [
           {
-            model: models.User,
+            // model: models.User,
+            model: User,
             as: 'User',
           },
         ],
@@ -35,7 +39,8 @@ class InstructorData implements InstructorRepo {
 
   getByUserId = async (UserId: string): Promise<InstructorType | undefined> => {
     try {
-      const instructor = await models.Instructor.findOne({ where: { UserId } });
+      // const instructor = await models.Instructor.findOne({ where: { UserId } });
+      const instructor = await Instructor.findOne({ where: { UserId } });
       return instructor ? (instructor.get() as InstructorType) : undefined;
     } catch (error) {
       console.error(error);
@@ -45,10 +50,12 @@ class InstructorData implements InstructorRepo {
 
   getAll = async (): Promise<(InstructorType & { User: UserType })[] | undefined[]> => {
     try {
-      const instructors = await models.Instructor.findAll({
+      const instructors = await Instructor.findAll({
+        // const instructors = await models.Instructor.findAll({
         include: [
           {
-            model: models.User,
+            model: User,
+            // model: models.User,
             as: 'User',
           },
         ],
@@ -63,7 +70,8 @@ class InstructorData implements InstructorRepo {
 
   update = async (id: string, updates: Partial<InstructorType>): Promise<InstructorType | undefined> => {
     try {
-      const instructor = await models.Instructor.findOne({ where: { id } });
+      const instructor = await Instructor.findOne({ where: { id } });
+      // const instructor = await models.Instructor.findOne({ where: { id } });
       if (instructor) {
         await instructor.update(updates);
         return instructor.get() as InstructorType;
@@ -77,7 +85,8 @@ class InstructorData implements InstructorRepo {
 
   delete = async (id: string): Promise<boolean> => {
     try {
-      const result = await models.Instructor.destroy({ where: { id } });
+      const result = await Instructor.destroy({ where: { id } });
+      // const result = await models.Instructor.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

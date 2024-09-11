@@ -12,18 +12,18 @@ const courseEnrollment = (db: Sequelize) => db.define('CourseEnrollment', {
   StudentId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Student',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Students',
+      key: 'id',
+    },
   },
   CourseId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Course',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Courses',
+      key: 'id',
+    },
   },
   enrollmentType: {
     type: DataTypes.ENUM('regular', 'selfstudy', 'overload'), // Adjust enum values as necessary

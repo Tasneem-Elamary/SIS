@@ -1,11 +1,13 @@
-import models from '../../models';
+import { Course } from '../../models';
+// import models from '../../models';
 import { CourseRepo } from '../Repositories';
 import { CourseType } from '../../types';
 
 class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
     try {
-      const newCourse = await models.Course.create(course);
+      const newCourse = await Course.create(course);
+      // const newCourse = await models.Course.create(course);
       return newCourse ? (newCourse.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -15,7 +17,8 @@ class CourseData implements CourseRepo {
 
   getById = async (id: string): Promise<CourseType | undefined> => {
     try {
-      const course = await models.Course.findOne({ where: { id } });
+      const course = await Course.findOne({ where: { id } });
+      // const course = await models.Course.findOne({ where: { id } });
       return course ? (course.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -25,7 +28,8 @@ class CourseData implements CourseRepo {
 
   getByCourseCode = async (courseCode: string): Promise<CourseType | undefined> => {
     try {
-      const course = await models.Course.findOne({ where: { code: courseCode } });
+      const course = await Course.findOne({ where: { code: courseCode } });
+      // const course = await models.Course.findOne({ where: { code: courseCode } });
       return course ? (course.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -35,8 +39,9 @@ class CourseData implements CourseRepo {
 
   getAll = async (): Promise<CourseType[] | undefined[]> => {
     try {
-      const courses = await models.Course.findAll();
-      return courses.map((course) => course.get() as CourseType);
+      const courses = await Course.findAll();
+      // const courses = await models.Course.findAll();
+      return courses.map(({ course }:any) => course.get() as CourseType);
     } catch (error) {
       console.error(error);
       throw new Error('Failed to retrieve courses, please try again!');
@@ -45,7 +50,8 @@ class CourseData implements CourseRepo {
 
   update = async (id: string, updates: Partial<CourseType>): Promise<CourseType | undefined> => {
     try {
-      const course = await models.Course.findOne({ where: { id } });
+      const course = await Course.findOne({ where: { id } });
+      // const course = await models.Course.findOne({ where: { id } });
       if (course) {
         await course.update(updates);
         return course.get() as CourseType;
@@ -59,7 +65,8 @@ class CourseData implements CourseRepo {
 
   delete = async (id: string): Promise<boolean> => {
     try {
-      const result = await models.Course.destroy({ where: { id } });
+      const result = await Course.destroy({ where: { id } });
+      // const result = await models.Course.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

@@ -4,6 +4,7 @@ import IUniversityAdmin from './IUniversityAdmin';
 import IStudent from './IStudent';
 import IInstuctor from './IInstructor';
 import ICourse from './ICourse';
+import ICourseEnrollment from './ICourseEnrollment';
 
 export {
   IUser,
@@ -11,5 +12,5 @@ export {
   IUniversityAdmin,
   IStudent,
   IInstuctor,
-  ICourse,
+  ICourse, ICourseEnrollment,
 };

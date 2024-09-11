@@ -27,7 +27,7 @@ class User {
       const { data: { token, role } } = await userApi.login(credentials);
 
       // Ensure token and role are received
-      if (token && role) {
+      if (token ) {
         console.log('Token and role received:', { token, role });
 
         // Store token and role in localStorage

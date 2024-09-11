@@ -6,7 +6,7 @@ import { CourseType } from '../../../interfaces/domain';
 import { useDispatch, useSelector } from 'react-redux';
 import  courseAction from '../../../state/actions/course.action';
 
-const MainNavBar = ({ activeItem}) => {
+const MainNavBar = ({ activeItem}:any) => {
   const [courses, setCourses] = useState<CourseType[]>([]);
   const [regulations, setRegulations] = useState([]);
   const dispatch = useDispatch();

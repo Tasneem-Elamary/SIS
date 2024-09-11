@@ -26,21 +26,17 @@ const StudentModel = (sequelize: Sequelize) => {
       birthDate: {
         type: DataTypes.DATE,
 
-
       },
       gender: {
         type: DataTypes.ENUM('male', 'female'),
-
 
       },
       profilePhoto: {
         type: DataTypes.STRING,
 
-
       },
       phone: {
         type: DataTypes.STRING,
-
 
       },
       gainedHours: {
@@ -56,7 +52,7 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'User',
+          model: 'Users',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -73,7 +69,7 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Bylaw',
+          model: 'Bylaws',
           key: 'id',
         },
         onDelete: 'CASCADE',

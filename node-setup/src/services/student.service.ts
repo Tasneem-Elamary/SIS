@@ -1,4 +1,5 @@
 import { PassThrough } from 'stream';
+
 import { IStudent } from './interfaces';
 import { StudentType, UserType } from '../types';
 import { StudentRepo } from '../persistance/Repositories';
@@ -33,7 +34,8 @@ class StudentService implements IStudent {
       const newUser = await this.StudentData.getAll(); // Call the getAll method in UserDataAccess
       return newUser;
     } catch (error) {
-      throw new Error('Failed to create the user, Please try again!');
+      console.log('service debug:', error);
+      throw new Error('Failed to get All Students, Please try again!');
     }
   };
 

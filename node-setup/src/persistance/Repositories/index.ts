@@ -6,9 +6,13 @@ import InstructorRepo from './instructor.repo';
 import CourseRepo from './course.repo';
 import DepartmentRepo from './department.repo';
 import FacultyRepo from './faculty.repo';
+import ScheduleRepo from './schedule.repo';
+import GradesRepo from './grade.repo';
+import CourseEnrollmentRepo from './courseEnrollment.repo';
+
 export {
   UserRepo,
   StudentRepo,
-  BylawRepo,
- InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo,
+  BylawRepo, ScheduleRepo,
+  InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo,
 };

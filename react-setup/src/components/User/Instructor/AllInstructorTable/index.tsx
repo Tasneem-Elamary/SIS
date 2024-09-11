@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-function AllLecturer({ userType, path }) {
+function AllLecturer({ userType, path }:any) {
     const [rowValues, setrowValues] = useState<InstructorType & { User: UserType }[]>([]);
   
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ function AllLecturer({ userType, path }) {
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","id", "firstName", "employmentType"]} rowValues={rowValues}  pathKey="/list-of-students"/>
+                <ViewTable headers={["", "id", "firstName", "employmentType"]} rowValues={rowValues} pathKey="/list-of-students" features={["", "id", "firstName", "employmentType"]}/>
             </div>
 
         </div>

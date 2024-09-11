@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { userController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
+import { isAuth } from '../../middleware/auth.middleware';
 import isUserValid from '../../middleware/userValidation.middleware';
 import studentController from '../../controller/student.controller';
 import { uploadCSV } from '../../middleware/fileUpload';

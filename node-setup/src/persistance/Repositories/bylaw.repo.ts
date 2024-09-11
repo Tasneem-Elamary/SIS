@@ -1,20 +1,22 @@
-import { BylawType } from '../../types';
+import {
+  BylawRuleType, BylawType, GradeType, BylawCourseType, CourseType,
+} from '../../types';
 
 interface BylawRepo {
-  // Method to create a new bylaw
+  // Bylaw CRUD operations
   create(bylaw: BylawType): Promise<BylawType | undefined>;
-
-  // Method to find a bylaw by code
   getByCode(code: string): Promise<BylawType | undefined>;
-
-  // Method to find a bylaw by ID
   getById(id: string): Promise<BylawType | undefined>;
-
-  // Method to update an existing bylaw
+  getBylawDetails(id: string): Promise<(Partial<BylawRuleType> & Partial<GradeType>) | undefined>;
+  getAll(): Promise<BylawType[] | undefined>;
   update(id: string, updateData: Partial<BylawType>): Promise<BylawType | undefined>;
-
-  // Method to delete an existing bylaw
   delete(id: string): Promise<boolean>;
+
+  // BylawCourse operations
+  addCourseToBylaw(bylawId: string, courseId: string, isElective: boolean): Promise<BylawCourseType | undefined>;
+  getAllBylawCourses(): Promise<BylawCourseType[] | undefined>;
+  removeCourseFromBylaw(bylawId: string, courseId: string): Promise<boolean>;
+  getBylawCourses(id: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[] }> | undefined>;
 }
 
 export default BylawRepo;

@@ -1,13 +1,18 @@
-
-.container{
-    margin-top: 60px;
-    margin-left: 50px !important;
+.container-table{
+    margin-top: 30px;
+    padding-left: 70px ;
+    padding-right: 70px ;
+    padding-top: 10px;
+    background-color: #ffffff;
+     margin-left: 70px;
+     margin-right: 70px
 }
 .fixed-header{
     position: sticky;
-    top: 106px; 
+    top: 175px; 
+    z-index: 800;
     background-color: #ffffff;
-  padding-top: 0;
+   padding-top: 0;
     padding: 10px 0;
  
 }

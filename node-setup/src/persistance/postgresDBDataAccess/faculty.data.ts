@@ -1,11 +1,13 @@
-import models from '../../models';
+import { Faculty } from '../../models';
+// import models from '../../models';
 import { FacultyRepo } from '../Repositories';
 import { FacultyType } from '../../types';
 
 class FacultyData implements FacultyRepo {
   create = async (faculty: FacultyType): Promise<FacultyType | undefined> => {
     try {
-      const newFaculty = await models.Faculty.create(faculty);
+      const newFaculty = await Faculty.create(faculty);
+      // const newFaculty = await models.Faculty.create(faculty);
       return newFaculty ? (newFaculty.get() as FacultyType) : undefined;
     } catch (error) {
       console.error(error);
@@ -15,7 +17,8 @@ class FacultyData implements FacultyRepo {
 
   getById = async (id: string): Promise<FacultyType | undefined> => {
     try {
-      const faculty = await models.Faculty.findOne({ where: { id } });
+      const faculty = await Faculty.findOne({ where: { id } });
+      // const faculty = await models.Faculty.findOne({ where: { id } });
       return faculty ? (faculty.get() as FacultyType) : undefined;
     } catch (error) {
       console.error(error);
@@ -25,7 +28,8 @@ class FacultyData implements FacultyRepo {
 
   getByFacultyCode = async (facultyCode: string): Promise<FacultyType | undefined> => {
     try {
-      const faculty = await models.Faculty.findOne({ where: { facultyCode } });
+      const faculty = await Faculty.findOne({ where: { facultyCode } });
+      // const faculty = await models.Faculty.findOne({ where: { facultyCode } });
       return faculty ? (faculty.get() as FacultyType) : undefined;
     } catch (error) {
       console.error(error);
@@ -35,8 +39,8 @@ class FacultyData implements FacultyRepo {
 
   getAll = async (): Promise<FacultyType[] | undefined[]> => {
     try {
-      const faculties = await models.Faculty.findAll();
-      return faculties.map((faculty) => faculty.get() as FacultyType);
+      const faculties = await Faculty.findAll();
+      return faculties.map(({ faculty }:any) => faculty.get() as FacultyType);
     } catch (error) {
       console.error(error);
       throw new Error('Failed to retrieve faculties, please try again!');
@@ -45,7 +49,8 @@ class FacultyData implements FacultyRepo {
 
   update = async (id: string, updates: Partial<FacultyType>): Promise<FacultyType | undefined> => {
     try {
-      const faculty = await models.Faculty.findOne({ where: { id } });
+      const faculty = await Faculty.findOne({ where: { id } });
+      // const faculty = await models.Faculty.findOne({ where: { id } });
       if (faculty) {
         await faculty.update(updates);
         return faculty.get() as FacultyType;
@@ -59,7 +64,8 @@ class FacultyData implements FacultyRepo {
 
   delete = async (id: string): Promise<boolean> => {
     try {
-      const result = await models.Faculty.destroy({ where: { id } });
+      const result = await Faculty.destroy({ where: { id } });
+      // const result = await models.Faculty.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

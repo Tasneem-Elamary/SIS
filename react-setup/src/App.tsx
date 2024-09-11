@@ -3,14 +3,17 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Signup from './components/userOne/userOneSignupCom';
 import RegisterationNavbar from './components/shared/registerationNavbar';
 import Login from './components/shared/login/Login';
-import AddStudent from './components/User/Student/addSrudentForm';
-import ViewAllStudents from './components/User/Student/addSrudentForm';
+// import AddStudent from './components/User/Student/AddStudent';
+// import ViewAllStudents from './components/User/Student/addSrudentForm';
 import CreateLecturer from './components/User/Instructor/createLecturerPage'
 import AllLecturer from './components/User/Instructor/AllInstructorTable';
 import ListOfStudents from './components/User/Instructor/List of students';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ViewAllStudents from './components/User/Student/viewStudentsForm/ViewAllStudents';
+import AddStudent from './components/User/Student/addSrudentForm/AddStudent';
+import RegulationDetails from './components/regulation/regulationDetails';
 
 function App() {
   return (
@@ -24,6 +27,7 @@ function App() {
           <Route path="/register" element={<RegisterationNavbar />} />
           <Route path="/view-students" element={<ViewAllStudents />} />
           <Route path="/add-student" element={<AddStudent />} />
+          <Route path="/regulation-Details" element={<RegulationDetails/>} />
           <Route path="/All-lecturers" element={<CreateLecturer userType='Lecturer' />} />
          { //<Route path="/create-lecturer" element={<AllLecturer userType='Lecturer' />} />
          }

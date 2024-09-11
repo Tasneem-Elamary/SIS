@@ -35,9 +35,11 @@ const ViewTable: React.FC<ViewTableProps> = ({ headers,features, rowValues , pat
                 <Input style={{ marginRight: "7px" }} type="checkbox" />
                 {row.code}
               </th>
-              {features.map((feature, index) => (
-                <td key={index}>{row[feature]}</td>
-              ))}
+              {console.log(features)
+              // features.map((feature, index) => (
+              //   <td key={index}>{row[feature]}</td>
+              // ))
+              }
             </tr>
           ))}
         </tbody>

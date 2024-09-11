@@ -14,18 +14,18 @@ const courseBylaw = (db: Sequelize) => db.define(
     BylawId: {
       type: DataTypes.UUID,
       allowNull: false,
-      // references: {
-      //   model: 'Bylaw',
-      //   key: 'id',
-      // },
+      references: {
+        model: 'Bylaws',
+        key: 'id',
+      },
     },
     CourseId: {
       type: DataTypes.UUID,
       allowNull: false,
-      // references: {
-      //   model: 'Course',
-      //   key: 'id',
-      // },
+      references: {
+        model: 'Courses',
+        key: 'id',
+      },
     },
     isElective: {
       type: DataTypes.BOOLEAN,

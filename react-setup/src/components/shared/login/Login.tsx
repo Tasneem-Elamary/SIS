@@ -25,9 +25,11 @@ const Login = ({ loginAction }: any) => {
   const handleFormSubmit = async (values: { email: string; password: string }, bag: any) => {
 const user={email:values.email,password:values.password}
 const response = await userApi.login(user);
+if(response){
+  navigate('/view-students');
 console.log('API Response:', response);
 localStorage.setItem('token', response.data.token);
-localStorage.getItem('role');
+localStorage.getItem('role');}
 if (response.data.user.role === 'student') {
   console.log('Navigating to /view-students');
   navigate('/view-students');

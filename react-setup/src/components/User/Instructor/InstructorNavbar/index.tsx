@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import './style.scss'
 
-const IntructorNavBar = ({ activeItem }) => {
+const IntructorNavBar = ({ activeItem }:any) => {
     return (
       <Navbar  expand="md" className="instructor-navbar">
         <Nav className="me-auto" navbar>

@@ -50,7 +50,7 @@ function ListOfStudents() {
                     <ViewTable
                         headers={["ID", "Name", "Confirmation", "Notes"]}
                         rowValues={[]} // Replace with actual data
-                    />
+                        features={["ID", "Name", "Confirmation", "Notes"]}                  />
                 </div>
             </div>
         </div>

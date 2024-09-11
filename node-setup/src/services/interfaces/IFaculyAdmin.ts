@@ -17,12 +17,12 @@ interface facultyAdminRepo {
   updateCourse(id: string, updatedData: Partial<CourseType>): Promise<CourseType | undefined>;
   deleteCourse(id: string): Promise<boolean>;
 
-createDepartment(department: DepartmentType): Promise<DepartmentType | undefined>;
-getDepartmentById(id: string): Promise<(DepartmentType) | undefined>;
-getDepartmentByCode(code: string): Promise<DepartmentType | undefined>;
-getAllDepartments(): Promise<(DepartmentType)[] | undefined[]>;
-updateDepartment(id: string, updatedData: Partial<DepartmentType>): Promise<DepartmentType | undefined>;
-deleteDepartment(id: string): Promise<boolean>;
+  createDepartment(department: DepartmentType): Promise<DepartmentType | undefined>;
+  getDepartmentById(id: string): Promise<(DepartmentType) | undefined>;
+  getDepartmentByCode(code: string): Promise<DepartmentType | undefined>;
+  getAllDepartments(): Promise<(DepartmentType)[] | undefined[]>;
+  updateDepartment(id: string, updatedData: Partial<DepartmentType>): Promise<DepartmentType | undefined>;
+  deleteDepartment(id: string): Promise<boolean>;
 
   // createSchedule(schedule:scheduleType ): Promise<void>;
   // createBylaw(bylaw:bylawType ): Promise<void>;

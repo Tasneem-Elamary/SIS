@@ -1,9 +1,16 @@
-import { BylawType } from '../types';
-import { BylawRepo } from '../persistance/Repositories';
+import {
+  BylawRuleType, BylawType, GradeType, BylawCourseType,
+  CourseType,
+} from '../types';
+import { BylawRepo } from '../persistance/Repositories'; // Assuming you have a BylawCourseRepo
+import IBylaw from './interfaces/IBylaw';
 
-class BylawService {
+class BylawService implements IBylaw {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private BylawData: BylawRepo) {}
+  constructor(
+    private BylawData: BylawRepo,
+  //  private BylawCourseData: BylawCourseRepo // Add BylawCourseRepo for managing BylawCourse
+  ) {}
 
   // Method to create a new bylaw
   public create = async (bylaw: BylawType): Promise<BylawType | undefined> => {
@@ -35,6 +42,25 @@ class BylawService {
     }
   };
 
+  public getBylawLimits = async (id: string): Promise<(Partial<BylawRuleType> & Partial<GradeType>) | undefined> => {
+    try {
+      const bylaw = await this.BylawData.getBylawDetails(id);
+      return bylaw;
+    } catch (error) {
+      throw new Error('Failed to find Bylaw limits by Bylaw ID, Please try again!');
+    }
+  };
+
+  public getAll = async (): Promise<BylawType[]> => {
+    try {
+      const bylaws = await this.BylawData.getAll();
+      if (bylaws) return bylaws;
+      throw new Error("Couldn't retrieve bylaws");
+    } catch (error) {
+      throw new Error('Failed to retrieve bylaws, Please try again!');
+    }
+  };
+
   // Method to update an existing bylaw
   public update = async (id: string, updateData: Partial<BylawType>): Promise<BylawType | undefined> => {
     try {
@@ -52,6 +78,46 @@ class BylawService {
       return success;
     } catch (error) {
       throw new Error('Failed to delete the bylaw, Please try again!');
+    }
+  };
+
+  // Method to add a course to a bylaw
+  public addCourseToBylaw = async (bylawId: string, courseId: string, isElective: boolean): Promise<BylawCourseType | undefined> => {
+    try {
+      const bylawCourse = await this.BylawData.addCourseToBylaw(bylawId, courseId, isElective);
+      return bylawCourse;
+    } catch (error) {
+      throw new Error('Failed to add course to bylaw, Please try again!');
+    }
+  };
+
+  // Method to get all bylaw courses
+  public getAllBylawCourses = async (): Promise<BylawCourseType[] | undefined> => {
+    try {
+      const bylawCourses = await this.BylawData.getAllBylawCourses();
+      return bylawCourses;
+    } catch (error) {
+      throw new Error('Failed to retrieve bylaw courses, Please try again!');
+    }
+  };
+
+  // Method to get all bylaw courses
+  public getBylawCourses = async (bylawId:string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined> => {
+    try {
+      const bylawCourses = await this.BylawData.getBylawCourses(bylawId);
+      return bylawCourses;
+    } catch (error) {
+      throw new Error('Failed to retrieve bylaw courses, Please try again!');
+    }
+  };
+
+  // Method to remove a course from a bylaw
+  public removeCourseFromBylaw = async (bylawId: string, courseId: string): Promise<boolean> => {
+    try {
+      const success = await this.BylawData.removeCourseFromBylaw(bylawId, courseId);
+      return success;
+    } catch (error) {
+      throw new Error('Failed to remove course from bylaw, Please try again!');
     }
   };
 }

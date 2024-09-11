@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
 import studentAction from '../../../../state/actions/student.action';
-import './viewstudents.css';
+import './style.scss';
 import ViewTable from '../../../shared/viewTable/ViewTable';
 import { StudentType, UserType } from '../../../../interfaces/domain';
 import studentApi from '../../../../api/student.api';
 import MainNavBar from '../../../shared/mainNavbar';
-import SubNavBar from '../../../shared/subNavbar';
 import { useNavigate } from 'react-router-dom';
+import RegisterationNavbar from '../../../shared/registerationNavbar';
 
 function AllStudents() {
   const [rowValues, setRowValues] = useState<(StudentType & { User: UserType })[]>([]);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -31,8 +31,9 @@ function AllStudents() {
 
   return (
     <div>
-      <MainNavBar activeItem="Users"/>
-      <SubNavBar activeItem="Student"/>
+            
+      <RegisterationNavbar />
+    <MainNavBar activeItem="Users" />
       <div className="container">
         <div className='container-table'>
           <div className="fixed-header">

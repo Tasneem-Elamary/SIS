@@ -41,6 +41,7 @@ class StudentController {
 
       res.status(200).json(students);
     } catch (error) {
+      console.log('debugggggg', error);
       next(error);
     }
   };

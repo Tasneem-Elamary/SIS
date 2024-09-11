@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { courseController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
+import { isAuth } from '../../middleware/auth.middleware';
 import isUserValid from '../../middleware/userValidation.middleware';
 
 const router = express.Router();

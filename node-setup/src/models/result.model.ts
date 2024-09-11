@@ -12,34 +12,34 @@ const result = (db: Sequelize) => db.define('Result', {
   StudentId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Student',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Students',
+      key: 'id',
+    },
   },
   CourseId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Course',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Courses',
+      key: 'id',
+    },
   },
   SemesterId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Semester',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Semesters',
+      key: 'id',
+    },
   },
   GradeId: {
     type: DataTypes.UUID,
     allowNull: true,
-    // references: {
-    //   model: 'Grade',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Grades',
+      key: 'id',
+    },
   },
   finalGrade: {
     type: DataTypes.FLOAT,

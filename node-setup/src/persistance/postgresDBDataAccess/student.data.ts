@@ -7,6 +7,11 @@ import { hashPassword } from '../../util/hashing';
 import { passwordGenerator } from '../../util/passwordGenerator';
 import { sendEmail } from '../../util/sendEmail';
 
+interface StudentWithUser extends StudentType {
+  User: {
+    email: string;
+  };
+}
 class StudentDataAccess implements StudentRepo {
   private async getBylawIdByCode(bylawCode: string|undefined): Promise<string | undefined> {
     const bylaw = await Bylaw.findOne({ where: { code: bylawCode } });
@@ -67,29 +72,26 @@ class StudentDataAccess implements StudentRepo {
 
   getAll = async (): Promise<(StudentType & { email: string })[]> => {
     try {
-      // Use Sequelize's include to join the User model and fetch the email
       const studentModels = await Student.findAll({
         include: [
           {
             model: User,
-
-            attributes: ['email'], // Only select the email attribute from the User model
+            attributes: ['email'],
           },
         ],
       });
 
-      // Map over the result to combine Student and User data
-      const students = studentModels.map((student) => {
-        const studentData = student.get({ plain: true }) as StudentType;
+      const students = studentModels.map((studentModel) => {
+        const studentData = studentModel.get({ plain: true }) as StudentWithUser;
 
-        const email = (student as any).User?.email || '';
+        const email = studentData.User?.email || '';
 
         return { ...studentData, email };
       });
 
       return students;
     } catch (error) {
-      console.error(error);
+      console.error('Error:', error);
       throw new Error('Failed to get the students, please try again!');
     }
   };
