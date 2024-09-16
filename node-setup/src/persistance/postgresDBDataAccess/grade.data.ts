@@ -1,13 +1,11 @@
 import { GradeType } from '../../types';
-// import models from '../../models';
+import models from '../../models';
 import { GradesRepo } from '../Repositories';
-import { Grade } from '../../models';
 
 class GradesData implements GradesRepo {
   create = async (grade: GradeType): Promise<GradeType | undefined> => {
     try {
-      const newGrade = await Grade.create(grade);
-      // const newGrade = await models.Grade.create(grade);
+      const newGrade = await models.Grade.create(grade);
       return newGrade ? (newGrade.get() as GradeType) : undefined;
     } catch (error) {
       console.error(error);
@@ -17,8 +15,7 @@ class GradesData implements GradesRepo {
 
   getById = async (id: string): Promise<GradeType | undefined> => {
     try {
-      const grade = await Grade.findOne({ where: { id } });
-      // const grade = await models.Grade.findOne({ where: { id } });
+      const grade = await models.Grade.findOne({ where: { id } });
       return grade ? (grade.get() as GradeType) : undefined;
     } catch (error) {
       console.error(error);
@@ -26,10 +23,9 @@ class GradesData implements GradesRepo {
     }
   };
 
-  getAll = async (): Promise<GradeType[] | undefined[]> => {
+  getAllByBylaw = async (BylawId:string): Promise<GradeType[] | undefined[]> => {
     try {
-      const grades = await Grade.findAll();
-      // const grades = await models.Grade.findAll();
+      const grades = await models.Grade.findAll({ where: { BylawId } });
       return grades.map((grade) => grade.get() as GradeType);
     } catch (error) {
       console.error(error);
@@ -37,21 +33,23 @@ class GradesData implements GradesRepo {
     }
   };
 
-  getBylawGrades = async (BylawId:string): Promise<GradeType[] | undefined[]> => {
+  getGradeIdByLetterAndBylawId = async (gradeLetter: string, BylawId: string): Promise<GradeType | undefined> => {
     try {
-      const grades = await Grade.findAll({ where: { BylawId } });
+      const grade = await models.Grade.findOne({
+        where: { letter: gradeLetter, BylawId },
 
-      return grades.map((grade) => grade.get() as GradeType);
+      });
+
+      return grade ? (grade.get() as GradeType) : undefined;
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to retrieve Bylaw grades, please try again!');
+      console.error('Error fetching grade:', error);
+      throw error;
     }
   };
 
   update = async (id: string, updates: Partial<GradeType>): Promise<GradeType | undefined> => {
     try {
-      const grade = await Grade.findOne({ where: { id } });
-      // const grade = await models.Grade.findOne({ where: { id } });
+      const grade = await models.Grade.findOne({ where: { id } });
       if (grade) {
         await grade.update(updates);
         return grade.get() as GradeType;
@@ -65,8 +63,7 @@ class GradesData implements GradesRepo {
 
   delete = async (id: string): Promise<boolean> => {
     try {
-      const result = await Grade.destroy({ where: { id } });
-      // const result = await models.Grade.destroy({ where: { id } });
+      const result = await models.Grade.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

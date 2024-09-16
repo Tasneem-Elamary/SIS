@@ -45,6 +45,63 @@ getDoctorAction = () => async (dispatch: Dispatch) => {
       return [];
   }
 };
+getAdvisorStudentsAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instuctor} } = await instructorApi.getAdvisorStudents(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instuctor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+
+getPendingStudentsAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instuctor} } = await instructorApi.getPendingStudents(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instuctor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+getselfStudyStudentsAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instuctor} } = await instructorApi.getselfStudyStudents(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instuctor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+getOverloadStudentsAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instuctor} } = await instructorApi.getOverLoadStudents(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instuctor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
 }
 
 export default new Instructor()

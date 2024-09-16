@@ -5,6 +5,10 @@ import FacultyAdmin from './facultyAdmin.service';
 import Instructor from './instructor.service';
 import Course from './course.service';
 import ScheduleService from './schedule.service';
+import Department from './department.service';
+import Grade from './Grade.service';
+import Semster from './semster.service';
+import Result from './result.service';
 
 export {
   User,
@@ -14,4 +18,5 @@ export {
   ScheduleService,
   Instructor,
   Course,
+  Department, Grade, Semster, Result,
 };

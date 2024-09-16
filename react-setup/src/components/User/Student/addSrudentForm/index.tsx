@@ -1,4 +1,4 @@
-import './addstudent.css';
+import './style.scss';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button, FormGroup, Label, Input, FormFeedback, Alert } from 'reactstrap';

@@ -1,20 +1,35 @@
 import * as express from 'express';
-import scheduleController from '../../controller/schedule.controller';
-import { isAuth } from '../../middleware/auth.middleware';
-import isUserValid from '../../middleware/userValidation.middleware';
+import { instructorController } from '../../controller';
+
+import {
+  validateUpdateInstructor, ValidateCreateInstructor, validateInstructorId, validateStudentAdvisor,
+} from '../../middleware/validation/instructorValidation.middleware';
 
 const router = express.Router();
+router.route('/createInstructor').post(ValidateCreateInstructor).post(instructorController.createInstructor);
 
-// create a new schedule
-router.route('/createSchedule').post(isAuth, isUserValid, scheduleController.createSchedule);
+router.route('/getAllInstructors').get(instructorController.getAllInstructors);
+router.route('/getAllTAs').get(instructorController.getAllTAs);
+router.route('/getAllDoctors').get(instructorController.getAllDoctors);
 
-// get a schedule by ID
-// router.route('/:id').get(isAuth, isUserValid, scheduleController.getScheduleById);
+router.route('/getInstructorById/:id').get(validateInstructorId).get(instructorController.getInstructorById);
 
-// update a schedule by ID
-// router.route('/:id').put(isAuth, isUserValid, scheduleController.updateSchedule);
+router.route('/getInstructorByEmail/Email/:email').get(instructorController.getInstructorByEmail);
 
-// delete a schedule by ID
-// router.route('/:id').delete(isAuth, isUserValid, scheduleController.deleteSchedule);
+router.route('/updateInstructor/:id').put(validateUpdateInstructor).put(instructorController.updateInstructor);
+
+router.route('/deleteInstructor/:id').delete(validateInstructorId).delete(instructorController.deleteInstructor);
+
+router.get('/:instructorId/students', instructorController.getAdvisedStudents);
+
+router.post('/:instructorId/students/:studentId', validateStudentAdvisor, instructorController.AdviseStudent);
+
+router.delete('/:instructorId/students/:studentId', validateStudentAdvisor, instructorController.deleteAdvisedStudent);
+
+router.put('/:instructorId/students/:studentId', validateStudentAdvisor, instructorController.updateAdvisedStudent);
+
+router.get('/:instructorId/pendingStudents', instructorController.getListOfPendingStudents);
+
+router.get('/:instructorId/students/:enrollmentType', instructorController.getSelfStudyOROverloadPendingStudents);
 
 export default router;

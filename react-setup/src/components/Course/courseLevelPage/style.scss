@@ -11,6 +11,7 @@
     position: sticky;
     top: 175px; 
     z-index: 800;
+
     background-color: #ffffff;
    padding-top: 0;
     padding: 10px 0;
@@ -19,5 +20,15 @@
 .header-content{
     display: flex;
     flex-direction: row;
-    gap: 75%;
+    align-items: center;
+     justify-content: space-around;
+    //  gap: 65%;
+}
+.header-content h3 {
+    white-space: nowrap; /* Prevents h3 from breaking onto multiple lines */
+}
+
+.download-button{
+    white-space: nowrap;
+  
 }

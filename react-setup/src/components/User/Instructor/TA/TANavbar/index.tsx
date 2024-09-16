@@ -2,12 +2,12 @@ import React from 'react';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import './style.scss'
 
-const IntructorNavBar = ({ activeItem }:any) => {
+const TANavBar = ({ activeItem ,id}) => {
     return (
       <Navbar  expand="md" className="instructor-navbar">
         <Nav className="me-auto" navbar>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'List of students' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-students`} className={activeItem === 'List of students' ? "nav-link-active" : "nav-link-custom "}>
             List of students
             </NavLink>
           </NavItem>
@@ -17,7 +17,7 @@ const IntructorNavBar = ({ activeItem }:any) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'List of pending' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-pendingStudents`} className={activeItem === 'List of pending' ? "nav-link-active" : "nav-link-custom "}>
             List of pending
             </NavLink>
           </NavItem>
@@ -27,7 +27,7 @@ const IntructorNavBar = ({ activeItem }:any) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'List of self study' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-selfstudy-students`} className={activeItem === 'List of self study' ? "nav-link-active" : "nav-link-custom "}>
             List of self study
             </NavLink>
           </NavItem>
@@ -37,7 +37,7 @@ const IntructorNavBar = ({ activeItem }:any) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'List of overload' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-overload-students`} className={activeItem === 'List of overload' ? "nav-link-active" : "nav-link-custom "}>
             List of overload
             </NavLink>
           </NavItem>
@@ -46,4 +46,4 @@ const IntructorNavBar = ({ activeItem }:any) => {
     );
   };
   
-  export default IntructorNavBar;
+  export default TANavBar;

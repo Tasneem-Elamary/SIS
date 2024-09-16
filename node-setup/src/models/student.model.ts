@@ -22,6 +22,10 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      level: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
 
       birthDate: {
         type: DataTypes.DATE,
@@ -59,6 +63,7 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       DepartmentId: {
         type: DataTypes.UUID,
+        allowNull: true,
         references: {
           model: 'Departments',
           key: 'id',

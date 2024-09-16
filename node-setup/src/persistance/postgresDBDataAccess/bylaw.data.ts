@@ -1,7 +1,4 @@
-import {
-  Bylaw, Grade, BylawRule, Faculty, Course,
-  BylawCourse,
-} from '../../models';
+import models, { Bylaw, BylawCourse, BylawRule, Course, Faculty, Grade } from '../../models';
 import { db } from '../../../config/postgresDB.config';
 import {
   BylawCourseType, BylawRuleType, BylawType, CourseType, GradeType,
@@ -11,6 +8,7 @@ import { BylawRepo } from '../Repositories';
 class BylawDataAccess implements BylawRepo {
   create = async (bylaw: BylawType, transaction?: any): Promise<BylawType | undefined> => {
     try {
+      //const newBylaw = await models.Bylaw.create(bylaw, { transaction });
       const newBylaw = await Bylaw.create(bylaw, { transaction });
       return newBylaw.get();
     } catch (error) {
@@ -21,7 +19,8 @@ class BylawDataAccess implements BylawRepo {
 
   getByCode = async (code: string): Promise<BylawType | undefined> => {
     try {
-      const bylaw = await Bylaw.findOne({ where: { code } });
+      //const bylaw = await models.Bylaw.findOne({ where: { code } });
+      const bylaw = await models.Bylaw.findOne({ where: { code } });
       return bylaw ? (bylaw.get() as BylawType) : undefined;
     } catch (error) {
       console.error('Failed to find the bylaw by code:', error);
@@ -116,7 +115,7 @@ class BylawDataAccess implements BylawRepo {
   update = async (id: string, updateData: Partial<BylawType>): Promise<BylawType | undefined> => {
     const transaction = await db.transaction();
     try {
-      const bylaw = await Bylaw.findByPk(id, { transaction });
+      const bylaw = await models.Bylaw.findByPk(id, { transaction });
 
       if (!bylaw) {
         console.error('Bylaw not found');
@@ -138,7 +137,7 @@ class BylawDataAccess implements BylawRepo {
   delete = async (id: string): Promise<boolean> => {
     const transaction = await db.transaction();
     try {
-      const bylaw = await Bylaw.findByPk(id, { transaction });
+      const bylaw = await models.Bylaw.findByPk(id, { transaction });
 
       if (!bylaw) {
         console.error('Bylaw not found');

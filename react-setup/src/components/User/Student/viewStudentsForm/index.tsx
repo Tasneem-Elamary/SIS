@@ -7,6 +7,7 @@ import ViewTable from '../../../shared/viewTable/ViewTable';
 import { StudentType, UserType } from '../../../../interfaces/domain';
 import studentApi from '../../../../api/student.api';
 import MainNavBar from '../../../shared/mainNavbar';
+import SubNavBar from '../../UsersNavbar';
 import { useNavigate } from 'react-router-dom';
 import RegisterationNavbar from '../../../shared/registerationNavbar';
 
@@ -31,9 +32,9 @@ function AllStudents() {
 
   return (
     <div>
-            
-      <RegisterationNavbar />
-    <MainNavBar activeItem="Users" />
+         <RegisterationNavbar />
+      <MainNavBar activeItem="Users"/>
+      <SubNavBar activeItem="Student"/>
       <div className="container">
         <div className='container-table'>
           <div className="fixed-header">
@@ -43,7 +44,7 @@ function AllStudents() {
             </div>
             <hr />
           </div>
-          <ViewTable headers={["", "ID", "Name", "Level", "Email"]} features={["studentCode", "name", "level", "email"]} rowValues={rowValues} />
+          <ViewTable headers={["", "ID", "Name",  "Email"]} features={["studentCode", "name",  "email"]} rowValues={rowValues} showSearchBars={false} />
         </div>
       </div>
     </div>

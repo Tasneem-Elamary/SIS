@@ -51,7 +51,7 @@ const MainNavBar = ({ activeItem }: any) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#" className={activeItem === 'Users' ? 'navlink-active' : 'navlink-custom'}>
+          <NavLink href="/" className={activeItem === 'Users' ? 'navlink-active' : "navlink-custom"}>
             Users
           </NavLink>
         </NavItem>
@@ -83,16 +83,20 @@ const MainNavBar = ({ activeItem }: any) => {
           <DropdownToggle nav caret className={activeItem === 'Courses' ? 'navlink-active' : 'navlink-custom'}>
             Courses
           </DropdownToggle>
-          <DropdownMenu end>
-            {courses.length > 0 ? (
-              courses.map((course) => (
-                <DropdownItem key={course.id} href="#">
+          <DropdownMenu right >
+            {/* {courses.length > 0 ? (
+              courses.map(course => (
+                <DropdownItem key={course.id} href="/Courses">
                   {course.code}
                 </DropdownItem>
               ))
             ) : (
               <DropdownItem disabled>No Courses Available</DropdownItem>
-            )}
+            )} */}
+            <DropdownItem href="/Courses/level/1">Level 1 Courses</DropdownItem>
+            <DropdownItem href="/Courses/level/2">Level 2 Courses</DropdownItem>
+            <DropdownItem href="/Courses/level/3">Level 3 Courses</DropdownItem>
+            <DropdownItem href="/Courses/level/4">Level 4 Courses</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
 

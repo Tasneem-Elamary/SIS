@@ -1,31 +1,35 @@
-import RegisterationNavbar from '../../../shared/registerationNavbar';
-import MainNavBar from '../../../shared/mainNavbar';
-import UsersNavBar from '../../UsersNavbar';
-import CreateLecturerForm from '../createLecturerForm';
+import RegisterationNavbar from '../../../../shared/registerationNavbar';
+import MainNavBar from '../../../../shared/mainNavbar';
+import UsersNavBar from '../../../UsersNavbar';
+import CreateLecturerForm from '../../createLecturerForm';
 import { Button } from 'reactstrap';
-import ViewTable from '../../../shared/viewTable/ViewTable';
-import InstructorNavbar from '../InstructorNavbar'
+import ViewTable from '../../../../shared/viewTable/ViewTable';
+import InstructorNavbar from '../TANavbar'
 import './style.scss'
 import { useEffect, useState } from 'react';
-import { InstructorType, UserType } from '../../../../interfaces/domain';
+import { InstructorType, StudentType, UserType } from '../../../../../interfaces/domain';
 import { useDispatch, useSelector } from 'react-redux';
-import { instructorAction } from '../../../../state/actions';
+import { instructorAction } from '../../../../../state/actions';
+import { useParams } from 'react-router-dom';
 
 
 
 function ListOfStudents() {
-    //     const [rowValues, setrowValues] = useState<InstructorType & { User: UserType }[]>([]);
+    const { id } = useParams();
+    const [rowValues, setrowValues] = useState<StudentType[]>([]);
+    const [instructor, setInstructor] = useState<InstructorType>();
 
-    //   const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    //   useEffect(() => {
-    //     const fetchCourses = async () => {
-    //       const fetchedInstructors = await dispatch(instructorAction.getInstructorAction());
-    //       setrowValues(fetchedInstructors);
-    //     };
+    useEffect(() => {
+        const fetchStudents = async () => {
+            const fetchedInstructor = await dispatch(instructorAction.getAdvisorStudentsAction(id));
+            setInstructor(fetchedInstructor)
+            setrowValues(fetchedInstructor.Students);
+        };
 
-    //     fetchCourses();
-    //   }, [dispatch]);
+        fetchStudents();
+    }, [dispatch]);
     return (
         <div className="student-list-page">
             <RegisterationNavbar />
@@ -34,8 +38,8 @@ function ListOfStudents() {
             <div className="content-section">
 
                 <div className="user-header">
-                    <h3>Eng. Fatma Mohamed</h3>
-                    <InstructorNavbar activeItem="List of students" />
+                    <h3>Eng {`${instructor?.firstName} ${instructor?.lastName}`}</h3>
+                    <InstructorNavbar activeItem="List of students" id={id} />
 
                 </div>
 
@@ -48,9 +52,11 @@ function ListOfStudents() {
                 {/* Table Section */}
                 <div className="table-section">
                     <ViewTable
-                        headers={["ID", "Name", "Confirmation", "Notes"]}
-                        rowValues={[]} // Replace with actual data
-                        features={["ID", "Name", "Confirmation", "Notes"]}                  />
+                        headers={["", "ID", "Name"]}
+                        features={["id", "name"]}
+                        rowValues={rowValues}
+                        showSearchBars={false}// Replace with actual data
+                    />
                 </div>
             </div>
         </div>

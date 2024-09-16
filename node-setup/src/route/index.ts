@@ -10,6 +10,10 @@ import facultyRoute from './api/faculty.route';
 import semesterRoute from './api/semester.route';
 import scheduleRoute from './api/schedule.route';
 import courseEnrollmentRoute from './api/courseEnrollment.route';
+import departmentRoute from './api/department.route';
+import gradeRoute from './api/grade.route';
+import semsterRoute from './api/semster.route';
+import resultRoute from './api/result.route';
 
 const routes = Router();
 
@@ -24,5 +28,9 @@ routes.use('/faculty', facultyRoute);
 routes.use('/semester', semesterRoute);
 routes.use('/schedule', scheduleRoute);
 routes.use('/enrollment', courseEnrollmentRoute);
+routes.use('/department', departmentRoute);
+routes.use('/grade', gradeRoute);
+routes.use('/semster', semsterRoute);
+routes.use('/result', resultRoute);
 
 export default routes;

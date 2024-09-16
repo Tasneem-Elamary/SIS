@@ -1,5 +1,4 @@
-import { StudentType, UserType } from '../../types';
-import { Student } from '../../models';
+import { StudentType, UserType, ResultType } from '../../types';
 
 interface StudentRepo{
   createStudents(data:(StudentType&UserType)[]): Promise<(StudentType&UserType)[]>;
@@ -12,5 +11,7 @@ registerSchedule(studentId: string, scheduleId: string): Promise<void>
 //   handlePasswordReset(token: string, newPassword: string): Promise<void>;
 //   viewProfile(id: string): Promise<UserType | undefined>;
 // editProfile(id: string, userData: Partial<UserType | undefined>): Promise<UserType | undefined>;
+  getStudentByCode (studentCode: string): Promise<StudentType | undefined>,
+
 }
 export default StudentRepo;

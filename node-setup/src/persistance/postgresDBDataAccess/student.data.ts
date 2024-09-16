@@ -16,7 +16,7 @@ interface StudentWithUser extends StudentType {
 }
 class StudentDataAccess implements StudentRepo {
   private async getBylawIdByCode(bylawCode: string|undefined): Promise<string | undefined> {
-    const bylaw = await Bylaw.findOne({ where: { code: bylawCode } });
+    const bylaw = await models.Bylaw.findOne({ where: { code: bylawCode } });
     console.log('Debugging***', bylaw?.getDataValue('id'));
     return bylaw ? bylaw.getDataValue('id') : undefined;
   }
@@ -111,7 +111,7 @@ class StudentDataAccess implements StudentRepo {
       if (!bylawId) {
         throw new Error('Bylaw not found');
       }
-      const newStudent = await Student.create(
+      const newStudent = await models.Student.create(
         {
           studentCode,
           name,
@@ -152,7 +152,7 @@ class StudentDataAccess implements StudentRepo {
 
   getById = async (id: string): Promise<StudentType | undefined> => {
     try {
-      const student = await Student.findOne({ where: { id } });
+      const student = await models.Student.findOne({ where: { id } });
       return student ? (student.get() as StudentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -188,7 +188,7 @@ class StudentDataAccess implements StudentRepo {
 
   getByUserId = async (UserId: string|undefined): Promise<StudentType | undefined> => {
     try {
-      const student = await Student.findOne({ where: { UserId } });
+      const student = await models.Student.findOne({ where: { UserId } });
       return student ? (student.get() as StudentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -196,11 +196,26 @@ class StudentDataAccess implements StudentRepo {
     }
   };
 
+  getStudentByCode = async (studentCode: string): Promise<StudentType | undefined> => {
+    try {
+      const student = await models.Student.findOne({
+        where: { studentCode },
+
+      });
+
+      if (!student) throw new Error('Student not found!');
+      return student ? (student.get() as StudentType) : undefined;
+    } catch (error) {
+      console.error('Error fetching student:', error);
+      throw error;
+    }
+  };
+
   update = async (studentId: string, updateData: Partial<(StudentType)>): Promise<(StudentType) | undefined> => {
     const transaction = await db.transaction();
 
     try {
-      const student = await Student.findByPk(studentId, { transaction });
+      const student = await models.Student.findByPk(studentId, { transaction });
 
       if (!student) {
         console.error('Student not found');
@@ -231,7 +246,7 @@ class StudentDataAccess implements StudentRepo {
     const transaction = await db.transaction();
 
     try {
-      const student = await Student.findByPk(studentId, { transaction });
+      const student = await models.Student.findByPk(studentId, { transaction });
       if (!student) {
         console.error('Student not found');
         await transaction.rollback();

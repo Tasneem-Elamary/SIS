@@ -2,6 +2,7 @@ type StudentType ={
   id?:string,
   studentCode: string,
   name: string,
+  level?:number,
   birthDate?: Date,
   gender?: 'Male'|'Female',
   profilePhoto?: string,

@@ -1,13 +1,13 @@
 import { PassThrough } from 'stream';
 
 import { IStudent } from './interfaces';
-import { StudentType, UserType } from '../types';
-import { StudentRepo } from '../persistance/Repositories';
+import { StudentType, UserType, ResultType } from '../types';
+import { ResultRepo, StudentRepo } from '../persistance/Repositories';
 import UserService from './user.service';
 
 class StudentService implements IStudent {
 //   eslint-disable-next-line no-useless-constructor
-  constructor(private StudentData: StudentRepo) {}
+  constructor(private StudentData: StudentRepo, private ResultData:ResultRepo) {}
 
   public createStudents = async (studentsData: (StudentType&UserType)[]): Promise<(StudentType&UserType)[]> => {
     try {

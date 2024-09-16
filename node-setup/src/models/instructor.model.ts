@@ -2,7 +2,9 @@ import { DataTypes, Sequelize, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { InstructorType } from '../types/index';
 
-class Instructor extends Model<InstructorType> {}
+class Instructor extends Model<InstructorType> {
+  User: any;
+}
 
 const InstructorModel = (sequelize: Sequelize) => {
   Instructor.init(
