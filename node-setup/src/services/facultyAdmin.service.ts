@@ -15,20 +15,23 @@ class FacultyAdmin extends User implements IfacultyAdmin {
   createInstructor = async (user:UserType, instructor:Partial<InstructorType>): Promise<InstructorType| undefined> => {
     try {
       const newUser = await this.userData.create(user);
-      const userId = newUser?.id;
-
-      if (!userId) {
-        throw new Error('Failed to create user .');
+      console.log(newUser);
+      if (!newUser) {
+        throw new Error('User creation failed');
       }
+      // if (newUser) {
+      //   throw new Error('Failed to create user .');
+      // }
 
       // Construct the full InstructorType object
       const fullInstructor: InstructorType = {
         ...instructor,
-        UserId: userId,
+        UserId: newUser.id,
       } as InstructorType;
 
       return this.instructorData.create(fullInstructor);
-    } catch {
+    } catch (error) {
+      console.log('Fail to create instructor due to', error);
       throw new Error('Fail to create instructor');
     }
   };

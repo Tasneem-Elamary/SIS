@@ -1,4 +1,6 @@
-import { Bylaw, Student, User } from '../../models';
+import {
+  Bylaw, CourseEnrollment, Schedule, Student, StudentSchedule, User,
+} from '../../models';
 import { StudentRepo } from '../Repositories';
 import { StudentType, UserType, BylawType } from '../../types';
 import { UserDataAccess } from '.';
@@ -18,6 +20,78 @@ class StudentDataAccess implements StudentRepo {
     console.log('Debugging***', bylaw?.getDataValue('id'));
     return bylaw ? bylaw.getDataValue('id') : undefined;
   }
+
+  public registerSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+    const transaction = await db.transaction();
+
+    try {
+      const student = await Student.findByPk(studentId, { transaction });
+      if (!student) {
+        throw new Error('Student not found');
+      }
+
+      const schedule = await Schedule.findByPk(scheduleId, { transaction });
+      if (!schedule) {
+        throw new Error('Schedule not found');
+      }
+
+      await StudentSchedule.create(
+        { studentId, scheduleId },
+        { transaction },
+      );
+
+      const courseId = schedule.getDataValue('CourseId');
+      await CourseEnrollment.create(
+        {
+          studentId,
+          courseId,
+          enrollmentType: 'regular',
+          hasPaidFees: false,
+          approvalStatus: 'pending',
+        },
+        { transaction },
+      );
+
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      console.error('Failed to register schedule:', error);
+      throw new Error('Failed to register the schedule, please try again!');
+    }
+  };
+
+  public unregisterSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+    const transaction = await db.transaction();
+
+    try {
+      const student = await Student.findByPk(studentId, { transaction });
+      if (!student) {
+        throw new Error('Student not found');
+      }
+
+      const schedule = await Schedule.findByPk(scheduleId, { transaction });
+      if (!schedule) {
+        throw new Error('Schedule not found');
+      }
+
+      await StudentSchedule.destroy({
+        where: { studentId, scheduleId },
+        transaction,
+      });
+
+      const courseId = schedule.getDataValue('CourseId');
+      await CourseEnrollment.destroy({
+        where: { studentId, courseId },
+        transaction,
+      });
+
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      console.error('Failed to unregister schedule:', error);
+      throw new Error('Failed to unregister the schedule, please try again!');
+    }
+  };
 
   create = async (student: StudentType&UserType): Promise<StudentType | undefined> => {
     const {
@@ -49,8 +123,24 @@ class StudentDataAccess implements StudentRepo {
       await transaction.commit();
       sendEmail(
         student.email,
-        'Academic account password',
-        `Dear Student,/n/n here is your password ${password}`,
+        'Your Academic Account Credentials',
+        `
+          Dear ${student.name},
+          
+          Welcome to the academic portal. Your account has been successfully created.
+          
+          Below are your login details:
+          
+          - **Email**: ${student.email}
+          - **Password**: ${password}
+          
+          Please keep this information secure and do not share it with others. You may log in to your account and change your password once logged in.
+          
+          If you have any questions, feel free to reach out to the academic support team.
+          
+          Best regards,
+          Academic Support Team
+        `,
       ).catch(console.error);
       return newStudent.get();
     } catch (error) {

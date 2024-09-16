@@ -28,4 +28,9 @@ router.route('/updateStudent/:studentId')
   .put(studentController.updateStudent);
 router.route('/deleteStudent/:studentId')
   .delete(studentController.deleteStudent);
+router.route('/registerSchedule')
+  .post(studentController.registerSchedule);
+
+router.route('/unregisterSchedule')
+  .post(studentController.unregisterSchedule);
 export default router;

@@ -15,10 +15,9 @@ class ScheduleController {
   public createSchedule = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        instructorId,
+        instructorCode,
         scheduleType,
         roomCode,
-        semesterId,
         groupCode,
         groupCapacity,
         sectionCode,
@@ -30,10 +29,9 @@ class ScheduleController {
       } = req.body;
 
       const createdSchedule = await this.scheduleService.createSchedule(
-        instructorId,
+        instructorCode,
         scheduleType,
         roomCode,
-        semesterId,
         groupCode,
         groupCapacity,
         sectionCode,
@@ -101,8 +99,8 @@ class ScheduleController {
   public getRoomSchedules = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const schedules = await this.scheduleService.getRoomSchedules(id);
-      res.status(200).json({ message: 'Succeeded', schedules });
+      const { schedules, roomData } = await this.scheduleService.getRoomSchedules(id);
+      res.status(200).json({ message: 'Succeeded', schedules, roomData });
     } catch (error) {
       next(error);
     }

@@ -7,8 +7,11 @@ import {
   CourseType, GroupType, InstructorType, RoomType, ScheduleType, SectionType, SlotType,
 } from '../../types'; // Adjust path as necessary
 import { ScheduleRepo } from '../Repositories';
+import RoomDataAccess from './room.data';
 
 export class ScheduleDataAccess implements ScheduleRepo {
+  private roomDataAccess = new RoomDataAccess();
+
   async create(schedule: ScheduleType): Promise<ScheduleType> {
     const createdSchedule = await Schedule.create(schedule);
     return createdSchedule.toJSON();
@@ -77,7 +80,11 @@ export class ScheduleDataAccess implements ScheduleRepo {
     return schedules.map((schedule) => schedule.toJSON());
   }
 
-  public async getRoomSchedules(RoomId:string): Promise<ScheduleType[]> {
+  public async getRoomSchedules(RoomId:string): Promise<{schedules:ScheduleType[], roomData:RoomType}> {
+    const roomData = await this.roomDataAccess.getById(RoomId);
+    if (!roomData) {
+      throw Error("couldn't get room details");
+    }
     const schedules = await Schedule.findAll({
       where: { RoomId },
       include: [
@@ -86,11 +93,11 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
         { model: Group, attributes: ['groupCode', 'capacity'] },
         { model: Section, attributes: ['sectionCode', 'capacity'] },
-        { model: Room, attributes: ['code', 'capacity'] },
+
       ],
       attributes: ['scheduleType'],
     });
-    return schedules.map((schedule) => schedule.toJSON());
+    return { schedules: schedules.map((schedule) => schedule.toJSON()), roomData };
   }
 
   public async getCourseSchedules(CourseId:string): Promise<ScheduleType[]> {

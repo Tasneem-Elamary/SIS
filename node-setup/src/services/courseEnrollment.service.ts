@@ -5,7 +5,6 @@ import { ICourseEnrollment } from './interfaces';
 class CourseEnrollmentService implements ICourseEnrollment {
   constructor(private courseEnrollmentData: CourseEnrollmentRepo) {}
 
-  // Method to create a new course enrollment
   public async create(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollment = await this.courseEnrollmentData.create(enrollmentData);
@@ -15,7 +14,54 @@ class CourseEnrollmentService implements ICourseEnrollment {
     }
   }
 
-  // Method to find a course enrollment by its ID
+  public async requestOverload(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+    try {
+      const enrollmentWithDefaults: CourseEnrollmentType = {
+        ...enrollmentData,
+        enrollmentType: 'overload' as const, // Type assertion
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      };
+
+      const createdEnrollment = await this.courseEnrollmentData.create(enrollmentWithDefaults);
+      return createdEnrollment;
+    } catch (error) {
+      throw new Error('Failed to create course enrollment, please try again!');
+    }
+  }
+
+  public async requestSelfStudey(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+    try {
+      const enrollmentWithDefaults: CourseEnrollmentType = {
+        ...enrollmentData,
+        enrollmentType: 'seltstudy' as 'selfstudy', // Type assertion
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      };
+
+      const createdEnrollment = await this.courseEnrollmentData.create(enrollmentWithDefaults);
+      return createdEnrollment;
+    } catch (error) {
+      throw new Error('Failed to create course enrollment, please try again!');
+    }
+  }
+
+  public async requestRegular(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+    try {
+      const enrollmentWithDefaults: CourseEnrollmentType = {
+        ...enrollmentData,
+        enrollmentType: 'regular' as const, // Type assertion
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      };
+
+      const createdEnrollment = await this.courseEnrollmentData.create(enrollmentWithDefaults);
+      return createdEnrollment;
+    } catch (error) {
+      throw new Error('Failed to create course enrollment, please try again!');
+    }
+  }
+
   public async getById(id: string): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollment = await this.courseEnrollmentData.getById(id);

@@ -2,10 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import {
   Route, Get, Post, Put, Delete,
 } from 'tsoa';
-import { BylawType, BylawCourseType } from '../types';
+import { BylawType, BylawCourseType, BylawRuleType } from '../types';
 import BylawService from '../services/bylaw.service';
 import { DataAccess } from '../persistance';
 import IBylaw from '../services/interfaces/IBylaw';
+import BylawRuleService from '../services/bylawRule.service';
+import BylawRuleDataAccess from '../persistance/postgresDBDataAccess/bylawRules.data';
 
 const { BylawDataAccess } = DataAccess;
 
@@ -13,9 +15,13 @@ const { BylawDataAccess } = DataAccess;
 class BylawController {
   private bylaw: IBylaw;
 
+  private bylawRule:BylawRuleService;
+
   constructor() {
     const bylawDataAccess = new BylawDataAccess();
+    const bylawRuleDataAccess = new BylawRuleDataAccess();
     this.bylaw = new BylawService(bylawDataAccess);
+    this.bylawRule = new BylawRuleService(bylawRuleDataAccess);
   }
 
   @Post()
@@ -118,8 +124,30 @@ class BylawController {
       }
     };
 
+    @Post('/{bylawId}/rules')
+  public createBylawRules = async (req: Request, res: Response, next: NextFunction) => {
+        const { bylawId } = req.params;
+        const rules: Partial<BylawRuleType>[] = req.body;
+
+        try {
+          const createdRules = await this.bylawRule.createBylawRules(bylawId, rules);
+          if (createdRules && createdRules.length > 0) {
+            res.status(201).send({
+              msg: 'Bylaw rules created successfully',
+              createdRules,
+            });
+          } else {
+            res.status(400).send({
+              msg: 'Failed to create bylaw rules. No valid rules provided.',
+            });
+          }
+        } catch (e) {
+          next(e);
+        }
+      };
+
   @Delete('/{id}')
-  public delete = async (req: Request, res: Response, next: NextFunction) => {
+    public delete = async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
       try {
         const success = await this.bylaw.delete(id);

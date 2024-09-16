@@ -1,0 +1,76 @@
+.container555 {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+
+.fixed-header {
+    margin: 50px 30px 30px 30px; 
+
+    position: fixed;
+    top: 130px; 
+    z-index: 800;
+    background-color: #ffffff;
+    width: calc(100% - 60px);
+    padding: 10px; /* Adds padding to header */
+   }
+
+/* Main content that starts after the header */
+.logistics-container {
+    width: calc(100% - 60px); 
+    margin: 50px 30px 30px 30px; /* Adjusted to have space on all sides */
+      flex: 1;
+    background: #FFFF;
+    display: flex;
+    overflow-y: auto; /* Allows scrolling in the content area */
+}
+
+/* Grid layout for rooms */
+.room-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4 columns as seen in the image */
+    row-gap: 20px;  /* Adjust the spacing between the items */
+/* Ensure enough space from the fixed header */
+column-gap: 210px;  
+    padding: 0;  /* Remove default padding */
+    margin-left: 30px;
+  
+}
+
+.room-item {
+     font-weight: bold;  /* Set the font weight as normal */
+     color: #0064AD;
+}
+.blue-bold {
+    font-weight: bold;  /* Set the font weight as normal */
+    color: #0064AD;
+}
+.black-bold {
+    font-weight: bold;  /* Set the font weight as normal */
+    color: black;
+}
+.room-type{
+    color: black;
+}
+.no-underline{
+    text-decoration: none; /* Removes underline */
+    color: inherit;
+}
+/* room schedule styles*/
+.room-schedule-container{
+ 
+    width: calc(100% - 60px); 
+    margin: 133px 30px 30px 30px; /* Adjusted to have space on all sides */
+      flex: 1;
+    background: #FFFF;
+    display: flex;
+    overflow-y: auto; /* Allows scrolling in the content area */
+}
+.header-room-details{
+display: flex;
+flex-direction: row;
+gap: 60px; 
+}

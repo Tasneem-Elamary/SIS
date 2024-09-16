@@ -1,5 +1,6 @@
 type InstructorType = {
   id?: string,
+  code:string,
   firstName: string,
   lastName: string,
   birthDate?: Date,

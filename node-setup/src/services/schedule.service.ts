@@ -34,10 +34,9 @@ class Schedule {
   }
 
   public createSchedule = async (
-    instructorId: string,
+    instructorCode: string,
     scheduleType: 'lecture' | 'lab',
     roomCode: string,
-    semesterId: string,
     groupCode: string,
     groupCapacity: number,
     sectionCode: string,
@@ -49,10 +48,10 @@ class Schedule {
   ):
     Promise<ScheduleType> => {
     try {
-      const instructor = await this.instructor.getById(instructorId);
+      const instructor = await this.instructor.getByCode(instructorCode);
       const room = await this.room.getByCode(roomCode);
 
-      if (!instructor && instructorId) {
+      if (!instructor && instructorCode) {
         throw new Error('Instructor does not exist.');
       }
       if (!room) {
@@ -67,6 +66,7 @@ class Schedule {
       console.log(course);
       const group = await this.group.create({ groupCode, capacity: groupCapacity });
       const section = await this.section.create({ sectionCode, capacity: sectionCapacity });
+      const semester = await this.semester.getCurrentSemester();
 
       const schedule: ScheduleType = {
         scheduleType,
@@ -76,7 +76,8 @@ class Schedule {
         SectionId: section.id,
         GroupId: group?.id,
         SlotId: slot.id,
-        SemesterId: semesterId,
+        SemesterId: semester?.id,
+
       };
       const createdSchedule = await this.ScheduleData.create(schedule);
       return createdSchedule;
@@ -107,10 +108,9 @@ class Schedule {
     try {
       const schedulePromises = schedules.map((scheduleData) => {
         const {
-          instructorId,
+          instructorCode,
           scheduleType,
           roomCode,
-          semesterId,
           groupCode,
           groupCapacity,
           sectionCode,
@@ -122,10 +122,9 @@ class Schedule {
         } = scheduleData;
 
         return this.createSchedule(
-          instructorId,
+          instructorCode,
           scheduleType,
           roomCode,
-          semesterId,
           groupCode,
           groupCapacity,
           sectionCode,
@@ -161,7 +160,7 @@ class Schedule {
     }
   };
 
-  public getRoomSchedules = async (roomId: string): Promise<ScheduleType[]> => {
+  public getRoomSchedules = async (roomId:string): Promise<{schedules:ScheduleType[], roomData:RoomType}> => {
     try {
       return await this.ScheduleData.getRoomSchedules(roomId);
     } catch (error) {

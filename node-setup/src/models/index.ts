@@ -27,7 +27,7 @@ const Schedule = schedule(db);
 const University = university(db);
 const Faculty = faculty(db);
 const Department = department(db);
-const StudentSchedule=studentSchedule(db)
+const StudentSchedule = studentSchedule(db);
 const Section = section(db);
 const Group = group(db);
 const Slot = slot(db);
@@ -67,9 +67,8 @@ Bylaw.belongsToMany(Course, { through: 'BylawCourse', foreignKey: 'BylawId' });
 
 Course.belongsToMany(Department, { through: 'DepartmentCourses' });
 Department.belongsToMany(Course, { through: 'DepartmentCourses' });
-
-Course.belongsToMany(Student, { through: 'CourseEnrollment' });
-Student.belongsToMany(Course, { through: 'CourseEnrollment' });
+Student.belongsToMany(Course, { through: CourseEnrollment, foreignKey: 'StudentId' });
+Course.belongsToMany(Student, { through: CourseEnrollment, foreignKey: 'CourseId' });
 
 Student.hasMany(Result, { foreignKey: 'StudentId' });
 Result.belongsTo(Student, { foreignKey: 'StudentId' });
@@ -153,9 +152,9 @@ Student.belongsToMany(Schedule, {
 // db.drop().then(() => {
 //   console.log('All tables dropped successfully!');
 // });
-db.sync({ force: true }).then(() => {
-  console.log('tables created successfully');
-});
+// db.sync({ alter: true }).then(() => {
+//   console.log('tables created successfully');
+// });
 export {
   User,
   Course,
@@ -170,7 +169,7 @@ export {
   Semester,
   Grade,
   Group,
-  Slot, Room, BylawRule, CourseEnrollment,StudentSchedule, BylawCourse,
+  Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
 };
 
 // export const sequelize = db;

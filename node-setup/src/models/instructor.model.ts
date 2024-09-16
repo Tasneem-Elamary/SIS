@@ -9,9 +9,13 @@ const InstructorModel = (sequelize: Sequelize) => {
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue: uuidv4, // Correct usage
+        defaultValue: uuidv4,
         primaryKey: true,
         unique: true,
+        allowNull: false,
+      },
+      code: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       firstName: {

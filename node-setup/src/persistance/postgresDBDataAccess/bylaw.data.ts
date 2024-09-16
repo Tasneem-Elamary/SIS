@@ -39,7 +39,7 @@ class BylawDataAccess implements BylawRepo {
     }
   };
 
-  getBylawDetails = async (id: string): Promise<(Partial<BylawRuleType> & Partial<GradeType>) |undefined> => {
+  getBylawDetails = async (id: string): Promise<(Partial<BylawRuleType> & Partial<GradeType>) | undefined> => {
     const bylawDetails = await Bylaw.findByPk(id, {
       include: [
         { model: Grade, attributes: ['letter', 'point'] },
@@ -55,7 +55,7 @@ class BylawDataAccess implements BylawRepo {
   getBylawCourses = async (id: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[] }> | undefined> => {
     const bylawDetails = await Bylaw.findByPk(id, {
       include: [
-        { model: Course, attributes: ['code', 'name'], through: { attributes: [] } }, // Avoid fetching join table attributes
+        { model: Course, attributes: ['code', 'name'], through: { attributes: [] } },
       ],
       attributes: ['code'],
     });

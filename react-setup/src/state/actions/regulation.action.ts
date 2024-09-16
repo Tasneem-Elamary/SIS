@@ -7,10 +7,13 @@ class Regulation {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
-      const { data: { message, regulations } } = await regulationApi.getAllRegulations(); 
+      const { data: { message, bylaws } } = await regulationApi.viewAllRegulations(); 
+    if(bylaws){
+      console.log("regulations",bylaws)
+    }
       dispatch(statusAction.addSuccessStatus(message));
       dispatch(fetchAction.fetchingFailed());
-      return regulations;
+      return bylaws;
     } catch (e) {
       dispatch(fetchAction.fetchingFailed());
       dispatch(statusAction.addErrorStatus(e as Error));
@@ -22,10 +25,15 @@ class Regulation {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
-      const { data: { message, regulationDetails } } = await regulationApi.getRegulationDetails(regulationId); // Adjust API call if different
+      console.log("debuggggggginndggggggg")
+      const { data: { message, bylaw } } = await regulationApi.viewRegulationDetails(regulationId); 
+      if(bylaw){
+        console.log("regulation details",bylaw)
+      }
+ 
       dispatch(statusAction.addSuccessStatus(message));
       dispatch(fetchAction.fetchingFailed());
-      return regulationDetails;
+      return bylaw;
     } catch (e) {
       dispatch(fetchAction.fetchingFailed());
       dispatch(statusAction.addErrorStatus(e as Error));
@@ -37,7 +45,7 @@ class Regulation {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
-      const { data: { message, regulationRules } } = await regulationApi.getRegulationRules(regulationId); // Adjust API call if different
+      const { data: { message, regulationRules } } = await regulationApi.viewRegulationRules(regulationId); // Adjust API call if different
       dispatch(statusAction.addSuccessStatus(message));
       dispatch(fetchAction.fetchingFailed());
       return regulationRules;
@@ -52,7 +60,7 @@ class Regulation {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
-      const { data: { message, regulationCourses } } = await regulationApi.getRegulationCourses(regulationId); // Adjust API call if different
+      const { data: { message, regulationCourses } } = await regulationApi.viewRegulationCourses(regulationId); // Adjust API call if different
       dispatch(statusAction.addSuccessStatus(message));
       dispatch(fetchAction.fetchingFailed());
       return regulationCourses;

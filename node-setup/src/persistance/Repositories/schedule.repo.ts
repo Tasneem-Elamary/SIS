@@ -14,7 +14,7 @@ import {
       }>
     getAll(): Promise<ScheduleType[]>;
     getInstructorSchedules(InstructorId:string): Promise<ScheduleType[]>;
-    getRoomSchedules(RoomId:string): Promise<ScheduleType[]>;
+    getRoomSchedules(RoomId:string): Promise<{schedules:ScheduleType[], roomData:RoomType}>
     getCourseSchedules(CourseId:string): Promise<ScheduleType[]>;
     update(id: string, schedule: Partial<ScheduleType>): Promise<boolean>;
     delete(id: string): Promise<boolean>;

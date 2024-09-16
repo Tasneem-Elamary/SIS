@@ -28,11 +28,11 @@ class UserController {
     try {
       const { email, password } = req.body;
 
-      const token = await userService.login(email, password);
-      if (token) {
-        res.json({ token });
+      const userData = await userService.login(email, password);
+      if (userData) {
+        res.json({ userData });
       } else {
-        res.status(400).json({ msg: 'Invalid Credentials' });
+        res.status(400).json({ message: 'Invalid Credentials' });
       }
     } catch (error) {
       // res.status(400).json({ msg: 'Invalid Credentials' });

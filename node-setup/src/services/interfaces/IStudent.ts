@@ -4,6 +4,8 @@ import { Student } from '../../models';
 interface StudentRepo{
   createStudents(data:(StudentType&UserType)[]): Promise<(StudentType&UserType)[]>;
   getAllStudents(): Promise<(StudentType& { email: string })[]>;
+  unregisterSchedule (studentId: string, scheduleId: string): Promise<void>
+registerSchedule(studentId: string, scheduleId: string): Promise<void>
 // login(email: string, password: string): Promise<string>;
 //   logout(): Promise<void>;
 //   resetPassword(email: string): Promise<void>;

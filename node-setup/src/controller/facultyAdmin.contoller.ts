@@ -42,6 +42,7 @@ class FacultyAdminController {
       // Assuming these are the instructor-specific fields
       const instructor: Partial<InstructorType> = {
         firstName: body.firstName,
+        code: body.code,
         lastName: body.lastName,
         gender: body.gender,
         type: body.type,
@@ -53,6 +54,7 @@ class FacultyAdminController {
 
       res.status(201).json({ message: 'done', newInstructor });
     } catch (e) {
+      console.log(e);
       next(e);
     }
   };

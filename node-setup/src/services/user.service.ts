@@ -11,7 +11,7 @@ class UserService implements IUser {
   // eslint-disable-next-line no-useless-constructor
   constructor(protected userData: UserRepo) {}
 
-  login = async (email: string, password: string) : Promise<{ token: string; user: UserType }> => {
+  login = async (email: string, password: string) : Promise<{token:string, user:Partial<UserType>}> => {
     const user = await this.userData.getByEmail(email);
     console.log('Usssseeerr', user);
     if (!user) {
@@ -32,13 +32,20 @@ class UserService implements IUser {
     } catch {
       throw Error('Something went wrong, please try again ');
     }
+
     const payload = {
       id,
       role: user.role,
     };
     const token = jwt.sign(payload, JWT_SECRET as string, { expiresIn: '2d' });
 
-    return { token, user };
+    return {
+      token,
+      user: {
+        email: user.email,
+        role: user.role,
+      },
+    };
   };
 
   // getById = (id: string) => {

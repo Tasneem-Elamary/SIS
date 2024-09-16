@@ -43,6 +43,17 @@ class InstructorData implements InstructorRepo {
       const instructor = await Instructor.findOne({ where: { UserId } });
       return instructor ? (instructor.get() as InstructorType) : undefined;
     } catch (error) {
+      console.error('Failed to get the instructor, please try again!', error);
+      throw new Error('Failed to get the instructor, please try again!');
+    }
+  };
+
+  getByCode = async (code: string): Promise<InstructorType | undefined> => {
+    try {
+      // const instructor = await models.Instructor.findOne({ where: { UserId } });
+      const instructor = await Instructor.findOne({ where: { code } });
+      return instructor ? (instructor.get() as InstructorType) : undefined;
+    } catch (error) {
       console.error(error);
       throw new Error('Failed to get the instructor, please try again!');
     }

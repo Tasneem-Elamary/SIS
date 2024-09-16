@@ -9,10 +9,11 @@ import FacultyRepo from './faculty.repo';
 import ScheduleRepo from './schedule.repo';
 import GradesRepo from './grade.repo';
 import CourseEnrollmentRepo from './courseEnrollment.repo';
+import BylawRuleRepo from './bylawRule.repo';
 
 export {
   UserRepo,
   StudentRepo,
   BylawRepo, ScheduleRepo,
-  InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo,
+  InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo, BylawRuleRepo,
 };

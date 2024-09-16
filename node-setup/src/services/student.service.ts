@@ -22,7 +22,7 @@ class StudentService implements IStudent {
 
   public create = async (student:StudentType&UserType): Promise<StudentType|undefined> => {
     try {
-      const newUser = await this.StudentData.create(student); // Call the create method in UserDataAccess
+      const newUser = await this.StudentData.create(student);
       return newUser;
     } catch (error) {
       throw new Error('Failed to create the user, Please try again!');
@@ -69,6 +69,21 @@ class StudentService implements IStudent {
     }
   };
 
+  public registerSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+    try {
+      await this.StudentData.registerSchedule(studentId, scheduleId);
+    } catch (error) {
+      throw new Error('Failed to register the schedule, Please try again!');
+    }
+  };
+
+  public unregisterSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+    try {
+      await this.StudentData.unregisterSchedule(studentId, scheduleId);
+    } catch (error) {
+      throw new Error('Failed to unregister the schedule, Please try again!');
+    }
+  };
   // getByEmail = (email: string) => {w
   //   try {
   //     return this.userData.getByEmail(email);

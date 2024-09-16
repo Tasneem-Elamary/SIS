@@ -1,8 +1,7 @@
 type ScheduleInputType = {
-    instructorId: string,
+  instructorCode: string,
     scheduleType: 'lecture' | 'lab',
     roomCode: string,
-    semesterId: string,
     groupCode: string,
     groupCapacity: number,
     sectionCode: string,

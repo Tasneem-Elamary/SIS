@@ -1,7 +1,7 @@
 import { UserType } from '../../types';
 
 interface UserRepo {
-    create(user: UserType): Promise<UserType | undefined>,
+    create(user: UserType): Promise<Partial<UserType> | undefined>,
     getById(id: string): Promise<UserType | undefined>,
     getByEmail(email: string): Promise<UserType | undefined>,
     delete(id: string): Promise<boolean>,
