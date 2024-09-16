@@ -1,0 +1,23 @@
+.sub-navbar {
+    background-color:#E2E1E1;
+    
+    padding-left: 80px;
+    position: sticky !important;
+    top: 120px;
+    z-index: 800;
+  }
+  
+ 
+
+  .nav-link-custom {
+    color: #000000 !important; /* Keep default color */
+ 
+  }
+  .nav-link-active {
+    background-color: #ffffff; /* White background for active item */
+     color: #000000 !important; /* Black font color */
+    // padding: 10px 20px;
+    // border-radius: 5px;
+    // margin-right: 10px;
+    // text-decoration: none;
+  }

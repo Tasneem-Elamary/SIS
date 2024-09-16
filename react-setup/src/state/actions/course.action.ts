@@ -18,6 +18,62 @@ class Course {
             return [];
         }
     };
+    getCourseByLevelAction = (level:number) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, courses } } = await courseApi.getcourseBylevel(level);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return courses;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
+    getcourseDetailsAction = (CourseId:string,bylawId:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, course } } = await courseApi.getcourseDetails(CourseId,bylawId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return course;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
+    getcoursePrerequisitieAction = (CourseId:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, course } } = await courseApi.getcoursePrerequisite(CourseId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return course;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
+    getcourseDependantAction = (CourseId:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, course } } = await courseApi.getcourseDepentant(CourseId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return course;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
 }
 
 export default new Course()

@@ -1,12 +1,12 @@
 import { PassThrough } from 'stream';
 import { IStudent } from './interfaces';
-import { StudentType, UserType,ResultType } from '../types';
+import { StudentType, UserType, ResultType } from '../types';
 import { ResultRepo, StudentRepo } from '../persistance/Repositories';
 import UserService from './user.service';
 
 class StudentService implements IStudent {
 //   eslint-disable-next-line no-useless-constructor
-  constructor(private StudentData: StudentRepo ,private ResultData:ResultRepo) {}
+  constructor(private StudentData: StudentRepo, private ResultData:ResultRepo) {}
 
   public createStudents = async (studentsData: (StudentType&UserType)[]): Promise<(StudentType&UserType)[]> => {
     try {
@@ -67,43 +67,15 @@ class StudentService implements IStudent {
     }
   };
 
-  async getTranscript(studentId: string): Promise<ResultType[] | undefined[]> {
+  getStudentByCode = async (studentCode: string): Promise<StudentType | undefined> => {
     try {
-      // Call the data layer method to get results by student ID
-      const results = await this.ResultData.getByStudentId(studentId);
-      return results.length > 0 ? results : [];
+      const student = await this.StudentData.getStudentByCode(studentCode);
+      return student;
     } catch (error) {
-      console.error(`Error fetching results for student ID ${studentId}:`, error);
-      return [];
+      console.error('Error fetching student:', error);
+      throw error;
     }
-  }
-
-  getCourseResult=async(
-    studentId: string, 
-    courseId: string, 
-    semesterId: string
-  ): Promise<ResultType | undefined> =>{
-    try {
-      const result = await this.ResultData.getByStudentIdAndCourseIdAndSemesterId(studentId, courseId, semesterId);
-      return result; // Returns the result if found, or undefined
-    } catch (error) {
-      console.error(`Error fetching results for student ID ${studentId}, course ID ${courseId}, and semester ID ${semesterId}:`, error);
-      return undefined;
-    }
-  }
-
-  getSemesterResult=async(
-    studentId: string,  
-    semesterId: string
-  ): Promise<ResultType[] | undefined[]> =>{
-    try {
-      const results = await this.ResultData.geByStudentIdAndSemesterId(studentId, semesterId);
-      return results.length > 0 ? results : []; 
-    } catch (error) {
-      console.error(`Error fetching results for student ID ${studentId}, and semester ID ${semesterId}:`, error);
-      return [];
-    }
-  }
+  };
 
   // getByEmail = (email: string) => {w
   //   try {

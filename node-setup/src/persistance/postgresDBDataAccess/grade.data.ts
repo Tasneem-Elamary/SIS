@@ -23,13 +23,27 @@ class GradesData implements GradesRepo {
     }
   };
 
-  getAll = async (): Promise<GradeType[] | undefined[]> => {
+  getAllByBylaw = async (BylawId:string): Promise<GradeType[] | undefined[]> => {
     try {
-      const grades = await models.Grade.findAll();
+      const grades = await models.Grade.findAll({ where: { BylawId } });
       return grades.map((grade) => grade.get() as GradeType);
     } catch (error) {
       console.error(error);
       throw new Error('Failed to retrieve grades, please try again!');
+    }
+  };
+
+  getGradeIdByLetterAndBylawId = async (gradeLetter: string, BylawId: string): Promise<GradeType | undefined> => {
+    try {
+      const grade = await models.Grade.findOne({
+        where: { letter: gradeLetter, BylawId },
+
+      });
+
+      return grade ? (grade.get() as GradeType) : undefined;
+    } catch (error) {
+      console.error('Error fetching grade:', error);
+      throw error;
     }
   };
 

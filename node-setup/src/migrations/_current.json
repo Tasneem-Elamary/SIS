@@ -48,6 +48,11 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "level": {
+                    "allowNull": true,
+                    "field": "level",
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "birthDate": {
                     "field": "birthDate",
                     "seqType": "Sequelize.DATE"
@@ -316,17 +321,6 @@
                     "field": "FacultyId",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
-                },
-                "BylawId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Bylaws",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "field": "BylawId",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.UUID"
                 }
             },
             "indexes": []
@@ -497,6 +491,21 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "level": {
+                    "allowNull": true,
+                    "field": "level",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "min_GPA": {
+                    "allowNull": true,
+                    "field": "min_GPA",
+                    "seqType": "Sequelize.FLOAT"
+                },
+                "minEarnedHours": {
+                    "allowNull": true,
+                    "field": "minEarnedHours",
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "creditHours": {
                     "allowNull": false,
                     "field": "creditHours",
@@ -651,16 +660,6 @@
         "BylawCourses": {
             "tableName": "BylawCourses",
             "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
                 "CourseId": {
                     "primaryKey": true,
                     "references": {
@@ -866,16 +865,6 @@
         "DepartmentCourses": {
             "tableName": "DepartmentCourses",
             "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
                 "CourseId": {
                     "primaryKey": true,
                     "references": {
@@ -896,6 +885,34 @@
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "DepartmentId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
+        "BylawDepartments": {
+            "tableName": "BylawDepartments",
+            "schema": {
+                "DepartmentId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "Departments",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "DepartmentId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "BylawId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "Bylaws",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "BylawId",
                     "seqType": "Sequelize.UUID"
                 }
             },
@@ -981,5 +998,5 @@
     "path": "F:\\post_grad\\Corelia\\setups-main\\node-setup\\src\\migrations\\_current.json",
     "backupPath": "F:\\post_grad\\Corelia\\setups-main\\node-setup\\src\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 17
+    "revision": 23
 }

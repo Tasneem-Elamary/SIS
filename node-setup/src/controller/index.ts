@@ -3,6 +3,10 @@ import bylawController from './bylaw.controller';
 import facultyAdminContoller from './facultyAdmin.contoller';
 import instructorController from './instructor.controller';
 import courseController from './course.controller';
+import departmentController from './department.controller';
+import gradeController from './grade.controller';
+import semsterController from './semster.controller';
+import resultController from './result.controller';
 
 export {
   userController,
@@ -10,4 +14,8 @@ export {
   facultyAdminContoller,
   instructorController,
   courseController,
+  departmentController,
+  gradeController,
+  semsterController,
+  resultController,
 };

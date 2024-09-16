@@ -22,6 +22,10 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      level: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
 
       birthDate: {
         type: DataTypes.DATE,

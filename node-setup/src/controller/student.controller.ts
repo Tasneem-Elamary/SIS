@@ -10,15 +10,15 @@ import { UserRepo } from '../persistance/Repositories';
 import StudentService from '../services/student.service';
 import { parseCSV } from '../util/csvParser';
 
-const { StudentDataAccess,ResultDataAccess } = DataAccess;
+const { StudentDataAccess, ResultDataAccess } = DataAccess;
 
 class StudentController {
   private student: StudentService;
 
   constructor() {
     const studentDataAccess = new StudentDataAccess();
-    const resultDataAcess= new ResultDataAccess ();
-    this.student = new StudentService(studentDataAccess,resultDataAcess);
+    const resultDataAcess = new ResultDataAccess();
+    this.student = new StudentService(studentDataAccess, resultDataAcess);
   }
 
   @Get('/{id}')
@@ -110,6 +110,7 @@ class StudentController {
       next(error);
     }
   };
+
   // public async get(req: Request, res: Response, next: NextFunction) {
   //   // try {
   //   //   const { id } = req.user.user;

@@ -3,7 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { DepartmentType } from '../types/index';
 import FacultyModel from './faculty.model';
 
-class Department extends Model<DepartmentType> {}
+class Department extends Model<DepartmentType> {
+
+}
 
 const DepartmentModel = (sequelize: Sequelize) => {
   Department.init(
@@ -41,15 +43,15 @@ const DepartmentModel = (sequelize: Sequelize) => {
         },
         onDelete: 'CASCADE',
       },
-      BylawId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'Bylaws',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-      },
+      // BylawId: {
+      //   type: DataTypes.UUID,
+      //   allowNull: false,
+      //   references: {
+      //     model: 'Bylaws',
+      //     key: 'id',
+      //   },
+      //   onDelete: 'CASCADE',
+      // },
     },
     {
       sequelize,

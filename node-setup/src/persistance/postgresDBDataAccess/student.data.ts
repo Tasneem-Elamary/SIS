@@ -104,6 +104,21 @@ class StudentDataAccess implements StudentRepo {
     }
   };
 
+  getStudentByCode = async (studentCode: string): Promise<StudentType | undefined> => {
+    try {
+      const student = await models.Student.findOne({
+        where: { studentCode },
+
+      });
+
+      if (!student) throw new Error('Student not found!');
+      return student ? (student.get() as StudentType) : undefined;
+    } catch (error) {
+      console.error('Error fetching student:', error);
+      throw error;
+    }
+  };
+
   update = async (studentId: string, updateData: Partial<(StudentType)>): Promise<(StudentType) | undefined> => {
     const transaction = await db.transaction();
 

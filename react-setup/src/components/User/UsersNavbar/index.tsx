@@ -15,11 +15,11 @@ const SubNavBar = ({ activeItem }) => {
           </NavItem>
           <NavItem>
             <NavLink href="/" className={activeItem === 'Lecturer' ? "nav-link-active" : "nav-link-custom "}>
-              Lecturer
+              TA
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'Student' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href="/view-students" className={activeItem === 'Student' ? "nav-link-active" : "nav-link-custom "}>
               Student
             </NavLink>
           </NavItem>

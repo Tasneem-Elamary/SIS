@@ -9,6 +9,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
     const navigate = useNavigate();
     const handleFormSubmit = (values, bag) => {
         if (values) {
+            console.log(values)
             addInstructorAction(values);
             navigate('/');
           } else {
@@ -18,8 +19,8 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
     };
 
     return (
-        <div style={{ marginTop: '30px',marginLeft: '70px',marginRight: '70px', padding: '50px', backgroundColor: '#ffffff' }}>
-          <h3 style={{ color: '#000000' }}>
+        <div style={{ marginTop: '30px', marginLeft: '70px', marginRight: '70px', padding: '50px', backgroundColor: '#ffffff' }}>
+            <h3 style={{ color: '#000000' }}>
                 {userType === 'Lecturer' ? 'Create New Lecturer' : 'Create New Doctor'}
             </h3>
             <Formik
@@ -27,11 +28,12 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    password: '',
+                    DepartmentCode: '', // New field for Department Code
+                    birthDate: '', // New field for Birth Date
                     gender: '',
                     employmentType: '',
                     type: userType === 'Lecturer' ? 'TA' : 'Professor',
-                    role: userType === 'Lecturer' ? 'Teaching Assistant' : 'professor'
+                    role: userType === 'Lecturer' ? 'teaching assistant' : 'professor'
                 }}
                 onSubmit={handleFormSubmit}
             >
@@ -46,6 +48,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                     isValid,
                 }) => (
                     <Form onSubmit={handleSubmit}>
+                        {/* First Name */}
                         <FormGroup>
                             <Label for="firstName" style={{ color: '#000000' }}>First Name</Label>
                             <Input
@@ -62,6 +65,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                             {errors.firstName && touched.firstName ? (<FormFeedback>{errors.firstName}</FormFeedback>) : null}
                         </FormGroup>
 
+                        {/* Last Name */}
                         <FormGroup>
                             <Label for="lastName" style={{ color: '#000000' }}>Last Name</Label>
                             <Input
@@ -78,6 +82,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                             {errors.lastName && touched.lastName ? (<FormFeedback>{errors.lastName}</FormFeedback>) : null}
                         </FormGroup>
 
+                        {/* Email */}
                         <FormGroup>
                             <Label for="email" style={{ color: '#000000' }}>Email</Label>
                             <Input
@@ -94,22 +99,40 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                             {errors.email && touched.email ? (<FormFeedback>{errors.email}</FormFeedback>) : null}
                         </FormGroup>
 
+                        {/* Department Code */}
                         <FormGroup>
-                            <Label for="password" style={{ color: '#000000' }}>Password</Label>
+                            <Label for="DepartmentCode" style={{ color: '#000000' }}>Department Code</Label>
                             <Input
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="password"
+                                type="text"
+                                name="DepartmentCode"
+                                id="DepartmentCode"
+                                placeholder="department code"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.password}
-                                invalid={errors.password && touched.password}
+                                value={values.DepartmentCode}
+                                invalid={errors.DepartmentCode && touched.DepartmentCode}
                                 style={{ width: '80%' }}
                             />
-                            {errors.password && touched.password ? (<FormFeedback>{errors.password}</FormFeedback>) : null}
+                            {errors.DepartmentCode && touched.DepartmentCode ? (<FormFeedback>{errors.DepartmentCode}</FormFeedback>) : null}
                         </FormGroup>
 
+                        {/* Birth Date */}
+                        <FormGroup>
+                            <Label for="birthDate" style={{ color: '#000000' }}>Birth Date</Label>
+                            <Input
+                                type="date"
+                                name="birthDate"
+                                id="birthDate"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.birthDate}
+                                invalid={errors.birthDate && touched.birthDate}
+                                style={{ width: '80%' }}
+                            />
+                            {errors.birthDate && touched.birthDate ? (<FormFeedback>{errors.birthDate}</FormFeedback>) : null}
+                        </FormGroup>
+
+                        {/* Gender */}
                         <FormGroup tag="fieldset">
                             <legend style={{ color: '#000000', fontSize: '16px' }}>Gender</legend>
                             <FormGroup check inline>
@@ -124,20 +147,22 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                             </FormGroup>
                         </FormGroup>
 
+                        {/* Employment Type */}
                         <FormGroup tag="fieldset">
                             <legend style={{ color: '#000000', fontSize: '16px' }}>Employment Type</legend>
                             <FormGroup check inline>
                                 <Label check style={{ color: '#000000' }}>
-                                    <Field type="radio" name="employmentType" value="full time" /> FullTime
+                                    <Field type="radio" name="employmentType" value="full time" /> Full Time
                                 </Label>
                             </FormGroup>
                             <FormGroup check inline>
                                 <Label check style={{ color: '#000000' }}>
-                                    <Field type="radio" name="employmentType" value="part time" /> PartTime
+                                    <Field type="radio" name="employmentType" value="part time" /> Part Time
                                 </Label>
                             </FormGroup>
                         </FormGroup>
 
+                        {/* Submit and Cancel Buttons */}
                         <div className="d-flex justify-content-start">
                             <Button type="submit" color="primary" disabled={isSubmitting || !isValid} style={{ marginRight: '15px' }}>
                                 Create
