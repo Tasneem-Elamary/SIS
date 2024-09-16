@@ -182,7 +182,8 @@ Student.belongsToMany(Schedule, { through: 'StudentSchedules' });
 // db.sync({ alter: true }).then(() => {
 //   console.log('tables created successfully');
 // });
-export const models = {
+export 
+
   User,
   Course,
   Bylaw,
