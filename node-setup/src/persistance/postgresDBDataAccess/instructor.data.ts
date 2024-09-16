@@ -6,6 +6,7 @@ import { InstructorType, StudentType, UserType } from '../../types';
 class InstructorData implements InstructorRepo {
   create = async (instructor: InstructorType, transaction?: Transaction): Promise<InstructorType | undefined> => {
     try {
+      // const newInstructor = await models.Instructor.create(instructor);
       const newInstructor = await models.Instructor.create(instructor);
       return newInstructor ? (newInstructor.get() as InstructorType) : undefined;
     } catch (error) {
@@ -20,6 +21,7 @@ class InstructorData implements InstructorRepo {
         where: { id },
         include: [
           {
+            // model: models.User,
             model: models.User,
             as: 'User',
           },
@@ -44,6 +46,21 @@ class InstructorData implements InstructorRepo {
     }
   };
 
+  getByCode = async (code: string): Promise<InstructorType | undefined> => {
+    try {
+      const instructor = await models.Instructor.findOne({
+        where: { code },
+
+      });
+
+      if (!instructor) throw new Error('Instructor not found!');
+      return instructor ? (instructor.get() as InstructorType) : undefined;
+    } catch (error) {
+      console.error('Error fetching instructor:', error);
+      throw error;
+    }
+  };
+
   getByUserId = async (UserId: string): Promise<InstructorType | undefined> => {
     try {
       const instructor = await models.Instructor.findOne({ where: { UserId } });
@@ -60,6 +77,7 @@ class InstructorData implements InstructorRepo {
         include: [
           {
             model: models.User,
+            // model: models.User,
             as: 'User',
           },
         ],

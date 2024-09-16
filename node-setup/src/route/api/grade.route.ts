@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { facultyAdminContoller, gradeController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
+import { isAuth } from '../../middleware/auth.middleware';
 import { validateCreateGrade, validateUpdateGrade, validateGradeId } from '../../middleware/validation/gradeValidation.middleware';
 
 const router = express.Router();

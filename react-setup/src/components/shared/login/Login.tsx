@@ -1,44 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { connect } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { Button, FormGroup, Input, FormFeedback } from 'reactstrap';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userAction } from '../../../state/actions';
 import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
-import { userApi } from '../../../api';
 
 interface LoginProps {
-  loginAction: (credentials: { email: string; password: string }) => (dispatch: Dispatch, getState: () => any, extraArgument: { navigate: NavigateFunction }) => Promise<void>;
+  loginAction: (credentials: { email: string; password: string }) => (dispatch: Dispatch, getState: () => any, extraArgument: { navigate: any }) => Promise<void>;
 }
 
 const Login = ({ loginAction }: any) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [isMounted, setIsMounted] = useState(true); 
+  useEffect(() => {
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleFormSubmit = async (values: { email: string; password: string }, bag: any) => {
-const user={email:values.email,password:values.password}
-const response = await userApi.login(user);
-console.log('API Response:', response);
-localStorage.setItem('token', response.data.token);
-localStorage.getItem('role');
-if (response.data.user.role === 'student') {
-  console.log('Navigating to /view-students');
-  navigate('/view-students');
-} 
-console.log(localStorage.getItem('role'))
     try {
-      if (values.email && values.password) {
+      if (isMounted && values.email && values.password) {
         await loginAction(values, navigate);
       }
     } finally {
-      bag.setSubmitting(false);
+      if (isMounted) {
+        bag.setSubmitting(false); 
+      }
     }
   };
 
@@ -120,7 +117,7 @@ console.log(localStorage.getItem('role'))
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      loginAction: (credentials: { email: string; password: string }, navigate: NavigateFunction) =>
+      loginAction: (credentials: { email: string; password: string }, navigate: any) =>
         (dispatch: Dispatch) => userAction.loginAction(credentials, navigate)(dispatch),
     },
     dispatch

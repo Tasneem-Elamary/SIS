@@ -5,6 +5,7 @@
     credit_Hours: number;
     min_GPA: number;
     min_Hours: number;
+    FacultyId:string;
   };
 
 export default BylawType;

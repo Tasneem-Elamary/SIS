@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { courseController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
+import { isAuth } from '../../middleware/auth.middleware';
 
 import { validateCreateCourse, validateUpdateCourse, validateCourseId } from '../../middleware/validation/courseValidaton.middleware';
 

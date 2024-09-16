@@ -5,7 +5,7 @@ import CreateLecturerForm from '../createLecturerForm';
 
 
 
-function CreateLecturer({userType}) {
+function CreateLecturer({userType}:any) {
     return (
       <div className="CreateLecturer">
         <RegisterationNavbar/>

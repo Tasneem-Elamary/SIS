@@ -56,7 +56,7 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'User',
+          model: 'Users',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -74,7 +74,7 @@ const StudentModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'Bylaw',
+          model: 'Bylaws',
           key: 'id',
         },
         onDelete: 'CASCADE',

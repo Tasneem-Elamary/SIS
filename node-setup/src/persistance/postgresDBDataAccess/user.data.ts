@@ -5,10 +5,12 @@ import { UserType } from '../../types';
 import { db } from '../../../config/postgresDB.config';
 // let User =models.User
 class UserData implements UserRepo {
-  public async create(user: UserType, transaction?: Transaction): Promise<UserType | undefined> {
+  public async create(user: UserType, transaction?: Transaction): Promise<Partial<UserType> | undefined> {
     try {
-      const newUser = await models.User.create(user);
-      return newUser.get();
+      console.log('debugg user', user);
+      const newUser = await models.User.create(user, { transaction });
+      const { id, email, role } = newUser.get();
+      return { id, email, role };
     } catch (error) {
       console.error(error);
       throw new Error('Fail to create the user, Please try again !!');

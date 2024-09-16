@@ -27,10 +27,10 @@ const room = (db: Sequelize) => db.define(
     FacultyId: {
       type: DataTypes.UUID,
       allowNull: false,
-      // references: {
-      //   model: 'Faculty',
-      //   key: 'id',
-      // },
+      references: {
+        model: 'Faculties',
+        key: 'id',
+      },
     },
   },
   {

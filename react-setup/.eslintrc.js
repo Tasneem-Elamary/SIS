@@ -32,5 +32,8 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    "no-restricted-syntax":'off',
+    "consistent-return":'off',
+    "no-restricted-syntax":'off',
   },
 };

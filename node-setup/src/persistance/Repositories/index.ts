@@ -6,6 +6,9 @@ import InstructorRepo from './instructor.repo';
 import CourseRepo from './course.repo';
 import DepartmentRepo from './department.repo';
 import FacultyRepo from './faculty.repo';
+import ScheduleRepo from './schedule.repo';
+import CourseEnrollmentRepo from './courseEnrollment.repo';
+import BylawRuleRepo from './bylawRule.repo';
 import GradesRepo from './grade.repo';
 import SemesterRepo from './semster.repo';
 import ResultRepo from './result.repo';
@@ -16,7 +19,8 @@ import BylawDepartmentCourseRepo from './bylawDepartmentcourse.repo';
 export {
   UserRepo,
   StudentRepo,
-  BylawRepo,
-  InstructorRepo, CourseRepo, DepartmentRepo,
-  FacultyRepo, GradesRepo, SemesterRepo, ResultRepo, UniversityRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo,
+  BylawRepo, ScheduleRepo,
+  InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo, BylawRuleRepo,
+
+  SemesterRepo, ResultRepo, UniversityRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo,
 };

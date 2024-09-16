@@ -29,13 +29,19 @@
         "@typescript-eslint/no-explicit-any":"off",
         "no-empty-function":"off",
         "max-len":"off",
+        "@typescript-eslint/no-empty-function":"off",
         "camelcase":"off",
         // "@typescript-eslint/no-require-imports":"off", 
         "no-plusplus": "off" ,
         "@typescript-eslint/no-var-requires":"off",
         "import/no-extraneous-dependencies":"off",
         "no-param-reassign" :"off",
-        "no-useless-constructor":"off"
+        "no-useless-constructor":"off",
+        "@typescript-eslint/no-namespace":"off",
+        "no-shadow":"off",
+        "consistent-return":"off",
+        "no-restricted-syntax":"off",
+        "no-await-in-loop":"off"
         
     }
 }

@@ -23,7 +23,7 @@ class FacultyAdmin extends User implements IfacultyAdmin {
     super(userData);
   }
 
-  createFacultyAdmin = async (facultyAdmin:UserType): Promise<UserType | undefined> => {
+  createFacultyAdmin = async (facultyAdmin:UserType): Promise<Partial<UserType> | undefined> => {
     try {
       const newUser = await this.userData.create(facultyAdmin);
       return newUser;

@@ -24,15 +24,14 @@ class User {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
 
-      const { data: { token, role } } = await userApi.login(credentials);
-
-      // Ensure token and role are received
-      if (token && role) {
-        console.log('Token and role received:', { token, role });
-
+      const { data: { userData} } = await userApi.login(credentials);
+      const { token, user } = userData;
+      if (userData ) {
+        console.log('Token and role received:', token , user.role );
+userData
         // Store token and role in localStorage
         localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
+        localStorage.setItem('role', user.role);
 
         // Verify storage
         const storedToken = localStorage.getItem('token');
@@ -47,11 +46,29 @@ class User {
         if (storedRole === 'student') {
           console.log('Navigating to /view-students');
           navigate('/view-students');
-        } else {
+        } 
+        else if(storedRole === 'faculty admin'){
+          console.log('Navigating to /view-students');
+          navigate('/view-students');
+        }
+        else if(storedRole === 'professor'){
+          console.log('Navigating to /view-students');
+          navigate('/view-students');
+        }        else if(storedRole === 'teaching assistant'){
+          console.log('Navigating to /view-students');
+          navigate('/view-students');
+        }
+        else {
           console.log('Role is not student, no navigation applied.');
         }
       } else {
         console.error('Token or role not received');
+        
+      const { data: { userData, role } } = await userApi.login(credentials);
+
+      // Ensure token and role are received
+      if (userData ) {
+        console.log('Token and role received:', {userData , role });}
       }
     } catch (e: any) {
       dispatch(statusAction.addErrorStatus(e));

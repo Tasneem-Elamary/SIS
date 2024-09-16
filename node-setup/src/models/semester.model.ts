@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-const semester = (db: Sequelize) => db.define(
+const Semester = (db: Sequelize) => db.define(
   'Semester',
   {
     id: {
@@ -29,4 +29,4 @@ const semester = (db: Sequelize) => db.define(
   },
 );
 
-export default semester;
+export default Semester;

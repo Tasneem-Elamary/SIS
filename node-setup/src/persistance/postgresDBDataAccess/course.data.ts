@@ -7,6 +7,7 @@ class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
     try {
       const newCourse = await models.Course.create(course);
+      // const newCourse = await models.Course.create(course);
       return newCourse ? (newCourse.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -17,6 +18,7 @@ class CourseData implements CourseRepo {
   getById = async (id: string): Promise<CourseType | undefined> => {
     try {
       const course = await models.Course.findOne({ where: { id } });
+      // const course = await models.Course.findOne({ where: { id } });
       return course ? (course.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -27,6 +29,7 @@ class CourseData implements CourseRepo {
   getByCourseCode = async (courseCode: string): Promise<CourseType | undefined> => {
     try {
       const course = await models.Course.findOne({ where: { code: courseCode } });
+      // const course = await models.Course.findOne({ where: { code: courseCode } });
       return course ? (course.get() as CourseType) : undefined;
     } catch (error) {
       console.error(error);
@@ -101,6 +104,7 @@ class CourseData implements CourseRepo {
   update = async (id: string, updates: Partial<CourseType>): Promise<CourseType | undefined> => {
     try {
       const course = await models.Course.findOne({ where: { id } });
+      // const course = await models.Course.findOne({ where: { id } });
       if (course) {
         await course.update(updates);
         return course.get() as CourseType;
@@ -115,6 +119,7 @@ class CourseData implements CourseRepo {
   delete = async (id: string): Promise<boolean> => {
     try {
       const result = await models.Course.destroy({ where: { id } });
+      // const result = await models.Course.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

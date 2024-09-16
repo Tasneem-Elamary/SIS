@@ -1,10 +1,10 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-
 import { v4 as uuidv4 } from 'uuid';
 import { BylawType } from '../types';
 
 // Define the Bylaw model
 class Bylaw extends Model<BylawType> { }
+
 const BylawModel = (sequelize: Sequelize) => {
   Bylaw.init(
     {
@@ -12,7 +12,6 @@ const BylawModel = (sequelize: Sequelize) => {
         type: DataTypes.UUID,
         defaultValue: () => uuidv4(),
         primaryKey: true,
-        unique: true,
         allowNull: false,
       },
       code: {
@@ -35,15 +34,22 @@ const BylawModel = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
+      FacultyId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'Faculties',
+          key: 'id',
+        },
+      },
     },
     {
       sequelize,
       timestamps: false,
       modelName: 'Bylaw',
-
     },
   );
+
   return Bylaw;
 };
 

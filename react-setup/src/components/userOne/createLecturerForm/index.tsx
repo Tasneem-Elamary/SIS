@@ -1,11 +1,10 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import  instructorAction from '../../../state/actions/instructor.action';
 
-const CreateLecturerForm = ({ addInstructorAction , userType}) => {
-    const handleFormSubmit = (values, bag) => {
+const CreateLecturerForm = ({ addInstructorAction , userType}:any) => {
+    const handleFormSubmit = ({values, bag}:any) => {
         if (values) {
             addInstructorAction(values);
           } else {
@@ -53,7 +52,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.firstName}
-                                invalid={errors.firstName && touched.firstName}
+                                invalid={!!(errors.firstName && touched.firstName)}
                                 style={{ width: '80%' }}
                             />
                             {errors.firstName && touched.firstName ? (<FormFeedback>{errors.firstName}</FormFeedback>) : null}
@@ -85,7 +84,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.email}
-                                invalid={errors.email && touched.email}
+                                invalid={!(errors.email && touched.email)}
                                 style={{ width: '80%' }}
                             />
                             {errors.email && touched.email ? (<FormFeedback>{errors.email}</FormFeedback>) : null}
@@ -101,7 +100,7 @@ const CreateLecturerForm = ({ addInstructorAction , userType}) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.password}
-                                invalid={errors.password && touched.password}
+                                invalid={!(errors.password && touched.password)}
                                 style={{ width: '80%' }}
                             />
                             {errors.password && touched.password ? (<FormFeedback>{errors.password}</FormFeedback>) : null}

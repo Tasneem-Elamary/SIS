@@ -19,10 +19,10 @@ const grade = (db: Sequelize) => db.define('Grade', {
   BylawId: {
     type: DataTypes.UUID,
     allowNull: false,
-    // references: {
-    //   model: 'Bylaw',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'Bylaws',
+      key: 'id',
+    },
   },
 }, {
   timestamps: false,
