@@ -5,7 +5,7 @@ import {
 
 interface facultyAdminRepo {
 
-  createFacultyAdmin(FacultyAdmin: UserType): Promise<UserType | undefined>;
+  createFacultyAdmin(FacultyAdmin: UserType): Promise<Partial<UserType> | undefined>;
 
   }
 export default facultyAdminRepo;

@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
 const course = (db: Sequelize) => db.define(

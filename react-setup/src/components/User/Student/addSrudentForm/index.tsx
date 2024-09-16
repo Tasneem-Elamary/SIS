@@ -2,11 +2,12 @@ import './style.scss';
 import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button, FormGroup, Label, Input, FormFeedback, Alert } from 'reactstrap';
-import studentAction from '../../../../state/actions/student.action';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainNavBar from '../../../shared/mainNavbar';
 import SubNavBar from '../../UsersNavbar';
-import { useNavigate } from 'react-router-dom';
+import studentAction from '../../../../state/actions/student.action';
+import RegisterationNavbar from '../../../shared/registerationNavbar';
 
 const AddStudent = ({ addStudentAction, addStudentsAction }: any) => {
   const [file, setFile] = useState<File | null>(null);
@@ -48,8 +49,10 @@ const AddStudent = ({ addStudentAction, addStudentsAction }: any) => {
   };
 
   return (
-    <div>     <MainNavBar activeItem="Users"/>
-      <SubNavBar  activeItem="Student"/>
+    <div>             
+      <RegisterationNavbar />
+    <MainNavBar activeItem="Users" />
+    
     <div
       className='container'
       style={{

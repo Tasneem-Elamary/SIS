@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { instructorController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
 
 import {
   validateUpdateInstructor, ValidateCreateInstructor, validateInstructorId, validateStudentAdvisor,

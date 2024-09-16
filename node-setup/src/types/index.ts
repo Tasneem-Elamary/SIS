@@ -13,12 +13,13 @@ import SlotType from './slot.d';
 import CourseType, { CoursewithRegistedStudentsType } from './course';
 import BylawType from './bylaw';
 import GradeType from './grade';
-import CourseBylawType from './courseBylaw';
+import BylawCourseType from './courseBylaw';
 import CourseEnrollmentType from './courseEnrollment';
 import RoomType from './room';
 import ResultType from './result';
 import SemesterType from './semester';
 import BylawRuleType from './bylawRule';
+import StudentScheduleType from './studentSchedule';
 import StudentAdvisorType from './studentAdvisor';
 import CoursePrerequisitesType from './coursePrerequisite';
 import BylawDepartmentCourseType from './bylawDepartmentCourse';
@@ -38,8 +39,9 @@ export {
   CourseType,
   BylawType,
   GradeType,
-  CourseBylawType,
+  BylawCourseType,
   CourseEnrollmentType,
+  StudentScheduleType,
   RoomType,
   ResultType,
   SemesterType,

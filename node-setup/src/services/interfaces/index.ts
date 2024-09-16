@@ -4,6 +4,7 @@ import IfacultyAdmin from './IFaculyAdmin';
 import IStudent from './IStudent';
 import IInstuctor from './IInstructor';
 import ICourse from './ICourse';
+import ICourseEnrollment from './ICourseEnrollment';
 import IDepartment from './IDepartment';
 import IGrade from './IGrade';
 import ISemster from './ISemster';
@@ -17,7 +18,8 @@ export {
   // IUniversityAdmin,
   IStudent,
   IInstuctor,
-  ICourse,
+  ICourse, ICourseEnrollment,
+
   IDepartment,
   IGrade,
   ISemster,

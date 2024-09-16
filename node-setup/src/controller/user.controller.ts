@@ -7,7 +7,7 @@ import { UserType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
 
 const { UserDataAccess } = DataAccess;
-const userService = new UserService(new UserDataAccess());
+
 @Route('user')
 class UserController {
   private user: UserService;
@@ -28,11 +28,11 @@ class UserController {
     try {
       const { email, password } = req.body;
 
-      const token = await userService.login(email, password);
-      if (token) {
-        res.json({ token });
+      const userData = await this.user.login(email, password);
+      if (userData) {
+        res.json({ userData });
       } else {
-        res.status(400).json({ msg: 'Invalid Credentials' });
+        res.status(400).json({ message: 'Invalid Credentials' });
       }
     } catch (error) {
       // res.status(400).json({ msg: 'Invalid Credentials' });

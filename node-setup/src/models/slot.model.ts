@@ -14,13 +14,17 @@ const SlotModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
+      day: {
+        type: DataTypes.ENUM('Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'),
+        allowNull: false,
+      },
       startTime: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
 
       },
       endTime: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
 
       },

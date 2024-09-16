@@ -7,6 +7,8 @@ import departmentController from './department.controller';
 import gradeController from './grade.controller';
 import semsterController from './semster.controller';
 import resultController from './result.controller';
+import FacultyController from './faculty.controller';
+import courseEnrollmentController from './courseEnrollment.controller';
 
 export {
   userController,
@@ -18,4 +20,6 @@ export {
   gradeController,
   semsterController,
   resultController,
+  FacultyController,
+  courseEnrollmentController,
 };

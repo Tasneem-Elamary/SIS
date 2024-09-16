@@ -15,7 +15,7 @@ function AllStudents() {
   const [rowValues, setRowValues] = useState<(StudentType & { User: UserType })[]>([]);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchStudents = async () => {

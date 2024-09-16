@@ -39,18 +39,17 @@ class StudentController {
   public getAllStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const students = await this.student.getAllStudents(); // Corrected method call
-
       res.status(200).json(students);
     } catch (error) {
+      console.log('debugggggg', error);
       next(error);
     }
   };
 
-  create = async (req: Request, res: Response, next: NextFunction) => {
+  public create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const {
       studentCode, name, email, bylawCode,
     } = req.body;
-    // console.log('debuggingg:- ', email);
 
     try {
       const student = await this.student.create({
@@ -60,22 +59,23 @@ class StudentController {
         bylawCode,
       });
 
-      res.send({
-        msg: 'User added successfully', student,
+      res.status(201).json({
+        msg: 'User added successfully',
+        student,
       });
     } catch (e) {
       next(e);
     }
   };
 
-  uploadCSVStudents = async (req:Request, res:Response, next:NextFunction) => {
+  public uploadCSVStudents = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const filePath = req.file?.path;
     if (!filePath) {
       return res.status(400).send({ msg: 'CSV file is required' });
     }
 
     try {
-      const parsedData = await parseCSV<StudentType&UserType>(filePath);
+      const parsedData = await parseCSV<StudentType & UserType>(filePath);
       await this.student.createStudents(parsedData);
       return res.status(201).send({ msg: 'Students created successfully' });
     } catch (error) {
@@ -89,7 +89,6 @@ class StudentController {
     const updateData = req.body;
     try {
       const updatedStudent = await this.student.updateStudent(studentId, updateData);
-      console.log(updatedStudent);
       if (!updatedStudent) {
         res.status(404).send({ msg: 'Student not found' });
       } else {
@@ -111,19 +110,28 @@ class StudentController {
     }
   };
 
-  // public async get(req: Request, res: Response, next: NextFunction) {
-  //   // try {
-  //   //   const { id } = req.user.user;
-  //   //   const user = await this.user.getById(id);
-  //   //   res.send({
-  //   //     msg: 'User got successfully', user,
-  //   //   });
-  //   // } catch (e) {
-  //   //   next(e);
-  //   // }
-  // }
+  public registerSchedule = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { studentId, scheduleId } = req.body;
+    try {
+      await this.student.registerSchedule(studentId, scheduleId);
+      res.status(200).send({ msg: 'Schedule registered successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-  login = async (req: Request, res: Response, next: NextFunction) => {
+  public unregisterSchedule = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { studentId, scheduleId } = req.body;
+    try {
+      await this.student.unregisterSchedule(studentId, scheduleId);
+      res.status(200).send({ msg: 'Schedule unregistered successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // Commented out login example
+  // login = async (req: Request, res: Response, next: NextFunction) => {
   //   try {
   //     const { body: { email, password } } = req;
   //     const user = await this.user.getByEmail(email);
@@ -140,6 +148,6 @@ class StudentController {
   //     next(e);
   //   }
   // };
-  };
 }
+
 export default new StudentController();

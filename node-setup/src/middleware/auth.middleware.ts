@@ -1,35 +1,61 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import { verifyToken } from '../util/auth.util';
+
+interface TokenUser extends JwtPayload {
+  id: string;
+  role: 'university admin' | 'faculty admin' | 'professor' | 'teaching assistant' | 'student'; // your roles
+  email: string;
+}
 
 declare global {
   namespace Express {
-    // eslint-disable-next-line no-shadow
     interface Request {
-      user?: any;
+      user?: TokenUser;
     }
   }
 }
 
+// authentication
 const isAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.get('Authorization');
-    const authType = authHeader?.split(' ')[0].toLowerCase();
-    const authToken = authHeader?.replace(/[ ]+/, ' ').split(' ')[1];
-
-    const user = verifyToken(authToken as string);
-
-    const isTokenValid = user && authType === 'bearer';
-    if (isTokenValid) {
-      req.user = user;
-      next();
-    } else {
-      throw new Error('Unauthorized user !!, Please Try to login first !!');
+    if (!authHeader) {
+      return res.status(401).json({ message: 'Authorization header missing' });
     }
-  } catch {
-    next(new Error('Unauthorized user !!, Please Try to login first !!'));
+
+    const [authType, authToken] = authHeader.split(' ');
+
+    if (authType.toLowerCase() !== 'bearer' || !authToken) {
+      return res.status(401).json({ message: 'Invalid authentication type or token' });
+    }
+
+    const user = verifyToken(authToken) as TokenUser;
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    return res.status(401).json({ message: 'Unauthorized: Please log in', error });
   }
 };
 
-export default isAuth;
+// authorization
+const authorizeRoles = (...allowedRoles: TokenUser['role'][]) => (req: Request, res: Response, next: NextFunction) => {
+  const { user } = req;
+
+  if (!user) {
+    return res.status(403).json({ message: 'Forbidden: No user found' });
+  }
+
+  if (!allowedRoles.includes(user.role)) {
+    return res.status(403).json({ message: 'Forbidden: You don\'t have permission to access this resource' });
+  }
+
+  next();
+};
+
+export { isAuth, authorizeRoles };

@@ -6,6 +6,7 @@ class DepartmentData implements DepartmentRepo {
   create = async (department: DepartmentType): Promise<DepartmentType | undefined> => {
     try {
       const newDepartment = await models.Department.create(department);
+      // const newDepartment = await models.Department.create(department);
       return newDepartment ? (newDepartment.get() as DepartmentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -16,6 +17,7 @@ class DepartmentData implements DepartmentRepo {
   getById = async (id: string): Promise<DepartmentType | undefined> => {
     try {
       const department = await models.Department.findOne({ where: { id } });
+      // const department = await models.Department.findOne({ where: { id } });
       return department ? (department.get() as DepartmentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -26,6 +28,7 @@ class DepartmentData implements DepartmentRepo {
   getBydepartmentCode = async (departmentCode: string): Promise<DepartmentType | undefined> => {
     try {
       const department = await models.Department.findOne({ where: { departmentCode } });
+      // const department = await models.Department.findOne({ where: { departmentCode } });
       return department ? (department.get() as DepartmentType) : undefined;
     } catch (error) {
       console.error(error);
@@ -46,6 +49,7 @@ class DepartmentData implements DepartmentRepo {
   update = async (id: string, updates: Partial<DepartmentType>): Promise<DepartmentType | undefined> => {
     try {
       const department = await models.Department.findOne({ where: { id } });
+      // const department = await models.Department.findOne({ where: { id } });
       if (department) {
         await department.update(updates);
         return department.get() as DepartmentType;
@@ -60,6 +64,7 @@ class DepartmentData implements DepartmentRepo {
   delete = async (id: string): Promise<boolean> => {
     try {
       const result = await models.Department.destroy({ where: { id } });
+      // const result = await models.Department.destroy({ where: { id } });
       return result > 0;
     } catch (error) {
       console.error(error);

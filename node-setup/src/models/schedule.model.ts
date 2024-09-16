@@ -25,75 +25,89 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      level: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        // allowNull: false,
+      },
       GroupId: {
         type: DataTypes.UUID,
         allowNull: false,
-        // references: {
-        //   model: 'Group',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Groups',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       SectionId: {
         type: DataTypes.UUID,
         allowNull: false,
-        // references: {
-        //   model: 'Section',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Sections',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       SlotId: {
         type: DataTypes.UUID,
         allowNull: false,
 
-        // references: {
-        //   model: 'Slot',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Slots',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
 
       },
       RoomId: {
         type: DataTypes.UUID,
         allowNull: false,
 
-        // references: {
-        //   model: 'Room',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Rooms',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
 
       },
       CourseId: {
         type: DataTypes.UUID,
         allowNull: false,
 
-        // references: {
-        //   model: 'Course',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        references: {
+          model: 'Courses',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
 
       },
       InstructorId: {
         type: DataTypes.UUID,
-        allowNull: false,
-        // references: {
-        //   model: 'Instructor',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        // allowNull: false,
+        references: {
+          model: 'Instructors',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       SemesterId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        // allowNull: false,
+        references: {
+          model: 'Semesters',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
 
-        // references: {
-        //   model: 'Semester',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+      },
+      DepartmentId: {
+        type: DataTypes.UUID,
+        // allowNull: false,
+        references: {
+          model: 'Departments',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
 
       },
     },

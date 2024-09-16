@@ -33,12 +33,12 @@ const FacultyModel = (sequelize: Sequelize) => {
       },
       UniversityId: {
         type: DataTypes.UUID,
-        allowNull: false,
-        // references: {
-        //   model: 'University',
-        //   key: 'id',
-        // },
-        // onDelete: 'CASCADE',
+        //   allowNull: false,
+        references: {
+          model: 'Universities',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
     },
     {

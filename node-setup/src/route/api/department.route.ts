@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { departmentController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
+import { isAuth } from '../../middleware/auth.middleware';
 import { validateCreateDepartment, validateUpdateDepartment, validateDepartmentId } from '../../middleware/validation/departmentValidation.middleware';
 
 const router = express.Router();

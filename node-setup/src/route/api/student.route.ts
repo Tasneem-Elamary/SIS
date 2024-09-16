@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { userController } from '../../controller';
-import isAuth from '../../middleware/auth.middleware';
 
 import studentController from '../../controller/student.controller';
 import { uploadCSV } from '../../middleware/fileUpload';
@@ -28,5 +27,9 @@ router.route('/updateStudent/:studentId')
   .put(studentController.updateStudent);
 router.route('/deleteStudent/:studentId')
   .delete(studentController.deleteStudent);
+router.route('/registerSchedule')
+  .post(studentController.registerSchedule);
 
+router.route('/unregisterSchedule')
+  .post(studentController.unregisterSchedule);
 export default router;
