@@ -1,4 +1,3 @@
-import user from './user.model';
 import student from './student.model';
 import instructor from './instructor.model';
 import schedule from './schedule.model';
@@ -18,6 +17,9 @@ import semester from './semester.model';
 import room from './room.model';
 import slot from './slot.model';
 import { db } from '../../config/postgresDB.config';
+import user from './user.model';
+import coursePrerequisites from './coursePrerequisites.model';
+import departmentCourse from './departmentCourse.model';
 
 const User = user(db);
 const Student = student(db);
@@ -38,39 +40,81 @@ const CourseBylaw = courseBylaw(db);
 const Result = result(db);
 const Semester = semester(db);
 const Room = room(db);
+const CoursePrerequisite = coursePrerequisites(db);
+const DepartmentCourse = departmentCourse(db);
 
 Faculty.hasMany(Room, { foreignKey: 'FacultyId' });
 Room.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 
-Department.hasMany(Bylaw, { foreignKey: 'DepartmentId' });
-Bylaw.belongsTo(Department, { foreignKey: 'DepartmentId' });
+// Bylaw.hasMany(Department, { foreignKey: 'BylawId' });
+// Department.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Bylaw.hasMany(Grade, { foreignKey: 'BylawId' });
 Grade.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+
+Bylaw.hasMany(Student, { foreignKey: 'BylawId' });
+Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Bylaw.hasMany(BylawRule, { foreignKey: 'BylawId' });
 BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Course.belongsToMany(Course, {
   through: 'CoursePrerequisites',
-  as: 'Prerequisites',
+  as: 'Prerequisite',
   foreignKey: 'courseId',
   otherKey: 'prerequisiteId',
 });
-Course.belongsToMany(Bylaw, { through: 'BylawCourses' });
-Bylaw.belongsToMany(Course, { through: 'BylawCourses' });
 
-Course.belongsToMany(Department, { through: 'DepartmentCourses' });
-Department.belongsToMany(Course, { through: 'DepartmentCourses' });
+Course.belongsToMany(Course, {
+  through: 'CoursePrerequisites',
+  as: 'DependentCourse',
+  foreignKey: 'prerequisiteId',
+  otherKey: 'courseId',
+});
 
-Student.hasMany(CourseEnrollment, { foreignKey: 'studentId' });
-CourseEnrollment.belongsTo(Student, { foreignKey: 'studentId' });
+Course.belongsToMany(Bylaw, {
+  through: 'BylawCourses', foreignKey: 'CourseId', otherKey: 'BylawId', timestamps: false,
+});
+Bylaw.belongsToMany(Course, {
+  through: 'BylawCourses', foreignKey: 'BylawId', otherKey: 'CourseId', timestamps: false,
+});
 
-Course.hasMany(CourseEnrollment, { foreignKey: 'CourseId' });
-CourseEnrollment.belongsTo(Course, { foreignKey: 'CourseId' });
+Course.belongsToMany(Department, {
+  through: 'DepartmentCourses',
+  foreignKey: 'CourseId',
+  otherKey: 'DepartmentId',
+  timestamps: false,
 
-// Course.belongsToMany(Student, { through: 'CourseEnrollments' });
-// Student.belongsToMany(Course, { through: 'CourseEnrollments' });
+});
+
+Department.belongsToMany(Course, {
+  through: 'DepartmentCourses',
+  foreignKey: 'DepartmentId',
+  otherKey: 'CourseId',
+  timestamps: false,
+});
+Department.belongsToMany(Bylaw, {
+  through: 'BylawDepartments',
+  foreignKey: 'DepartmentId',
+  otherKey: 'BylawId',
+  timestamps: false,
+});
+
+Bylaw.belongsToMany(Department, {
+  through: 'BylawDepartments',
+  foreignKey: 'BylawId',
+  otherKey: 'DepartmentId',
+  timestamps: false,
+});
+
+// Student.hasMany(CourseEnrollment, { foreignKey: 'studentId' });
+// CourseEnrollment.belongsTo(Student, { foreignKey: 'studentId' });
+
+// Course.hasMany(CourseEnrollment, { foreignKey: 'CourseId' });
+// CourseEnrollment.belongsTo(Course, { foreignKey: 'CourseId' });
+
+Course.belongsToMany(Student, { through: 'CourseEnrollments' });
+Student.belongsToMany(Course, { through: 'CourseEnrollments' });
 
 Student.hasMany(Result, { foreignKey: 'StudentId' });
 Result.belongsTo(Student, { foreignKey: 'StudentId' });
@@ -108,8 +152,8 @@ Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 Department.hasMany(Instructor, { foreignKey: 'DepartmentId' });
 Instructor.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
-Student.belongsToMany(Instructor, { through: 'StudentAdvisors' });
-Instructor.belongsToMany(Student, { through: 'StudentAdvisors' });
+Student.belongsToMany(Instructor, { through: 'StudentAdvisors', as: 'Instuctors' });
+Instructor.belongsToMany(Student, { through: 'StudentAdvisors', as: 'Students' });
 
 Slot.hasMany(Schedule, { foreignKey: 'SlotId' });
 Schedule.belongsTo(Slot, { foreignKey: 'SlotId' });
@@ -151,7 +195,11 @@ export const models = {
   Section,
   Group,
   Slot,
-
+  Grade,
+  Semester,
+  Result,
+  CoursePrerequisite,
+  DepartmentCourse,
 };
 
 export const sequelize = db;

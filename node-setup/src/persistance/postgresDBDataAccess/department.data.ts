@@ -33,9 +33,9 @@ class DepartmentData implements DepartmentRepo {
     }
   };
 
-  getAll = async (): Promise<DepartmentType[] | undefined[]> => {
+  getAllDepartmentsByFacultId = async (FacultyId: string): Promise<DepartmentType[] | undefined[]> => {
     try {
-      const departments = await models.Department.findAll();
+      const departments = await models.Department.findAll({ where: { FacultyId } });
       return departments.map((department) => department.get() as DepartmentType);
     } catch (error) {
       console.error(error);

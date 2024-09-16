@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function AllLecturer({ userType, path }) {
-    const [rowValues, setrowValues] = useState<InstructorType & { User: UserType }[]>([]);
+    const [rowValues, setrowValues] = useState<InstructorType &  UserType []>([]);
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,12 +50,12 @@ function AllLecturer({ userType, path }) {
             <div  className='container-table'>
                 <div className="fixed-header">
                     <div style={{ marginLeft: "10px" }} className='header-content'>
-                        <h3>{userType === 'Lecturer' ? 'Lecturers' : 'Doctors'}</h3>
+                        <h3>{userType === 'Lecturer' ? 'TAs' : 'Doctors'}</h3>
                         <Button color='primary' className='add-button' onClick={handleAddLecturerClick}>Add {userType}</Button>
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","id", "firstName", "employmentType"]} rowValues={rowValues}  pathKey="/list-of-students"/>
+                <ViewTable headers={["","ID", "Name", "Email"]} features={["id", "name", "email"]} rowValues={rowValues}  pathKey="/:id/list-of-students" showSearchBars={false} />
             </div>
 
         </div>

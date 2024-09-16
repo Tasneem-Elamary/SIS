@@ -1,0 +1,38 @@
+.container{
+  margin-top: 100px;
+}
+.form{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.or-break-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .line {
+    flex-grow: 1;
+    border: none;
+    height: 1px;
+    background-color: #8E8E8E;
+    margin: 0 10px;
+  }
+  
+  .or {
+    padding: 0 50px;
+     color: #000000;
+ 
+  }
+ .create-button{
+    width: 150px;
+ }
+ .file-upload{
+ width:50% !important ;
+
+ }

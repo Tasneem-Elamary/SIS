@@ -1,9 +1,11 @@
+import { Transaction } from 'sequelize';
 import models from '../../models';
 import { UserRepo } from '../Repositories';
 import { UserType } from '../../types';
-
+import { db } from '../../../config/postgresDB.config';
+// let User =models.User
 class UserData implements UserRepo {
-  create = async (user: UserType): Promise<UserType | undefined> => {
+  public async create(user: UserType, transaction?: Transaction): Promise<UserType | undefined> {
     try {
       const newUser = await models.User.create(user);
       return newUser.get();
@@ -11,7 +13,7 @@ class UserData implements UserRepo {
       console.error(error);
       throw new Error('Fail to create the user, Please try again !!');
     }
-  };
+  }
 
   getById = async (id: string): Promise<UserType | undefined> => {
     try {
@@ -33,15 +35,17 @@ class UserData implements UserRepo {
     }
   };
 
-  delete = async (id: string): Promise<boolean> => {
+  delete = async (id: string|undefined, transaction?:Transaction): Promise<boolean> => {
     try {
-      const deletedRowsCount = await models.User.destroy({ where: { id } });
-
-      // Sequelize destroy returns the number of rows deleted
-      return deletedRowsCount > 0;
+      const user = await models.User.findByPk(id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      await user.destroy({ transaction });
+      return true;
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to delete the user, please try again!');
+      console.log(error);
+      throw new Error('Failed to delete user');
     }
   };
 }

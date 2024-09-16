@@ -1,47 +1,50 @@
-import { Sequelize, DataTypes } from 'sequelize';
+import { Sequelize, DataTypes, Model } from 'sequelize';
 
 import { v4 as uuidv4 } from 'uuid';
+import { BylawType } from '../types';
 
 // Define the Bylaw model
-const bylaw = (db: Sequelize) => db.define('Bylaw', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: () => uuidv4(),
-    primaryKey: true,
-    unique: true,
-    allowNull: false,
-  },
-  code: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-  },
-  year: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  credit_Hours: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  min_GPA: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  min_Hours: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  DepartmentId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    // references: {
-    //   model: 'Department',
-    //   key: 'id',
-    // },
-  },
-}, {
-  timestamps: false,
+class Bylaw extends Model<BylawType> { }
+const BylawModel = (sequelize: Sequelize) => {
+  Bylaw.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
+        primaryKey: true,
+        unique: true,
+        allowNull: false,
+      },
+      code: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      year: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      credit_Hours: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      min_GPA: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      min_Hours: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
 
-});
+    },
+    {
+      sequelize,
+      timestamps: false,
+      modelName: 'Bylaw',
 
-export default bylaw;
+    },
+  );
+  return Bylaw;
+};
+
+export default BylawModel;

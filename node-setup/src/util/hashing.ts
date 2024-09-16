@@ -8,7 +8,11 @@ const hashPassword = (password: string) => {
   return bcrypt.hashSync(`${password}${PEPPER}`, salt);
 };
 
-const isPasswordValid = (hashedPassword: string, password: string) => {
+const isPasswordValid = (hashedPassword: string | undefined, password: string | undefined): boolean => {
+  if (!hashedPassword || !password) {
+    return false;
+  }
+
   const isValid = bcrypt.compareSync(
     `${password}${PEPPER}`,
     hashedPassword,

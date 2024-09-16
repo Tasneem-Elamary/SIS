@@ -1,0 +1,3 @@
+email,password,studentCode,firstName,lastName,bylawCode
+john.doe23@university.edu,password123,STU001,John,Doe,BYL2024
+jane.smith89@university.edu,password123,STU002,Jane,Smith,BYL2024

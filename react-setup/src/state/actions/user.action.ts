@@ -1,48 +1,65 @@
-/* eslint-disable class-methods-use-this */
 import { Dispatch } from 'redux';
 import { userApi } from '../../api';
 import { statusAction, fetchAction } from '.';
-import { IUser } from '../../interfaces/domain';
-
+import { UserType } from '../../interfaces/domain';
+import { NavigateFunction } from 'react-router';
 class User {
-  addUserAction = (user: IUser) => async (dispatch: Dispatch) => {
-   
-
+  addUserAction = async (user: UserType, dispatch: Dispatch) => {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
+
       const { data: { msg } } = await userApi.addUser(user);
+
       dispatch(statusAction.addSuccessStatus(msg));
+    } catch (e: any) {
+      dispatch(statusAction.addErrorStatus(e));
+    } finally {
       dispatch(fetchAction.fetchingFailed());
-    } catch (e) {
+    }
+  };
+
+  loginAction = (credentials: { email: string; password: string }, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
+    try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+
+      const { data: { token, role } } = await userApi.login(credentials);
+
+      // Ensure token and role are received
+      if (token && role) {
+        console.log('Token and role received:', { token, role });
+
+        // Store token and role in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
+
+        // Verify storage
+        const storedToken = localStorage.getItem('token');
+        const storedRole = localStorage.getItem('role');
+        console.log('Stored Token:', storedToken);
+        console.log('Stored Role:', storedRole);
+
+        // Dispatch success action
+        dispatch(statusAction.addSuccessStatus('Login successful'));
+
+        // Navigate based on role
+        if (storedRole === 'student') {
+          console.log('Navigating to /view-students');
+          navigate('/view-students');
+        } else {
+          console.log('Role is not student, no navigation applied.');
+        }
+      } else {
+        console.error('Token or role not received');
+      }
+    } catch (e: any) {
+      dispatch(statusAction.addErrorStatus(e));
+      console.error('Login failed:', e);
+    } finally {
       dispatch(fetchAction.fetchingFailed());
-      dispatch(statusAction.addErrorStatus(e as Error));
     }
   };
 }
 
 export default new User();
-
-// import { Dispatch } from 'redux';
-// import { userApi } from '../../api';
-// import { statusAction, fetchAction } from '.';
-// import { IUser } from '../../interfaces/domain';
-
-
-// export const addUserAction = (user: IUser) => async (dispatch: Dispatch) => {
-  
-//     try {
-//       dispatch(statusAction.clearStatus());
-//       dispatch(fetchAction.fetchingTime());
-//       const { data: { msg } } = await userApi.addUser(user);
-//       dispatch(statusAction.addSuccessStatus(msg));
-//       dispatch(fetchAction.fetchingFailed());
-//     } catch (e:any) {
-//       dispatch(fetchAction.fetchingFailed());
-//       dispatch(statusAction.addErrorStatus(e));
-//     }
-//   };
-
-
-// export default addUserAction;
-

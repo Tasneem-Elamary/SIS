@@ -10,15 +10,18 @@ import UniversityType from './university.d';
 import GroupType from './group.d';
 import SectionType from './section.d';
 import SlotType from './slot.d';
-import CourseType from './course';
+import CourseType, { CoursewithRegistedStudentsType } from './course';
 import BylawType from './bylaw';
 import GradeType from './grade';
 import CourseBylawType from './courseBylaw';
 import CourseEnrollmentType from './courseEnrollment';
 import RoomType from './room';
 import ResultType from './result';
-import SemesterType from './semster';
+import SemesterType from './semester';
 import BylawRuleType from './bylawRule';
+import StudentAdvisorType from './studentAdvisor';
+import CoursePrerequisitesType from './coursePrerequisite';
+import BylawDepartmentCourseType from './bylawDepartmentCourse';
 
 export {
   ErrorType,
@@ -41,5 +44,9 @@ export {
   ResultType,
   SemesterType,
   BylawRuleType,
+  StudentAdvisorType,
+  CoursePrerequisitesType,
+  BylawDepartmentCourseType,
+  CoursewithRegistedStudentsType,
 
 };

@@ -20,6 +20,18 @@ const course = (db: Sequelize) => db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    level: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    min_GPA: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+    },
+    minEarnedHours: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     creditHours: {
       type: DataTypes.INTEGER,
       allowNull: false,

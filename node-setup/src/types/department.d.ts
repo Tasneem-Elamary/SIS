@@ -4,6 +4,8 @@ type DepartmentType ={
   name: string,
   HeadId: string,
   FacultyId: string,
+
+  // BylawId:string,
 };
 
 export default DepartmentType;

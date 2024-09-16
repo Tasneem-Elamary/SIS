@@ -1,0 +1,5 @@
+studentCode,firstName,lastName,email,password,bylawCode
+SC002,Jane,Doe,jane@example.com,pass456,BYL2024
+SC003,Jim,Beam,jim@example.com,pass789,BYL2024
+SC004,Jack,Sparrow,jack@example.com,pass012,BYL2024
+SC005,Jill,Hill,jill@example.com,pass345,BYL2024

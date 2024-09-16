@@ -1,7 +1,7 @@
 import { UserType } from '../../types';
 
 interface UserRepo {
-  login(email: string, password: string): Promise<string>;
+  login(email: string, password: string): Promise<{ token: string; user: UserType }>;
 //   logout(): Promise<void>;
 //   resetPassword(email: string): Promise<void>;
 //   handlePasswordReset(token: string, newPassword: string): Promise<void>;

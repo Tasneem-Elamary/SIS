@@ -1,7 +1,7 @@
-import { UserType } from '../../types';
+import { UserType, UniversityType, FacultyType } from '../../types';
 
-interface universityAdminRepo {
-    createFacultyAdmin(FacultyAdmin:UserType): Promise<UserType | undefined>;
-}
+// interface universityAdminRepo {
 
-export default universityAdminRepo;
+// }
+
+// export default universityAdminRepo;

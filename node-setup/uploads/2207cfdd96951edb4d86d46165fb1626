@@ -1,0 +1,4 @@
+email,password,studentCode,name,bylawCode
+john.changed@example.com,SecurePass123,S123456,John,BYL2024
+jane.smith@example.com,UltraSafe456,S654321,Jane,BYL2024
+mike.jones@example.com,SuperSecret789,S987654,Mike,BYL2024
