@@ -1,4 +1,8 @@
-import models, { Bylaw, BylawCourse, BylawRule, Course, Faculty, Grade } from '../../models';
+import {
+  Bylaw, Grade, BylawRule, Faculty, Course,
+  BylawCourse,
+} from '../../models';
+import models from '../../models';
 import { db } from '../../../config/postgresDB.config';
 import {
   BylawCourseType, BylawRuleType, BylawType, CourseType, GradeType,
@@ -8,8 +12,7 @@ import { BylawRepo } from '../Repositories';
 class BylawDataAccess implements BylawRepo {
   create = async (bylaw: BylawType, transaction?: any): Promise<BylawType | undefined> => {
     try {
-      //const newBylaw = await models.Bylaw.create(bylaw, { transaction });
-      const newBylaw = await Bylaw.create(bylaw, { transaction });
+      const newBylaw = await models.Bylaw.create(bylaw, { transaction });
       return newBylaw.get();
     } catch (error) {
       console.error('Failed to create the bylaw:', error);
@@ -19,7 +22,6 @@ class BylawDataAccess implements BylawRepo {
 
   getByCode = async (code: string): Promise<BylawType | undefined> => {
     try {
-      //const bylaw = await models.Bylaw.findOne({ where: { code } });
       const bylaw = await models.Bylaw.findOne({ where: { code } });
       return bylaw ? (bylaw.get() as BylawType) : undefined;
     } catch (error) {

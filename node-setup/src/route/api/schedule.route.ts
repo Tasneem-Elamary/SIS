@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ScheduleController from '../../controller/schedule.controller';
 import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
-import isUserValid from '../../middleware/userValidation.middleware';
+
 import { uploadCSV } from '../../middleware/fileUpload';
 
 const router = Router();

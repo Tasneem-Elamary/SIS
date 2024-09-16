@@ -1,4 +1,4 @@
-import {
+import models, {
   Bylaw, CourseEnrollment, Schedule, Student, StudentSchedule, User,
 } from '../../models';
 import { StudentRepo } from '../Repositories';

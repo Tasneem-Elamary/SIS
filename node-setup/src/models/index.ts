@@ -66,15 +66,9 @@ Course.belongsToMany(Course, {
   foreignKey: 'courseId',
   otherKey: 'prerequisiteId',
 });
-<<<<<<< HEAD
-Course.belongsToMany(Bylaw, { through: 'BylawCourse', foreignKey: 'CourseId' });
-Bylaw.belongsToMany(Course, { through: 'BylawCourse', foreignKey: 'BylawId' });
 
-Course.belongsToMany(Department, { through: 'DepartmentCourses' });
-Department.belongsToMany(Course, { through: 'DepartmentCourses' });
 Student.belongsToMany(Course, { through: CourseEnrollment, foreignKey: 'StudentId' });
 Course.belongsToMany(Student, { through: CourseEnrollment, foreignKey: 'CourseId' });
-=======
 
 Course.belongsToMany(Course, {
   through: 'CoursePrerequisites',
@@ -124,9 +118,6 @@ Bylaw.belongsToMany(Department, {
 // Course.hasMany(CourseEnrollment, { foreignKey: 'CourseId' });
 // CourseEnrollment.belongsTo(Course, { foreignKey: 'CourseId' });
 
-Course.belongsToMany(Student, { through: 'CourseEnrollments' });
-Student.belongsToMany(Course, { through: 'CourseEnrollments' });
->>>>>>> 3bc0290c23e220a41da1fa1e42519edb3b0e2c4d
 
 Student.hasMany(Result, { foreignKey: 'StudentId' });
 Result.belongsTo(Student, { foreignKey: 'StudentId' });
@@ -167,14 +158,8 @@ Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 Department.hasMany(Instructor, { foreignKey: 'DepartmentId' });
 Instructor.belongsTo(Department, { foreignKey: 'DepartmentId' });
 
-<<<<<<< HEAD
 Student.belongsToMany(Instructor, { through: 'StudentAdvisors', foreignKey: 'StudentId' });
 Instructor.belongsToMany(Student, { through: 'StudentAdvisors', foreignKey: 'InstructorId' });
-=======
-Student.belongsToMany(Instructor, { through: 'StudentAdvisors', as: 'Instuctors' });
-Instructor.belongsToMany(Student, { through: 'StudentAdvisors', as: 'Students' });
-
->>>>>>> 3bc0290c23e220a41da1fa1e42519edb3b0e2c4d
 Slot.hasMany(Schedule, { foreignKey: 'SlotId' });
 Schedule.belongsTo(Slot, { foreignKey: 'SlotId' });
 
@@ -233,19 +218,31 @@ export {
   Semester,
   Grade,
   Group,
-<<<<<<< HEAD
   Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
-=======
-  Slot,
-  Grade,
-  Semester,
   Result,
   CoursePrerequisite,
   DepartmentCourse,
->>>>>>> 3bc0290c23e220a41da1fa1e42519edb3b0e2c4d
 };
-
+const models= {
+  User,
+  Course,
+  Bylaw,
+  Student,
+  Instructor,
+  Schedule,
+  Department,
+  Faculty,
+  University,
+  Section,
+  Semester,
+  Grade,
+  Group,
+  Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
+  Result,
+  CoursePrerequisite,
+  DepartmentCourse,
+};
 // export const sequelize = db;
 
 // // This export is specifically for sequelize-mig compatibility
-// export default models;
+export default models;

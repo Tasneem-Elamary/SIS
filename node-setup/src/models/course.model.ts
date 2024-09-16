@@ -42,7 +42,6 @@ const course = (db: Sequelize) => db.define(
   },
 );
 
-  return Course;
-};
 
-export default CourseModel;
+
+export default course;
