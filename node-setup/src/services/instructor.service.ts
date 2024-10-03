@@ -277,6 +277,17 @@ class Instructor extends User implements IInstuctor {
       throw new Error('Failed to get pending students for the specified advisor');
     }
   };
+
+  getDistinctCoursesByProfessor = async (instructorId: string): Promise<InstructorType&{Schedules:CourseType[]} | undefined> => {
+    try {
+      const courses = await this.instructorData.getDistinctCoursesByProfessor(instructorId);
+
+      return courses || undefined;
+    } catch (error) {
+      console.error('Error fetching records for advisor:', error);
+      throw new Error('Failed to get pending students for the specified advisor');
+    }
+  };
 }
 
 export default Instructor;

@@ -64,7 +64,7 @@ class InstructorController {
       const instructor = await this.instructor.getInstructorById(id);
 
       if (!instructor) {
-        res.status(404).json({ message: 'Instructor not found' });
+        return res.status(404).json({ message: 'Instructor not found' });
       }
 
       res.status(200).json({ message: 'done', instructor });
@@ -80,7 +80,7 @@ class InstructorController {
       const instructor = await this.instructor.getInstructorByEmail(email);
 
       if (!instructor) {
-        res.status(404).json({ message: 'Instructor not found' });
+        return res.status(404).json({ message: 'Instructor not found' });
       }
 
       res.status(200).json({ message: 'done', instructor });
@@ -126,7 +126,7 @@ class InstructorController {
       const updatedInstructor = await this.instructor.updateInstructor(id, updatedData);
 
       if (!updatedInstructor) {
-        res.status(404).json({ message: 'Instructor not found' });
+        return res.status(404).json({ message: 'Instructor not found' });
       }
 
       res.status(200).json({ message: 'Instructor updated', updatedInstructor });
@@ -143,7 +143,7 @@ class InstructorController {
       const deletedInstructor = await this.instructor.deleteInstructor(id);
 
       if (!deletedInstructor) {
-        res.status(404).json({ message: 'Instructor not found' });
+        return res.status(404).json({ message: 'Instructor not found' });
       }
 
       res.status(200).json({ message: 'Instructor deleted' });
@@ -152,7 +152,7 @@ class InstructorController {
     }
   };
 
-  getAdvisedStudents = async (req: Request, res: Response): Promise<void> => {
+  getAdvisedStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId } = req.params;
 
     try {
@@ -160,11 +160,11 @@ class InstructorController {
       res.status(200).json({ message: 'done', instuctor });
     } catch (error) {
       console.error('Error fetching students for advisor:', error);
-      res.status(500).json({ message: 'Failed to get students for the advisor' });
+      next(error);
     }
   };
 
-  AdviseStudent = async (req: Request, res: Response): Promise<void> => {
+  AdviseStudent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId, studentId } = req.params;
     try {
       await this.instructor.AdviseStudent(instructorId, studentId); // Call service method
@@ -176,7 +176,7 @@ class InstructorController {
   };
 
   // Method to remove a student from an advisor
-  deleteAdvisedStudent = async (req: Request, res: Response): Promise<void> => {
+  deleteAdvisedStudent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId, studentId } = req.params;
 
     try {
@@ -189,7 +189,7 @@ class InstructorController {
   };
 
   // Method to update a student-advisor relationship
-  updateAdvisedStudent = async (req: Request, res: Response): Promise<void> => {
+  updateAdvisedStudent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId, studentId } = req.params;
     const { newInstructorId } = req.body;
 
@@ -202,7 +202,7 @@ class InstructorController {
     }
   };
 
-  getListOfPendingStudents = async (req: Request, res: Response): Promise<void> => {
+  getListOfPendingStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId } = req.params;
 
     try {
@@ -214,12 +214,24 @@ class InstructorController {
     }
   };
 
-  getSelfStudyOROverloadPendingStudents = async (req: Request, res: Response): Promise<void> => {
+  getSelfStudyOROverloadPendingStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { instructorId, enrollmentType } = req.params;
 
     try {
       const instuctor = await this.instructor.getSelfStudyOROverloadPendingStudents(instructorId, enrollmentType); // Call service method
       res.status(200).json({ message: 'done', instuctor });
+    } catch (error) {
+      console.error('Error fetching students for advisor:', error);
+      res.status(500).json({ message: 'Failed to get pending students for the advisor' });
+    }
+  };
+
+  getDistinctCoursesByInstructor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { instructorId } = req.params;
+
+    try {
+      const instructor = await this.instructor.getDistinctCoursesByProfessor(instructorId); // Call service method
+      res.status(200).json({ message: 'done', instructor });
     } catch (error) {
       console.error('Error fetching students for advisor:', error);
       res.status(500).json({ message: 'Failed to get pending students for the advisor' });

@@ -176,6 +176,7 @@ Schedule.belongsTo(Group, { foreignKey: 'GroupId' });
 
 Section.hasOne(Schedule, { foreignKey: 'SectionId' });
 Schedule.belongsTo(Section, { foreignKey: 'SectionId' });
+
 Course.hasMany(Schedule, { foreignKey: 'CourseId' });
 Schedule.belongsTo(Course, { foreignKey: 'CourseId' });
 

@@ -38,7 +38,7 @@ function CourseLevel({ level}) {
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","Course Code", "Name","Level","Bylaw Id","Department Id"]} features={["code", "name","level","Bylaws","Departments"]} rowValues={rowValues}  pathKey="/Course/:id/bylaw/:bylawId" showSearchBars={true} />
+                <ViewTable headers={["","Course Code", "Name","Level","Bylaw Id","Department Id"]} features={["code", "name","level","Bylaws","Departments"]} rowValues={rowValues}  pathKey="/Course/:id/bylaw/:bylawId" showSearchBars={true} arraycolumn='code'/>
             </div>
 
         </div>

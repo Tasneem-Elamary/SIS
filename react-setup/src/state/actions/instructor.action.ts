@@ -102,6 +102,76 @@ getOverloadStudentsAction = (id:string) => async (dispatch: Dispatch) => {
       return [];
   }
 };
+getDoctorCourses = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, instructor} } = await instructorApi.getDoctorCourses(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instructor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+approveRegularRequest = (StudentId: string, cell: number) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, student} } = await instructorApi.approveRegularRequest(StudentId,cell);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return student;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+rejectedselfstudyOROverloadRequest = (StudentId: string, courseId: string, courseType: string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, student} } = await instructorApi.rejectedselfstudyOROverloadRequest(StudentId,courseId,courseType);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return student;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+approveselfstudyOROverloadRequest = (StudentId: string, courseId: string, courseType: string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, student} } = await instructorApi.approveselfstudyOROverloadRequest(StudentId,courseId,courseType);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return student;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+rejectRegularRequest = (StudentId: string, cell: number) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, student} } = await instructorApi.rejectRegularRequest(StudentId,cell);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return student;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
 }
 
 export default new Instructor()

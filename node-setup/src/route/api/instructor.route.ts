@@ -32,4 +32,6 @@ router.get('/:instructorId/pendingStudents', instructorController.getListOfPendi
 
 router.get('/:instructorId/students/:enrollmentType', instructorController.getSelfStudyOROverloadPendingStudents);
 
+router.get('/:instructorId/courses', instructorController.getDistinctCoursesByInstructor);
+
 export default router;

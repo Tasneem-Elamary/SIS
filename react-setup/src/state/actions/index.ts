@@ -13,3 +13,4 @@ export { default as instructorAction } from './instructor.action';
 export { default as logisticAction } from './logistics.action';
 export { default as scheduleAction } from './schedule.action';
 export { default as courseAction } from './course.action';
+export { default as reultAction} from './result.action';

@@ -212,6 +212,7 @@ const AddStudent = ({ addStudentAction, addStudentsAction }: any) => {
                 name="file"
                 type="file"
                 onChange={handleFileUpload}
+                
               />
               {fileError && <FormFeedback>{fileError}</FormFeedback>}
             </FormGroup>

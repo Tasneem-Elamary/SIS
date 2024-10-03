@@ -5,6 +5,7 @@ import {
 } from '../persistance/Repositories';
 import {
   ResultType,
+  StudentType,
 } from '../types';
 // import StudentRepo from './interfaces/IStudent';
 
@@ -60,30 +61,40 @@ private gradeData:GradesRepo,
     try {
       const transformedData = await Promise.all(
         results.map(async (result:any) => {
-          const student = await this.studentData.getStudentByCode(result.studentCode);
-          const course = await this.courseData.getByCourseCode(result.courseCode);
+          const student :any = await this.studentData.getStudentByCode(result.studentCode);
+          const course :any = await this.courseData.getByCourseCode(result.courseCode);
 
           const grade = result.GradeLetter
             ? await this.gradeData.getGradeIdByLetterAndBylawId(result.GradeLetter, student?.BylawId as string)
             : null;
 
-          // Get the current semester
-          const currentSemester = await this.semsterData.getCurrentSemester();
+          const [season, year] = result.Semster.split(' ');
 
-          // Return transformed object
-          return {
+          // Find the semester based on season and year
+          const semester:any = await this.semsterData.getBySeasonAndyear(season, year);
+
+          const existingResult:any = await this.resultData.getByStudentIdAndCourseIdAndSemesterId(student?.id, course?.id, semester?.id);
+
+          const resultData = {
             StudentId: student?.id,
             CourseId: course?.id,
-            SemesterId: currentSemester?.id,
+            SemesterId: semester?.id,
             GradeId: grade?.id || null, // Handle the case where GradeId may be null
             finalGrade: result.finalGrade || null,
             midtermGrade: result.midtermGrade || null,
             courseWork: result.courseWork || null,
           };
+          if (existingResult) {
+            // If the result already exists, update it
+            return this.resultData.updateResultById(existingResult?.id, resultData);
+            // return existingResult;
+          }
+
+          return this.resultData.create(resultData);
         }),
       );
-      const createdResults = await this.resultData.bulkCreateResults(transformedData);
-      return createdResults.length > 0 ? createdResults : [];
+
+      return transformedData;
     } catch (error) {
       console.error('Error creating results from CSV:', error);
       return [];
@@ -98,6 +109,17 @@ private gradeData:GradesRepo,
     } catch (error) {
       console.error(`Error updating result with ID ${id}:`, error);
       return undefined;
+    }
+  };
+
+  getAllResults = async () : Promise<ResultType[] | undefined[]> => {
+    try {
+      console.log('bbbbbbbbbbbbb');
+      const results = await this.resultData.getAll();
+      return results;
+    } catch (error) {
+      throw new Error('Error fetching results for ');
+      return [];
     }
   };
 }

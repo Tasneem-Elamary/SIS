@@ -30,6 +30,45 @@ function ListOfPendingStudents() {
 
         fetchStudents();
     }, [dispatch]);
+
+
+     const handleAcceptClick = async(Row,arrayIndex) => {
+    console.log(`Accepted:${Row.id} ${Row.Schedules[arrayIndex].cell}`);
+    const cellToMatch = Row.Schedules[arrayIndex].cell;
+    setrowValues((prevRows) => {
+        return prevRows.map((row) => {
+        
+          if (row.id === Row.id) {
+            
+            return {
+              ...row, // Spread the row to keep all other properties intact
+              Schedules: row.Schedules.filter((schedule) => schedule.cell !== cellToMatch)
+            };
+          }
+          return row; // Return the row as-is if it doesn't match
+        });
+      });
+    const fetchedStudent = await dispatch(instructorAction.approveRegularRequest(Row.id,Row.Schedules[arrayIndex].cell));
+  };
+
+  const handleDeclineClick =async (Row,arrayIndex) => {
+    const cellToMatch = Row.Schedules[arrayIndex].cell;
+    setrowValues((prevRows) => {
+        return prevRows.map((row) => {
+        
+          if (row.id === Row.id) {
+            
+            return {
+              ...row, // Spread the row to keep all other properties intact
+              Schedules: row.Schedules.filter((schedule) => schedule.cell !== cellToMatch)
+            };
+          }
+          return row; // Return the row as-is if it doesn't match
+        });
+      });
+    const fetchedStudent = await dispatch(instructorAction.rejectRegularRequest(Row.id,Row.Schedules[arrayIndex].cell));
+ 
+  };
     return (
         <div className="student-list-page">
             <RegisterationNavbar />
@@ -52,10 +91,13 @@ function ListOfPendingStudents() {
                 {/* Table Section */}
                 <div className="table-section">
                     <ViewTable
-                        headers={["", "ID","Name" ,"Schedule IDs"]}
-                        features={["id", "name", "Schedules"]}
+                        headers={["", "student Code","Name" ,"Schedule Cell","Decision"]}
+                        features={["studentCode", "name", "Schedules"]}
                         rowValues={rowValues}
                         showSearchBars={false}// Replace with actual data
+                        arraycolumn='cell'
+                        onAccept={handleAcceptClick}  // Pass the accept handler as a prop
+                       onDecline={handleDeclineClick}
                     />
                 </div>
             </div>

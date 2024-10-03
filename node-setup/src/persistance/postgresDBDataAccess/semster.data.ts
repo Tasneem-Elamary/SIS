@@ -24,6 +24,16 @@ class SemesterData implements SemesterRepo {
     }
   };
 
+  getBySeasonAndyear = async (season: string, year:number): Promise<SemesterType | undefined> => {
+    try {
+      const semester = await models.Semester.findOne({ where: { season, year } });
+      return semester ? (semester.get() as SemesterType) : undefined;
+    } catch (error) {
+      console.error('Failed to get the semester:', error);
+      throw new Error('Failed to get the semester, please try again!');
+    }
+  };
+
   getAll = async (): Promise<SemesterType[] | undefined[]> => {
     try {
       const semesters = await models.Semester.findAll();

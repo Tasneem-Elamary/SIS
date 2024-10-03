@@ -1,5 +1,7 @@
 import { Transaction } from 'sequelize';
-import { InstructorType, UserType, StudentType } from '../../types';
+import {
+  InstructorType, UserType, StudentType, CourseType,
+} from '../../types';
 
 interface InstructorRepo {
   create(instructor: InstructorType, transaction?:Transaction): Promise<InstructorType | undefined>;
@@ -12,6 +14,8 @@ getByCode(code: string): Promise<InstructorType | undefined>;
   delete(id: string, transaction?:Transaction): Promise<boolean>;
   getListOfPendingStudents (instructorId: string): Promise<InstructorType|undefined>
   getSelfStudyOROverloadPendingStudents (instructorId: string, enrollmentType:string): Promise<InstructorType|undefined>
+  getDistinctCoursesByProfessor (instructorId: string): Promise<InstructorType&{Schedules:CourseType[]} | undefined>
+
 }
 
 export default InstructorRepo;

@@ -17,6 +17,12 @@ router.route('/getAllStudents')
   // .all(isStudentValid)
   .get(studentController.getAllStudents);
 
+router.route('/:prefix/topStudents/:limit')
+  .get(studentController.getTopStudentsByGPA);
+
+router.route('/:studentCode/rank')
+  .get(studentController.getStudentRank);
+
 router.route('/:id')
   // .all(isStudentValid)
   .get(studentController.getById);
@@ -32,4 +38,17 @@ router.route('/registerSchedule')
 
 router.route('/unregisterSchedule')
   .post(studentController.unregisterSchedule);
+
+router.route('/:studentId/RequestAprroved/:schedulecell')
+  .patch(studentController.ApproveRegularRequest);
+
+router.route('/:studentId/RequestAprroved/:courseType/:courseCode')
+  .patch(studentController.ApproveSelfstudyOROverloadRequest);
+
+router.route('/:studentId/RequestRejected/:schedulecell')
+  .patch(studentController.RejectRegularRequest);
+
+router.route('/:studentId/RequestRejected/:courseType/:courseCode')
+  .patch(studentController.RejectSelfstudyRequestOROverload);
+
 export default router;

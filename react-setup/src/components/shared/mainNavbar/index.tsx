@@ -60,6 +60,11 @@ const MainNavBar = ({ activeItem }: any) => {
             Schedule
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink href="/results" className={activeItem === 'Result' ? 'navlink-active' : 'navlink-custom'}>
+          Result
+          </NavLink>
+        </NavItem>
 
         {/* Queries Dropdown */}
         <UncontrolledDropdown nav inNavbar>

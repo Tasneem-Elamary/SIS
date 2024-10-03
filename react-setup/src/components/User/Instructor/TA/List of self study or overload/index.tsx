@@ -25,9 +25,9 @@ function ListOfSelfStudyOROverloadStudents({activeItem}) {
         const fetchUsers = async () => {
           // Fetching logic based on userType
           let fetchedInstructor;
-          if (activeItem === 'List of self study') {
+          if (activeItem === 'selfstudy') {
             fetchedInstructor = await dispatch(instructorAction.getselfStudyStudentsAction(id)); // Adjust this if fetching is different
-          } else if (activeItem=== 'List of overload') {
+          } else if (activeItem=== 'overload') {
             // Assuming a different fetch action for doctors, replace this with the actual action if different
             fetchedInstructor= await dispatch(instructorAction.getOverloadStudentsAction(id));
           }
@@ -41,6 +41,45 @@ function ListOfSelfStudyOROverloadStudents({activeItem}) {
     
         fetchUsers();
       }, [dispatch]);
+
+
+      const handleAcceptClick = async(Row,arrayIndex) => {
+        console.log(`Accepted:${Row.id} ${Row.Courses[arrayIndex].code}`);
+        const codeToMatch = Row.Courses[arrayIndex].code;
+        setrowValues((prevRows) => {
+            return prevRows.map((row) => {
+            
+              if (row.id === Row.id) {
+                
+                return {
+                  ...row, // Spread the row to keep all other properties intact
+                  Courses: row.Courses.filter((course) => course.code !== codeToMatch)
+                };
+              }
+              return row; // Return the row as-is if it doesn't match
+            });
+          });
+        const fetchedStudent = await dispatch(instructorAction.approveselfstudyOROverloadRequest(Row.id,Row.Courses[arrayIndex].code,activeItem));
+      };
+    
+      const handleDeclineClick = async(Row,arrayIndex) => {
+        const codeToMatch = Row.Courses[arrayIndex].code;
+        setrowValues((prevRows) => {
+            return prevRows.map((row) => {
+            
+              if (row.id === Row.id) {
+                
+                return {
+                  ...row, // Spread the row to keep all other properties intact
+                  Courses: row.Courses.filter((course) => course.code !== codeToMatch)
+                };
+              }
+              return row; // Return the row as-is if it doesn't match
+            });
+          });
+        const fetchedStudent = await dispatch(instructorAction.rejectedselfstudyOROverloadRequest(Row.id,Row.Courses[arrayIndex].code,activeItem));
+     
+      };
     return (
         <div className="student-list-page">
             <RegisterationNavbar />
@@ -63,10 +102,13 @@ function ListOfSelfStudyOROverloadStudents({activeItem}) {
                 {/* Table Section */}
                 <div className="table-section">
                     <ViewTable
-                        headers={["", "ID" ,"GPA","gained Hours","courses IDs","Decision"]}
-                        features={["id", "GPA","gainedHours","Courses"]}
+                        headers={["", "Student Code" ,"GPA","gained Hours","course Code","Decision"]}
+                        features={["studentCode", "GPA","gainedHours","Courses"]}
                         rowValues={rowValues}
                         showSearchBars={false}// Replace with actual data
+                        arraycolumn="code"
+                        onAccept={handleAcceptClick}  // Pass the accept handler as a prop
+                        onDecline={handleDeclineClick}
                     />
                 </div>
             </div>

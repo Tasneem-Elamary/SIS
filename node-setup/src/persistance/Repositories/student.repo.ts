@@ -1,4 +1,4 @@
-import { StudentType, UserType } from '../../types';
+import { CourseType, StudentType, UserType } from '../../types';
 
 interface StudentRepo {
     create(studnet: StudentType): Promise<StudentType | undefined>,
@@ -10,6 +10,13 @@ interface StudentRepo {
     delete(id: string): Promise<boolean>,
     unregisterSchedule (studentId: string, scheduleId: string): Promise<void>
     registerSchedule (studentId: string, scheduleId: string): Promise<void>
+    getEnrolledCoursesByStudent (studentId: string): Promise<StudentType>
+    ApproveRegularRequest (studentId: string, scheduleCell: number) : Promise<StudentType|undefined>
+    ApproveSelfstudyOROverloadRequest (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>
+    RejectSelfstudyRequestOROverload (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>
+    RejectRegularRequest (studentId: string, scheduleCell: number) : Promise<StudentType|undefined>
+    getTopStudentsByGPA (prefix: string, limit: number, level?: number): Promise<StudentType[] | undefined>
+    getStudentRank (studentCode: string): Promise<number | undefined>
     // getByEmail(email: string): Promise<StudentType | undefined>,
 }
 export default StudentRepo;

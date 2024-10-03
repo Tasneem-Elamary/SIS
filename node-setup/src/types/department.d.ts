@@ -1,6 +1,6 @@
 type DepartmentType ={
   id?:string,
-  departmentCode: string,
+  code: string,
   name: string,
   HeadId: string,
   FacultyId: string,

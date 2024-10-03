@@ -8,6 +8,8 @@ interface resultRepo {
 
     getStudentCourseResult(studentId: string, courseId: string, semesterId: string): Promise<ResultType | undefined>;
     getStudentSemesterResult(studentId: string, semesterId: string): Promise<ResultType[] | undefined[]>;
+
+    getAllResults(): Promise<ResultType[]| undefined[]>;
 }
 
 export default resultRepo;

@@ -25,6 +25,11 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      cell: {
+        type: DataTypes.INTEGER,
+        // defaultValue: 1,
+        // allowNull: false,
+      },
       level: {
         type: DataTypes.INTEGER,
         defaultValue: 1,

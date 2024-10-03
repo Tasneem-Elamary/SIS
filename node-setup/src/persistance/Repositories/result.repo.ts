@@ -2,6 +2,7 @@ import { ResultType } from '../../types';
 
 interface ResultRepo {
     bulkCreateResults(results: Partial<ResultType>[]): Promise<ResultType[]|undefined[]>;
+    create (results: Partial<ResultType>): Promise<ResultType| undefined>
     getAll(): Promise<ResultType[]| undefined[]>;
     getByStudentId(studentId: string): Promise<ResultType[]|undefined[]>;
     getByCourseId(courseId: string): Promise<ResultType[]|undefined[]>;

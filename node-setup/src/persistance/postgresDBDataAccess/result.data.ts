@@ -8,6 +8,7 @@ class ResultData implements ResultRepo {
   bulkCreateResults = async (results: Partial<ResultType>[]): Promise<ResultType[] | undefined[]> => {
     try {
       const createdResults = await models.Result.bulkCreate(results as any);
+
       return createdResults.length > 0 ? createdResults.map((result) => result.get() as ResultType) : [];
     } catch (error) {
       console.error('Error bulk creating results:', error);
@@ -15,11 +16,54 @@ class ResultData implements ResultRepo {
     }
   };
 
+  create = async (results: Partial<ResultType>): Promise<ResultType| undefined> => {
+    try {
+      const createdResult = await models.Result.create(results as any);
+
+      return createdResult ? createdResult.get() as ResultType : undefined;
+    } catch (error) {
+      throw new Error('Error  creating result');
+    }
+  };
+
   // Get all results
   getAll = async (): Promise<ResultType[] | undefined[]> => {
     try {
-      const results = await models.Result.findAll();
-      return results.length > 0 ? results.map((result) => result.get() as ResultType) : [];
+      const results = await models.Result.findAll({
+        include: [
+          {
+            model: models.Student, // Join with Student
+            attributes: ['studentCode'],
+          },
+          {
+            model: models.Course, // Join with Course
+            attributes: ['code'],
+          },
+          {
+            model: models.Semester, // Join with Semester
+            attributes: ['season', 'year'],
+          },
+          {
+            model: models.Grade, // Join with Grade (might be null)
+            attributes: ['letter'],
+          },
+        ],
+      });
+
+      // Flattening the associations to return only the first object where applicable
+      return results.length > 0
+        ? results.map((result) => {
+          const plainResult :any = result.get({ plain: true }) as ResultType;
+
+          return {
+            ...plainResult,
+            Student: plainResult.Student ? plainResult.Student.studentCode : plainResult.Student,
+            Course: plainResult.Course ? plainResult.Course.code : plainResult.Course,
+            Semester: plainResult.Semester ? `${plainResult.Semester.season} ${plainResult.Semester.year}` : plainResult.Semester,
+            Grade: plainResult.Grade ? plainResult.Grade.letter : plainResult.Grade, // Could be null
+          };
+        })
+        : [];
     } catch (error) {
       console.error('Error fetching all results:', error);
       return [];
@@ -29,8 +73,44 @@ class ResultData implements ResultRepo {
   // Get results by student ID
   getByStudentId = async (studentId: string): Promise<ResultType[] | undefined[]> => {
     try {
-      const results = await models.Result.findAll({ where: { StudentId: studentId } });
-      return results.length > 0 ? results.map((result) => result.get() as ResultType) : [];
+      const results = await models.Result.findAll({
+        where: {
+          StudentId: studentId, // Assuming 'studentId' is a field in the Result model
+        },
+        include: [
+          {
+            model: models.Student, // Join with Student
+            attributes: ['studentCode'],
+          },
+          {
+            model: models.Course, // Join with Course
+            attributes: ['code'],
+          },
+          {
+            model: models.Semester, // Join with Semester
+            attributes: ['season', 'year'],
+          },
+          {
+            model: models.Grade, // Join with Grade (might be null)
+            attributes: ['letter'],
+          },
+        ],
+      });
+
+      // Flattening the associations to return only the first object where applicable
+      return results.length > 0
+        ? results.map((result) => {
+          const plainResult :any = result.get({ plain: true }) as ResultType;
+
+          return {
+            ...plainResult,
+            Student: plainResult.Student ? plainResult.Student.studentCode : plainResult.Student,
+            Course: plainResult.Course ? plainResult.Course.code : plainResult.Course,
+            Semester: plainResult.Semester ? `${plainResult.Semester.season} ${plainResult.Semester.year}` : plainResult.Semester,
+            Grade: plainResult.Grade ? plainResult.Grade.letter : plainResult.Grade, // Could be null
+          };
+        })
+        : [];
     } catch (error) {
       console.error(`Error fetching results for student ID ${studentId}:`, error);
       return [];
@@ -87,8 +167,12 @@ class ResultData implements ResultRepo {
       const result = await models.Result.findOne({ where: { id } });
       if (result) {
         await result.update(updates);
+        await result.reload();
+
+        return result.get() as ResultType;
       }
-      return result ? result.get() as ResultType : undefined;
+
+      return undefined;
     } catch (error) {
       console.error('Error updating result with ID ');
       return undefined;

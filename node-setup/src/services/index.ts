@@ -9,6 +9,7 @@ import Department from './department.service';
 import Grade from './Grade.service';
 import Semster from './semster.service';
 import Result from './result.service';
+import University from './university.service';
 
 export {
   User,
@@ -18,5 +19,5 @@ export {
   ScheduleService,
   Instructor,
   Course,
-  Department, Grade, Semster, Result,
+  Department, Grade, Semster, Result, University,
 };

@@ -2,15 +2,16 @@ import { Sequelize, DataTypes } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
 const studentSchedule = (db: Sequelize) => db.define('StudentSchedule', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: () => uuidv4(),
-    primaryKey: true,
-    unique: true,
-    allowNull: false,
-  },
+  // id: {
+  //   type: DataTypes.UUID,
+  //   defaultValue: () => uuidv4(),
+  //   primaryKey: true,
+  //   unique: true,
+  //   allowNull: false,
+  // },
   StudentId: {
     type: DataTypes.UUID,
+    primaryKey: true,
     allowNull: false,
     references: {
       model: 'Students',
@@ -19,6 +20,7 @@ const studentSchedule = (db: Sequelize) => db.define('StudentSchedule', {
   },
   ScheduleId: {
     type: DataTypes.UUID,
+    primaryKey: true,
     allowNull: false,
     references: {
       model: 'Schedules',
@@ -31,7 +33,7 @@ const studentSchedule = (db: Sequelize) => db.define('StudentSchedule', {
     defaultValue: 'pending',
   },
 }, {
-  timestamps: false,
+  timestamps: true,
 
 });
 
