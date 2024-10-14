@@ -7,9 +7,9 @@ const backendUrl = vars.get('backendUrl');
 console.log(`mmmmmmmmmm${backendUrl}`)
 
 class Instructor {
-  addInstructor = (instructor : InstructorType) => axios.post(`http://localhost:5000/instructor/createInstructor`, instructor);
-  getAllTAs = () => axios.get(`http://localhost:5000/instructor/getAllTAs`);
-  getAllDoctors = () => axios.get(`http://localhost:5000/instructor/getAllDoctors`);
+  addInstructor = (instructor : InstructorType) => axios.post(`http://localhost:5000/instructor`, instructor);
+  getAllTAs = () => axios.get(`http://localhost:5000/instructor/TAs`);
+  getAllDoctors = () => axios.get(`http://localhost:5000/instructor/Doctors`);
   getAdvisorStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/students`);
   getPendingStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/pendingStudents`);
   getselfStudyStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/students/selfstudy`);

@@ -3,6 +3,7 @@ import { userController } from '../../controller';
 
 import studentController from '../../controller/student.controller';
 import { uploadCSV } from '../../middleware/fileUpload';
+import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
 
 const router = express.Router();
 
@@ -18,10 +19,10 @@ router.route('/getAllStudents')
   .get(studentController.getAllStudents);
 
 router.route('/:prefix/topStudents/:limit')
-  .get(studentController.getTopStudentsByGPA);
+  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'),studentController.getTopStudentsByGPA);
 
 router.route('/:studentCode/rank')
-  .get(studentController.getStudentRank);
+  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'),studentController.getStudentRank);
 
 router.route('/:id')
   // .all(isStudentValid)
@@ -40,15 +41,15 @@ router.route('/unregisterSchedule')
   .post(studentController.unregisterSchedule);
 
 router.route('/:studentId/RequestAprroved/:schedulecell')
-  .patch(studentController.ApproveRegularRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.ApproveRegularRequest);
 
 router.route('/:studentId/RequestAprroved/:courseType/:courseCode')
-  .patch(studentController.ApproveSelfstudyOROverloadRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.ApproveSelfstudyOROverloadRequest);
 
 router.route('/:studentId/RequestRejected/:schedulecell')
-  .patch(studentController.RejectRegularRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.RejectRegularRequest);
 
 router.route('/:studentId/RequestRejected/:courseType/:courseCode')
-  .patch(studentController.RejectSelfstudyRequestOROverload);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.RejectSelfstudyRequestOROverload);
 
 export default router;

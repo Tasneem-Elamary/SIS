@@ -165,7 +165,7 @@ class CourseController {
       const level = parseInt(req.params.level, 10);
 
       const courses = await this.course.getCoursesBylevel(level);
-      res.status(201).send({ message: 'courses retrieved successfully', courses });
+      res.status(200).send({ message: 'courses retrieved successfully', courses });
     } catch (e) {
       next(e);
     }

@@ -20,7 +20,7 @@ const InstructorModel = (sequelize: Sequelize) => {
       },
       code: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       firstName: {
         type: DataTypes.STRING,

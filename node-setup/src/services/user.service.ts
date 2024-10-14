@@ -12,6 +12,7 @@ class UserService implements IUser {
   constructor(protected userData: UserRepo) {}
 
   login = async (email: string, password: string) : Promise<{token:string, user:Partial<UserType>}> => {
+    console.log('Usssseeerr', email, password);
     const user = await this.userData.getByEmail(email);
     console.log('Usssseeerr', user);
     if (!user) {
@@ -46,6 +47,14 @@ class UserService implements IUser {
         role: user.role,
       },
     };
+  };
+
+  create = async (user: UserType):Promise<Partial<UserType> | undefined> => {
+    try {
+      return this.userData.create(user);
+    } catch {
+      throw new Error('Fail to get the user Data, Please try again !!');
+    }
   };
 
   // getById = (id: string) => {

@@ -31,6 +31,8 @@ class InstructorController {
 
       const password = passwordGenerator();
 
+      console.log(password);
+
       const user: UserType = {
         email: body.email,
         password: hashPassword(password),
@@ -45,6 +47,7 @@ class InstructorController {
         birthDate: body.birthDate,
         gender: body.gender,
         type: body.type,
+        code: body.code,
         employmentType: body.employmentType,
         DepartmentId: body.DepartmentCode,
 

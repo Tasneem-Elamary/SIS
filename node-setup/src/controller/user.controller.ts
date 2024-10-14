@@ -5,6 +5,7 @@ import { IUser } from '../services/interfaces';
 import { DataAccess } from '../persistance';
 import { UserType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
+import { hashPassword } from '../util/hashing';
 
 const { UserDataAccess } = DataAccess;
 
@@ -23,7 +24,7 @@ class UserController {
     // return user;
   }
 
-  public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+  login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // console.log('debuggingg:- ', this.user);
     try {
       const { email, password } = req.body;
@@ -38,21 +39,21 @@ class UserController {
       // res.status(400).json({ msg: 'Invalid Credentials' });
       next(error);
     }
-  }
+  };
 
   create = async (req: Request, res: Response, next: NextFunction) => {
-  // try {
-  //   const { body } = req;
-  //   console.log(body);
+    try {
+      const { body } = req;
+      console.log(body);
 
-    //   const user = await this.user.create({ ...body, password: hashPassword(body.password) });
+      const user = await this.user.create({ ...body, password: hashPassword(body.password) });
 
-  //   res.send({
-  //     msg: 'User added successfully', user,
-  //   });
-  // } catch (e) {
-  //   next(e);
-  // }
+      res.send({
+        msg: 'User added successfully', user,
+      });
+    } catch (e) {
+      next(e);
+    }
   };
 
   public async get(req: Request, res: Response, next: NextFunction) {
