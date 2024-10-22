@@ -30,7 +30,7 @@ class CourseController {
       const newCourse = await this.course.createCourse(body);
 
       if (!newCourse) {
-        res.status(500).json({ message: 'Failed to create course' });
+        return res.status(500).json({ message: 'Failed to create course' });
       }
 
       res.status(201).json({ message: 'Course created successfully', newCourse });
@@ -48,7 +48,7 @@ class CourseController {
       const updatedCourse = await this.course.updateCourse(id, updatedData);
 
       if (!updatedCourse) {
-        res.status(404).json({ message: 'Course not found' });
+        return res.status(404).json({ message: 'Course not found' });
       }
 
       res.status(200).json({ message: 'Course updated successfully', updatedCourse });
@@ -65,7 +65,7 @@ class CourseController {
       const deletedCourse = await this.course.deleteCourse(id);
 
       if (!deletedCourse) {
-        res.status(404).json({ message: 'Course not found' });
+        return res.status(404).json({ message: 'Course not found' });
       }
 
       res.status(200).json({ message: 'Course deleted successfully' });
@@ -81,7 +81,7 @@ class CourseController {
       const course = await this.course.getCourseById(id);
 
       if (!course) {
-        res.status(404).json({ message: 'Course not found' });
+        return res.status(404).json({ message: 'Course not found' });
       }
 
       res.status(200).json({ course });
@@ -96,7 +96,7 @@ class CourseController {
       const course = await this.course.getCourseByCode(code);
 
       if (!course) {
-        res.status(404).json({ message: 'Course not found' });
+        return res.status(404).json({ message: 'Course not found' });
       }
 
       res.status(200).json({ course });
@@ -115,37 +115,37 @@ class CourseController {
     }
   };
 
-  createCoursePrerequisites = async (req: Request, res: Response) => {
+  createCoursePrerequisites = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { courseId, prerequisiteId } = req.body;
       const course = await this.course.createCoursePrerequisites(courseId, prerequisiteId);
       // console.log(prerequisites);
       res.status(201).json({ message: 'done', course });
-    } catch (error) {
-      res.status(500).json({ success: false });
+    } catch (e) {
+      next(e);
     }
   };
 
   // Method to get course prerequisites
-  getCoursePrerequisites = async (req: Request, res: Response) => {
+  getCoursePrerequisites = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { courseId } = req.params;
       const course = await this.course.getCoursePrerequisites(courseId);
 
       res.status(200).json({ message: 'done', course });
-    } catch (error) {
-      res.status(500).json({ success: false });
+    } catch (e) {
+      next(e);
     }
   };
 
-  getCourseDependants = async (req: Request, res: Response) => {
+  getCourseDependants = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { prerequisiteId } = req.params;
       const course = await this.course.getCourseDependants(prerequisiteId);
 
       res.status(200).json({ message: 'done', course });
-    } catch (error) {
-      res.status(500).json({ success: false });
+    } catch (e) {
+      next(e);
     }
   };
 
@@ -165,7 +165,7 @@ class CourseController {
       const level = parseInt(req.params.level, 10);
 
       const courses = await this.course.getCoursesBylevel(level);
-      res.status(201).send({ message: 'courses retrieved successfully', courses });
+      res.status(200).send({ message: 'courses retrieved successfully', courses });
     } catch (e) {
       next(e);
     }

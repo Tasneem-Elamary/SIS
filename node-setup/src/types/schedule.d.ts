@@ -10,6 +10,7 @@ type ScheduleType ={
     SemesterId: string|undefined,
     level?:number;
     DepartmentId?:string;
+    cell?:number
 
     };
 export default ScheduleType;

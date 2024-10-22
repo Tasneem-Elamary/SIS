@@ -19,7 +19,8 @@ class Instructor extends User implements IInstuctor {
   createInstructor = async (user: UserType, instructor: Partial<InstructorType>): Promise<InstructorType | undefined> => {
     const transaction = await db.transaction();
     try {
-      const newUser = await this.userData.create(user, transaction);
+      const newUser = await this.userData.create(user);
+      console.log('ppppppppppp', newUser);
       const userId = newUser?.id;
 
       if (!userId) {
@@ -40,9 +41,9 @@ class Instructor extends User implements IInstuctor {
 
       // console.log(fullInstructor);
 
-      await transaction.commit();
-
-      return this.instructorData.create(fullInstructor, transaction);
+      const newInstructor = await this.instructorData.create(fullInstructor);
+      // await transaction.commit();
+      return newInstructor;
     } catch {
       await transaction.rollback();
       throw new Error('Fail to create instructor');
@@ -272,6 +273,17 @@ class Instructor extends User implements IInstuctor {
       const instructor = await this.instructorData.getSelfStudyOROverloadPendingStudents(instructorId, enrollmentType);
 
       return instructor || undefined;
+    } catch (error) {
+      console.error('Error fetching records for advisor:', error);
+      throw new Error('Failed to get pending students for the specified advisor');
+    }
+  };
+
+  getDistinctCoursesByProfessor = async (instructorId: string): Promise<InstructorType&{Schedules:CourseType[]} | undefined> => {
+    try {
+      const courses = await this.instructorData.getDistinctCoursesByProfessor(instructorId);
+
+      return courses || undefined;
     } catch (error) {
       console.error('Error fetching records for advisor:', error);
       throw new Error('Failed to get pending students for the specified advisor');

@@ -10,7 +10,7 @@ import { UserRepo } from '../persistance/Repositories';
 import StudentService from '../services/student.service';
 import { parseCSV } from '../util/csvParser';
 
-const { StudentDataAccess, ResultDataAccess } = DataAccess;
+const { StudentDataAccess, ResultDataAccess, CourseDataAcces } = DataAccess;
 
 class StudentController {
   private student: StudentService;
@@ -18,7 +18,8 @@ class StudentController {
   constructor() {
     const studentDataAccess = new StudentDataAccess();
     const resultDataAcess = new ResultDataAccess();
-    this.student = new StudentService(studentDataAccess, resultDataAcess);
+    const courseDataAccess = new CourseDataAcces();
+    this.student = new StudentService(studentDataAccess, resultDataAcess, courseDataAccess);
   }
 
   @Get('/{id}')
@@ -125,6 +126,89 @@ class StudentController {
     try {
       await this.student.unregisterSchedule(studentId, scheduleId);
       res.status(200).send({ msg: 'Schedule unregistered successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  ApproveRegularRequest = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { studentId } = req.params;
+      const schedulecell = parseInt(req.params.schedulecell, 10);
+      const { courseType } = req.body;
+      const student = await this.student.ApproveRegularRequest(studentId, schedulecell);
+      res.status(200).json({ message: 'done', student });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  ApproveSelfstudyOROverloadRequest = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { studentId, courseCode, courseType } = req.params;
+      // const { courseType } = req.body;
+      const student = await this.student.ApproveSelfstudyOROverloadRequest(studentId, courseCode, courseType);
+      res.status(200).json({ message: 'done', student });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  RejectRegularRequest = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { studentId } = req.params;
+      const schedulecell = parseInt(req.params.schedulecell, 10);
+      const student = await this.student.RejectRegularRequest(studentId, schedulecell);
+      res.status(200).json({ message: 'done', student });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  RejectSelfstudyRequestOROverload = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { studentId, courseCode, courseType } = req.params;
+      // const { courseType } = req.body;
+      const student = await this.student.RejectSelfstudyRequestOROverload(studentId, courseCode, courseType);
+      res.status(200).json({ message: 'done', student });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  hasCompletedPrerequisitesAndEarnedHours = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { studentId, courseId } = req.params; // scheduleId is not needed here if you're only checking prerequisites
+      const studentHasCompleted = await this.student.hasCompletedPrerequisitesAndEarnedHours(studentId, courseId);
+
+      if (!studentHasCompleted) {
+        return res.status(400).json({ message: 'Prerequisites or earned hours not satisfied.' });
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  public getTopStudentsByGPA = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { prefix } = req.params;
+      const limit = parseInt(req.params.limit, 10);
+
+      const students = await this.student.getTopStudentsByGPA(prefix, limit); // Corrected method call
+      res.status(200).json({ message: 'done', students });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getStudentRank = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { studentCode } = req.params;
+
+      const rank = await this.student.getStudentRank(studentCode); // Corrected method call
+      res.status(200).json({ message: 'done', rank });
     } catch (error) {
       next(error);
     }

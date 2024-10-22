@@ -1,32 +1,32 @@
 import * as express from 'express';
 import { courseController } from '../../controller';
-import { isAuth } from '../../middleware/auth.middleware';
+import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
 
 import { validateCreateCourse, validateUpdateCourse, validateCourseId } from '../../middleware/validation/courseValidaton.middleware';
 
 const router = express.Router();
 
-router.route('/').post(validateCreateCourse).post(courseController.createCourse);
+router.route('/').post(validateCreateCourse).post(isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.createCourse);
 
-router.route('/:id').put(validateUpdateCourse).put(courseController.updateCourse);
+router.route('/:id').put(validateUpdateCourse).put(isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.updateCourse);
 
-router.route('/:id').delete(courseController.deleteCourse);
+router.route('/:id').delete(isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.deleteCourse);
 
-router.route('/').get(courseController.getAllCourses);
+router.route('/').get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getAllCourses);
 
-router.route('/:id').get(courseController.getCourseById);
-router.route('/code/:code').get(courseController.getCourseByCode);
+router.route('/:id').get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCourseById);
+router.route('/code/:code').get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCourseByCode);
 
-router.post('/prerequisites', courseController.createCoursePrerequisites);
+router.post('/prerequisites', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.createCoursePrerequisites);
 
 // Route to get course prerequisites by course ID
-router.get('/:courseId/prerequisites', courseController.getCoursePrerequisites);
-router.get('/:prerequisiteId/dependants', courseController.getCourseDependants);
+router.get('/:courseId/prerequisites', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCoursePrerequisites);
+router.get('/:prerequisiteId/dependants', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCourseDependants);
 
-router.post('/department', courseController.addCoursetoDepartment);
+router.post('/department', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.addCoursetoDepartment);
 
-router.get('/level/:level', courseController.getCoursesBylevel);
+router.get('/level/:level', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCoursesBylevel);
 
-router.get('/:courseId/bylaw/:bylawId', courseController.getCourseWithRegisteredStudentCounts);
+router.get('/:courseId/bylaw/:bylawId', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), courseController.getCourseWithRegisteredStudentCounts);
 
 export default router;

@@ -31,6 +31,7 @@ interface instructorRepo {
 
   getSelfStudyOROverloadPendingStudents (instructorId: string, enrollmentType:string): Promise<InstructorType|undefined>
 
+  getDistinctCoursesByProfessor (instructorId: string):Promise<InstructorType&{Schedules:CourseType[]} | undefined>
   //   viewCourses() : Promise<CourseType[] | undefined[]>;
   //  assignGrade(resultId:string,grade:number): Promise<boolean | undefined[]>;
 }

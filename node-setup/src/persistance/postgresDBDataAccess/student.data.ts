@@ -1,6 +1,9 @@
+import { Op } from 'sequelize';
 import models from '../../models';
 import { StudentRepo } from '../Repositories';
-import { StudentType, UserType, BylawType } from '../../types';
+import {
+  StudentType, UserType, BylawType, CourseType,
+} from '../../types';
 import { UserDataAccess } from '.';
 import { db } from '../../../config/postgresDB.config';
 import { hashPassword } from '../../util/hashing';
@@ -270,15 +273,318 @@ class StudentDataAccess implements StudentRepo {
     }
   };
 
-//   getByEmail = async (email: string): Promise<StudentType | undefined> => {
-//     try {
-//       const user = await Student.findOne({ where: { email } });
-//       return user ? (user.get() as UserType) : undefined;
-//     } catch (error) {
-//       console.error(error);
-//       throw new Error('Fail to get the user, Please try again !!');
-//     }
-//   };
+  getEnrolledCoursesByStudent = async (studentId: string): Promise<StudentType> => {
+    try {
+      const student:any = await models.Student.findOne({
+        where: { id: studentId },
+        include: [
+          {
+            model: models.Course,
+            as: 'Courses',
+            through: { attributes: [], where: { approvalStatus: 'Approved' } }, // Include the enrolled courses
+          },
+        ],
+      });
+
+      if (!student) throw new Error('Student not found');
+
+      return student.get(); // Return enrolled courses
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get enrolled courses, please try again!');
+    }
+  };
+
+  ApproveRegularRequest = async (studentId: string, scheduleCell: number): Promise<StudentType|undefined> => {
+    const transaction = await db.transaction();
+    try {
+      const Targetedschedule = await models.Schedule.findOne({ where: { cell: scheduleCell } });
+      const student :any = await models.Student.findOne({
+        where: { id: studentId },
+        include: [
+          {
+            model: models.Course,
+            as: 'Courses',
+            where: { id: Targetedschedule?.get().CourseId }, // Match the specific course
+            through: {
+              where: { approvalStatus: 'pending', hasPaidFees: true, enrollmentType: 'regular' },
+              attributes: [], // Access through table attributes
+            },
+          },
+          {
+            model: models.Schedule,
+            as: 'Schedules',
+            where: { cell: scheduleCell }, // Match the specific schedule
+            through: {
+              where: { approvalStatus: 'pending' },
+              attributes: [],
+
+            },
+          },
+        ],
+      });
+
+      if (!student) {
+        throw new Error('Student not found or no matching associations.');
+      }
+
+      // Get the associated course and schedule (if found)
+      const course = student.Courses?.[0];
+      const schedule = student.Schedules?.[0];
+
+      // Update approvalStatus in CourseEnrollments
+      if (course && schedule) {
+        await student.addCourse(course, {
+          through: { approvalStatus: 'Approved' },
+          transaction,
+        });
+
+        await models.StudentSchedule.update(
+          { approvalStatus: 'Approved' }, // The updated value
+          {
+            where: {
+              StudentId: studentId,
+              ScheduleId: Targetedschedule?.get().id,
+            },
+            transaction,
+          },
+        );
+      } else {
+        throw new Error('No matching StudentSchedules or studentCourses record found.');
+      }
+      await transaction.commit();
+      return student ? student.get() : undefined;
+    } catch (error) {
+      await transaction.rollback();
+      throw new Error('Error updating approval status');
+    }
+  };
+
+  ApproveSelfstudyOROverloadRequest = async (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined> => {
+    try {
+      // Find the student by ID
+      const targetedcourse = await models.Course.findOne({ where: { code: courseCode } });
+      const student :any = await models.Student.findOne({
+        where: { id: studentId },
+        include: [
+          {
+            model: models.Course,
+            as: 'Courses',
+            where: { id: targetedcourse?.get().id }, // Match the specific course
+            through: {
+              where: { approvalStatus: 'pending', hasPaidFees: true, enrollmentType: courseType },
+              attributes: [], // Access through table attributes
+            },
+          },
+
+        ],
+      });
+
+      if (!student) {
+        throw new Error('Student not found or no matching associations.');
+        return;
+      }
+
+      // Get the associated course and schedule (if found)
+      const course = student.Courses?.[0];
+
+      // Update approvalStatus in CourseEnrollments
+      if (course) {
+        await student.addCourse(course, {
+          through: { approvalStatus: 'Approved' }, // Update the approval status
+        });
+      } else {
+        throw new Error('No matching  or studentCourses record found.');
+      }
+
+      return student ? student.get() : undefined;
+    } catch (error) {
+      throw new Error('Error updating approval status');
+    }
+  };
+
+  RejectRegularRequest = async (studentId: string, scheduleCell: number) : Promise<StudentType|undefined> => {
+    const transaction = await db.transaction();
+    try {
+      const Targetedschedule = await models.Schedule.findOne({ where: { cell: scheduleCell } });
+      const student :any = await models.Student.findOne({
+        where: { id: studentId },
+        include: [
+          {
+            model: models.Course,
+            as: 'Courses',
+            where: { id: Targetedschedule?.get().CourseId }, // Match the specific course
+            through: {
+              where: { approvalStatus: 'pending', enrollmentType: 'regular' },
+              attributes: [], // Access through table attributes
+            },
+          },
+          {
+            model: models.Schedule,
+            as: 'Schedules',
+            where: { cell: scheduleCell }, // Match the specific schedule
+            through: {
+              where: { approvalStatus: 'pending' },
+              attributes: [],
+
+            },
+          },
+        ],
+      });
+
+      if (!student) {
+        throw new Error('Student not found or no matching associations.');
+        return;
+      }
+
+      // Get the associated course and schedule (if found)
+      const course = student.Courses?.[0];
+      const schedule = student.Schedules?.[0];
+
+      // Update approvalStatus in CourseEnrollments
+      if (course && schedule) {
+        await student.addCourse(course, {
+          through: { approvalStatus: 'unApproved' },
+          transaction, // Update the approval status
+        });
+
+        await models.StudentSchedule.destroy(
+          // The updated value
+          {
+            where: {
+              StudentId: studentId,
+              ScheduleId: Targetedschedule?.get().id,
+            },
+            transaction,
+          },
+        );
+      } else {
+        throw new Error('No matching StudentSchedules or studentCourses record found.');
+      }
+      await transaction.commit();
+      return student ? student.get() : undefined;
+    } catch (error) {
+      await transaction.rollback();
+      throw new Error('Error updating approval status');
+    }
+  };
+
+  RejectSelfstudyRequestOROverload = async (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined> => {
+    try {
+      // Find the student by ID
+      const targetedcourse = await models.Course.findOne({ where: { code: courseCode } });
+      const student :any = await models.Student.findOne({
+        where: { id: studentId },
+        include: [
+          {
+            model: models.Course,
+            as: 'Courses',
+            where: { id: targetedcourse?.get().id }, // Match the specific course
+            through: {
+              where: { approvalStatus: 'pending', enrollmentType: courseType },
+              attributes: [], // Access through table attributes
+            },
+          },
+
+        ],
+      });
+
+      if (!student) {
+        throw new Error('Student not found or no matching associations.');
+        return;
+      }
+
+      // Get the associated course and schedule (if found)
+      const course = student.Courses?.[0];
+
+      // Update approvalStatus in CourseEnrollments
+      if (course) {
+        await student.addCourse(course, {
+          through: { approvalStatus: 'unApproved' }, // Update the approval status
+        });
+      } else {
+        throw new Error('No matching  or studentCourses record found.');
+      }
+
+      return student ? student.get() : undefined;
+    } catch (error) {
+      throw new Error('Error updating approval status');
+    }
+  };
+
+  getTopStudentsByGPA = async (prefix: string, limit: number, level?: number): Promise<StudentType[] | undefined> => {
+    try {
+      const whereClause: any = {
+        studentCode: { [Op.startsWith]: prefix }, // Filter by studentCode prefix
+      };
+
+      if (level !== undefined) {
+        whereClause.level = level; // Add the level condition if it is provided
+      }
+
+      const students = await models.Student.findAll({
+        where: whereClause,
+        order: [['GPA', 'DESC']],
+        limit,
+      });
+
+      return students.length > 0 ? (students.map((student) => student.get()) as StudentType[]) : undefined;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to retrieve top students, please try again!');
+    }
+  };
+
+  getStudentRank = async (studentCode: string): Promise<number | undefined> => {
+    try {
+      // Step 1: Parse the studentCode (e.g., "23CSL3-001" or "23L3-001")
+      const admissionYear = studentCode.slice(0, 2); // "23"
+      let departmentCode = '';
+      const levelIndex = studentCode.indexOf('L');
+
+      // Check if there is something between the admissionYear and 'L'
+      if (levelIndex > 2) {
+        departmentCode = studentCode.slice(2, levelIndex); // "CS" if it exists
+      }
+
+      const level = parseInt(studentCode.charAt(levelIndex + 1), 10);
+      const sequentialNumber = studentCode.split('-')[1]; // "001" (if needed later)
+
+      // Step 2: Fetch the student by studentCode to get their GPA
+      const student = await this.getStudentByCode(studentCode);
+      if (!student) {
+        return undefined; // If the student doesn't exist
+      }
+
+      const studentGPA = student.GPA;
+
+      // Step 3: Build the studentCode condition, with or without departmentCode
+      let studentCodeCondition;
+      if (departmentCode) {
+        // If departmentCode exists
+        studentCodeCondition = { studentCode: { [Op.startsWith]: `${admissionYear}${departmentCode}L${level}` } };
+      } else {
+        // If no departmentCode
+        studentCodeCondition = { studentCode: { [Op.startsWith]: `${admissionYear}L${level}` } };
+      }
+
+      // Step 4: Count students in the same level, year, (and optionally department) with a higher GPA
+      const rank = await models.Student.count({
+        where: {
+          [Op.and]: [
+            studentCodeCondition, // Match AdmissionYear + (optional DepartmentCode) + Level
+            { GPA: { [Op.gt]: studentGPA } }, // Count those with higher GPA
+          ],
+        },
+      });
+
+      // Step 5: The rank is the number of students with a higher GPA + 1
+      return rank + 1;
+    } catch (error) {
+      console.error('Error fetching student rank:', error);
+      throw new Error('Failed to retrieve student rank, please try again!');
+    }
+  };
 }
 
 export default StudentDataAccess;

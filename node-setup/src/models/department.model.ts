@@ -17,7 +17,7 @@ const DepartmentModel = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      departmentCode: {
+      code: {
         type: DataTypes.STRING,
         allowNull: false,
       },

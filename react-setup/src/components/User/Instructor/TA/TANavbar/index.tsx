@@ -27,7 +27,7 @@ const TANavBar = ({ activeItem ,id}) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href={`/${id}/list-of-selfstudy-students`} className={activeItem === 'List of self study' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-selfstudy-students`} className={activeItem === 'selfstudy' ? "nav-link-active" : "nav-link-custom "}>
             List of self study
             </NavLink>
           </NavItem>
@@ -37,7 +37,7 @@ const TANavBar = ({ activeItem ,id}) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href={`/${id}/list-of-overload-students`} className={activeItem === 'List of overload' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/list-of-overload-students`} className={activeItem === 'overload' ? "nav-link-active" : "nav-link-custom "}>
             List of overload
             </NavLink>
           </NavItem>

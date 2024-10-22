@@ -184,11 +184,19 @@ class CourseData implements CourseRepo {
         throw new Error('Invalid course level');
       }
 
-      return courses.map((course) => course.get() as CourseType);
+      return courses.map((course) => course.get() );
     } catch (error) {
-      console.error('Error retrieving courses:', error);
-      // You can throw a custom error message or return an empty array in case of failure
-      throw new Error('Failed to retrieve courses, please try again!');
+      // Type guard to ensure the error has a message property
+      if (error instanceof Error) {
+        // Only catch and re-throw general errors, not specific ones
+        if (error.message === 'Invalid course level') {
+          throw error; // Re-throw the specific error for invalid levels
+        }
+        console.error('Error retrieving courses:', error);
+        throw new Error('Failed to retrieve courses, please try again!');
+      }
+      // If it's not an Error instance, throw a generic error
+      throw new Error('An unknown error occurred');
     }
   };
 
@@ -262,7 +270,7 @@ class CourseData implements CourseRepo {
       };
     } catch (error) {
       console.error(error);
-      throw new Error('Failed to retrieve student counts and course details.');
+      throw error;
     }
   };
 }

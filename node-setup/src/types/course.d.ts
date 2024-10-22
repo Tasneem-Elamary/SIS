@@ -2,8 +2,8 @@ type CourseType = {
   id?: string;
   code: string;
   name: string;
-  credit_Hours: number;
-  level: 1 | 2 | 3 | 4|5;
+  creditHours: number;
+  level: number;
   min_GPA: number;
   minEarnedHours: number
 };

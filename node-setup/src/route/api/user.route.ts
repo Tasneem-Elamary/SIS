@@ -6,7 +6,7 @@ import { isAuth } from '../../middleware/auth.middleware';
 
 const router = express.Router();
 
-router.route('/addUser')
+router.route('/')
   // .all(isUserValid)
   .post(userController.create);
 

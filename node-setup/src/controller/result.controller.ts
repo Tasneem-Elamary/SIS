@@ -34,8 +34,8 @@ class ResultController {
       } else {
         const parsedData = await parseCSV<ResultType>(filePath);
         console.log(parsedData);
-        const createdResults = await this.result.uploadResults(parsedData);
-        res.status(201).json({ message: 'done', createdResults });
+        const results = await this.result.uploadResults(parsedData);
+        res.status(201).json({ message: 'done', results });
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to create results' });
@@ -53,7 +53,7 @@ class ResultController {
     }
   };
 
-  async getStudentResult(req: Request, res: Response): Promise<void> {
+  getStudentResult = async (req: Request, res: Response): Promise<void> => {
     try {
       const { studentId } = req.params;
       const transcript = await this.result.getStudentResult(studentId);
@@ -61,12 +61,12 @@ class ResultController {
       if (transcript.length === 0) {
         res.status(404).json({ message: 'Transcript not found' });
       } else {
-        res.status(200).json(transcript);
+        res.status(200).json({ message: 'done', results: transcript });
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to retrieve transcript' });
     }
-  }
+  };
 
   // Method to get course result by student ID, course ID, and semester ID
   async getStudentCourseResult(req: Request, res: Response): Promise<void> {
@@ -99,6 +99,20 @@ class ResultController {
       res.status(500).json({ error: 'Failed to retrieve semester results' });
     }
   }
+
+  getAllResults = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const results = await this.result.getAllResults();
+
+      if (results.length === 0) {
+        res.status(404).json({ message: 'no results' });
+      } else {
+        res.status(200).json({ message: 'done', results });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to retrieve semester results' });
+    }
+  };
 }
 
 export default new ResultController();

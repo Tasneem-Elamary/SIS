@@ -55,7 +55,7 @@ function AllLecturer({ userType, path }) {
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","ID", "Name", "Email"]} features={["id", "name", "email"]} rowValues={rowValues}  pathKey="/:id/list-of-students" showSearchBars={false} />
+                <ViewTable headers={["","ID", "Name", "Email"]} features={["id", "name", "email"]} rowValues={rowValues}  pathKey={userType === "Lecturer" ? "/:id/list-of-students" : "/:id/list-of-courses"} showSearchBars={false} />
             </div>
 
         </div>

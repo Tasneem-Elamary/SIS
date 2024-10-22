@@ -4,6 +4,8 @@ import { InstructorType } from '../types/index';
 
 class Instructor extends Model<InstructorType> {
   User: any;
+
+  Schedules: any;
 }
 
 const InstructorModel = (sequelize: Sequelize) => {
@@ -18,7 +20,7 @@ const InstructorModel = (sequelize: Sequelize) => {
       },
       code: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       firstName: {
         type: DataTypes.STRING,

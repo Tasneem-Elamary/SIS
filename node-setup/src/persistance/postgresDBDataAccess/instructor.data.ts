@@ -1,7 +1,9 @@
 import { Transaction } from 'sequelize';
 import models from '../../models';
 import { InstructorRepo } from '../Repositories';
-import { InstructorType, StudentType, UserType } from '../../types';
+import {
+  CourseType, InstructorType, StudentType, UserType,
+} from '../../types';
 
 class InstructorData implements InstructorRepo {
   create = async (instructor: InstructorType, transaction?: Transaction): Promise<InstructorType | undefined> => {
@@ -154,8 +156,9 @@ class InstructorData implements InstructorRepo {
             include: [
               {
                 model: models.Schedule,
+                attributes: ['cell'],
                 through: {
-                  attributes: ['approvalStatus'], // Get the approvalStatus from the join table
+                  attributes: [], // Get the approvalStatus from the join table
                   where: { approvalStatus: 'pending' }, // Filter only for pending approval status
                 },
                 required: true, // Ensure INNER JOIN between Student and Schedule
@@ -185,6 +188,7 @@ class InstructorData implements InstructorRepo {
             include: [
               {
                 model: models.Course,
+                attributes: ['code'],
 
                 through: {
                   attributes: [], // Exclude the CourseEnrollments attributes
@@ -204,6 +208,46 @@ class InstructorData implements InstructorRepo {
     } catch (error) {
       console.error(error);
       throw new Error('Failed to fetch students enrolled in self-study courses with pending status.');
+    }
+  };
+
+  getDistinctCoursesByProfessor = async (instructorId: string): Promise<InstructorType&{Schedules:CourseType[]} | undefined> => {
+    try {
+      // Find the instructor and include the associated schedules and courses
+      const instructor = await models.Instructor.findOne({
+        where: { id: instructorId, type: 'Professor' },
+        include: [
+          {
+            model: models.Schedule,
+            attributes: ['CourseId'], // Exclude schedule attributes, we only want the courses
+            include: [
+              {
+                model: models.Course,
+                attributes: ['id', 'name', 'code', 'level'], // Select relevant course attributes
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!instructor) {
+        console.error(`Instructor with ID ${instructorId} not found.`);
+        return undefined;
+      }
+
+      console.log(instructor);
+
+      const distinctCourses = instructor.Schedules
+        ?.map((schedule: any) => schedule.Course) // Extract each course
+        .filter((course: any, index: number, self: any[]) => index === self.findIndex((c: any) => c.id === course.id));
+
+      return {
+        ...instructor.get(), // Spread instructor properties
+        Schedules: distinctCourses, // Replace Schedules with Courses
+      };
+    } catch (error) {
+      console.error('Error fetching distinct courses for instructor:', error);
+      return undefined;
     }
   };
 }

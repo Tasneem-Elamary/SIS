@@ -46,6 +46,35 @@ class Student {
         return [];
     }
 };
+getTopStudentsByGPA = (prefix: string, limit: number) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, students} } = await studentApi.getTopStudentsByGPA(prefix, limit);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return students;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+
+getStudentRank = (studentCode: string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, rank} } = await studentApi.getStudentRank(studentCode);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return rank;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
 }
 
 export default new Student()

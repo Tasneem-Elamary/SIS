@@ -49,7 +49,7 @@ class BylawController {
             bylaw,
           });
         } else {
-          res.status(404).send({ msg: 'Bylaw not found' });
+          return res.status(404).send({ msg: 'Bylaw not found' });
         }
       } catch (e) {
         next(e);
@@ -67,7 +67,7 @@ class BylawController {
             bylawLimits,
           });
         } else {
-          res.status(404).send({ msg: 'Bylaw limits not found' });
+          return res.status(404).send({ msg: 'Bylaw limits not found' });
         }
       } catch (e) {
         next(e);
@@ -85,7 +85,7 @@ class BylawController {
             bylaw,
           });
         } else {
-          res.status(404).send({ msg: 'Bylaw not found' });
+          return res.status(404).send({ msg: 'Bylaw not found' });
         }
       } catch (e) {
         next(e);
@@ -117,7 +117,7 @@ class BylawController {
             updatedBylaw,
           });
         } else {
-          res.status(404).send({ msg: 'Bylaw not found' });
+          return res.status(404).send({ msg: 'Bylaw not found' });
         }
       } catch (e) {
         next(e);

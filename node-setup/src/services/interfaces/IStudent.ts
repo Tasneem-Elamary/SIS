@@ -13,5 +13,13 @@ registerSchedule(studentId: string, scheduleId: string): Promise<void>
 // editProfile(id: string, userData: Partial<UserType | undefined>): Promise<UserType | undefined>;
   getStudentByCode (studentCode: string): Promise<StudentType | undefined>,
 
+  hasCompletedPrerequisitesAndEarnedHours (studentId: string, courseId: string): Promise<boolean>
+
+  ApproveRegularRequest (studentId: string, schedulecell: number): Promise<StudentType|undefined>
+  ApproveSelfstudyOROverloadRequest (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>
+    RejectSelfstudyRequestOROverload (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>
+    RejectRegularRequest (studentId: string, scheduleCell: number) : Promise<StudentType|undefined>
+    getTopStudentsByGPA (prefix: string, limit: number, level?: number): Promise<StudentType[] | undefined>
+    getStudentRank (studentCode: string): Promise<number | undefined>
 }
 export default StudentRepo;
