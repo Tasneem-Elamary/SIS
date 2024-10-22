@@ -14,7 +14,7 @@ class BylawDepartmentCourseData implements BylawDepartmentCourseRepo {
       } else {
         throw new Error('Course, Department, or Bylaw not found');
       }
-      return;
+
       // const departmentCoureBylaw = await models.DepartmentCourse.create({ BylawId, DepartmentId, CourseId });
       // return departmentCoureBylaw?.get();
     } catch (error) {

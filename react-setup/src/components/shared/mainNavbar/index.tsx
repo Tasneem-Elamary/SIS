@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import './style.scss';
 import { CourseType } from '../../../interfaces/domain';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +36,9 @@ const MainNavBar = ({ activeItem }: any) => {
   useEffect(() => {
     const fetchRegulations = async () => {
       try {
-        const fetchedRegulations = await dispatch(regulationAction.viewAllRegulationsAction());
+        const fetchedRegulations = await dispatch(
+          regulationAction.viewAllRegulationsAction(),
+        );
         setRegulations(fetchedRegulations);
       } catch (error) {
         console.error('Error fetching regulations:', error);
@@ -36,6 +47,13 @@ const MainNavBar = ({ activeItem }: any) => {
 
     fetchRegulations();
   }, [dispatch]);
+
+  // Fetch Requests todo
+  const Requests = [
+    { id: 1, name: 'MappedCourse', code: 'Mapped Course' },
+    { id: 2, name: 'CreateAnOverload', code: 'Create an overload' },
+    { id: 3, name: 'CreateASelfStudy', code: 'Create a self-study' },
+  ];
 
   // Handle Navigation to Regulation Details
   const handleNavigation = (regulationId: string) => {
@@ -46,17 +64,32 @@ const MainNavBar = ({ activeItem }: any) => {
     <Navbar expand="md" className="Main-navbar">
       <Nav className="mr-auto" navbar>
         <NavItem>
-          <NavLink href="#" className={activeItem === 'Dashboard' ? 'navlink-active' : 'navlink-custom'}>
+          <NavLink
+            href="#"
+            className={
+              activeItem === 'Dashboard' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Dashboard
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/" className={activeItem === 'Users' ? 'navlink-active' : "navlink-custom"}>
+          <NavLink
+            href="/"
+            className={
+              activeItem === 'Users' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Users
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#" className={activeItem === 'Schedule' ? 'navlink-active' : 'navlink-custom'}>
+          <NavLink
+            href="#"
+            className={
+              activeItem === 'Schedule' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Schedule
           </NavLink>
         </NavItem>
@@ -68,7 +101,13 @@ const MainNavBar = ({ activeItem }: any) => {
 
         {/* Queries Dropdown */}
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret className={activeItem === 'Queries' ? 'navlink-active' : 'navlink-custom'}>
+          <DropdownToggle
+            nav
+            caret
+            className={
+              activeItem === 'Queries' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Queries
           </DropdownToggle>
           <DropdownMenu end>
@@ -78,17 +117,28 @@ const MainNavBar = ({ activeItem }: any) => {
         </UncontrolledDropdown>
 
         <NavItem>
-          <NavLink href="/logistics" className={activeItem === 'Logistics' ? 'navlink-active' : 'navlink-custom'}>
+          <NavLink
+            href="/logistics"
+            className={
+              activeItem === 'Logistics' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Logistics
           </NavLink>
         </NavItem>
 
         {/* Courses Dropdown */}
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret className={activeItem === 'Courses' ? 'navlink-active' : 'navlink-custom'}>
+          <DropdownToggle
+            nav
+            caret
+            className={
+              activeItem === 'Courses' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Courses
           </DropdownToggle>
-          <DropdownMenu right >
+          <DropdownMenu right>
             {/* {courses.length > 0 ? (
               courses.map(course => (
                 <DropdownItem key={course.id} href="/Courses">
@@ -107,19 +157,65 @@ const MainNavBar = ({ activeItem }: any) => {
 
         {/* Regulations Dropdown */}
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret className={activeItem === 'Regulations' ? 'navlink-active' : 'navlink-custom'}>
+          <DropdownToggle
+            nav
+            caret
+            className={
+              activeItem === 'Regulations' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
             Regulations
           </DropdownToggle>
           <DropdownMenu end>
             {regulations.length > 0 ? (
               regulations.map((regulation: any) => (
-                <DropdownItem key={regulation.id} onClick={() => handleNavigation(regulation.id)}>
+                <DropdownItem
+                  key={regulation.id}
+                  onClick={() => handleNavigation(regulation.id)}
+                >
                   {regulation.code}
                 </DropdownItem>
               ))
             ) : (
               <DropdownItem disabled>No Regulations Available</DropdownItem>
             )}
+          </DropdownMenu>
+        </UncontrolledDropdown>
+
+        {/* ٌRequests Dropdown */}
+        <UncontrolledDropdown nav inNavbar>
+          <DropdownToggle
+            nav
+            caret
+            className={
+              activeItem === 'Requests' ? 'navlink-active' : 'navlink-custom'
+            }
+          >
+            Requests
+          </DropdownToggle>
+          <DropdownMenu end>
+            {/* {Requests.length > 0 ? (
+              Requests.map((regulation: any) => (
+                <DropdownItem
+                  key={regulation.id}
+                  onClick={() => handleNavigation(regulation.id)}
+                >
+                  {regulation.code}
+                </DropdownItem>
+              ))
+            ) : (
+              <DropdownItem disabled>No Requests Available</DropdownItem>
+            )} */}
+
+            <DropdownItem href="/Requests/MappedCourse">
+              Mapped course
+            </DropdownItem>
+            <DropdownItem href="/Requests/CreateAnOverload">
+              Create an overload
+            </DropdownItem>
+            <DropdownItem href="/Requests/CreateASelfStudy">
+              Create a self-study
+            </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       </Nav>
