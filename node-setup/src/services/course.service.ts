@@ -3,6 +3,7 @@ import { ICourse } from './interfaces';
 import {
   UserRepo, InstructorRepo, CourseRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo,
 } from '../persistance/Repositories';
+import { DepartmentDataAccess } from '../persistance/postgresDBDataAccess';
 import {
   UserType, StudentType, InstructorType, CourseType, CoursePrerequisitesType,
   CoursewithRegistedStudentsType,
@@ -75,6 +76,7 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
     }
   };
 
+  
   addcourseToDepartment = async (departmentId:string, courseId: string): Promise<void | undefined> => {
     try {
       return await this.courseData.addCoursetoDepartment(departmentId, courseId);

@@ -95,7 +95,7 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-const httpServer = http.createServer(app);
+export const httpServer = http.createServer(app);
 httpServer.listen(NODE_LOCAL_PORT, () => {
   console.log(`Server is starting at prot:${NODE_LOCAL_PORT}`);
 });

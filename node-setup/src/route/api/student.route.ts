@@ -19,10 +19,10 @@ router.route('/getAllStudents')
   .get(studentController.getAllStudents);
 
 router.route('/:prefix/topStudents/:limit')
-  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'),studentController.getTopStudentsByGPA);
+  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), studentController.getTopStudentsByGPA);
 
 router.route('/:studentCode/rank')
-  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'),studentController.getStudentRank);
+  .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), studentController.getStudentRank);
 
 router.route('/:id')
   // .all(isStudentValid)
@@ -41,15 +41,15 @@ router.route('/unregisterSchedule')
   .post(studentController.unregisterSchedule);
 
 router.route('/:studentId/RequestAprroved/:schedulecell')
-  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.ApproveRegularRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'), studentController.ApproveRegularRequest);
 
 router.route('/:studentId/RequestAprroved/:courseType/:courseCode')
-  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.ApproveSelfstudyOROverloadRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'), studentController.ApproveSelfstudyOROverloadRequest);
 
 router.route('/:studentId/RequestRejected/:schedulecell')
-  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.RejectRegularRequest);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'), studentController.RejectRegularRequest);
 
 router.route('/:studentId/RequestRejected/:courseType/:courseCode')
-  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'),studentController.RejectSelfstudyRequestOROverload);
+  .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'), studentController.RejectSelfstudyRequestOROverload);
 
 export default router;
