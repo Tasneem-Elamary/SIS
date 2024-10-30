@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input ,Button} from 'reactstrap';
+import { Table, Input, Button } from 'reactstrap';
 import './viewtable.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,46 +9,61 @@ interface ViewTableProps {
   rowValues: { [key: string]: any }[];
   pathKey?: string;
   showSearchBars: boolean
-  arraycolumn:string
+  arraycolumn?: string
 }
 
-const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pathKey, showSearchBars = false 
-  ,arraycolumn,onAccept, onDecline}) => {
+const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pathKey, showSearchBars = false, arraycolumn, onAccept, onDecline, onCheckedRowsChange }) => {
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [rows, setRows] = useState(rowValues);
+  const [checkedRows, setCheckedRows] = useState<number[]>([]);
   const navigate = useNavigate();
 
-  console.log(rows)
+  const featurePathMap: { [key: string]: (id: string, bylawId?: string) => string } = {
+    course: (id, bylawId) => `/Course/${id}/bylaw/${bylawId}`,
+    bylaw: (id) => `/Course/${id}`,
+    department: (id) => `/Department/${id}`,
+    // Add other features and their paths here as needed
+  };
 
   useEffect(() => {
     if (rowValues.length > 0) {
-      setRows(rowValues); // Update rows whenever rowValues changes
+      setRows(rowValues); 
+      setCheckedRows([])// Update rows whenever rowValues changes
     }
   }, [rowValues]);
-  const handleRowClick = (row: any,arrayIndex:number) => {
-  //   if (row.Bylaws && Array.isArray(row.Bylaws) && row.Bylaws.length > 0) {
-  //     console.log(`Bylaws ID: ${row.Bylaws[arrayIndex].id}`);
-  // }
-  
+
+  // Notify parent component of the checked rows count whenever it changes
+  useEffect(() => {
+    if (onCheckedRowsChange) {
+      onCheckedRowsChange(checkedRows);
+      
+    }
+  }, [checkedRows, onCheckedRowsChange]);
+
+  const handleRowClick = (row: any, arrayIndex: number) => {
+    console.log(row)
     if (pathKey) {
-
       let path = pathKey;
-
-      if (path.includes(':id')) {
-        path = path.replace(':id', row.id);
+      if (path.includes(':courseId')) {
+        path = path.replace(':courseId', row.CourseId);
       }
-
+      if (path.includes(':taId')) {
+        path = path.replace(':taId', row.id);
+      }
+      if (path.includes(':doctorId')) {
+        path = path.replace(':doctorId', row.id);
+      }
       if (path.includes(':bylawId')) {
-        if (row.Bylaws && Array.isArray(row.Bylaws) && row.Bylaws.length > 0) {
-        path = path.replace(':bylawId', row.Bylaws[arrayIndex].id);}
+        path = path.replace(':bylawId', row.BylawId);
+        // if (row.Bylaws && Array.isArray(row.Bylaws) && row.Bylaws.length > 0) {
+        //   path = path.replace(':bylawId', row.Bylaws[arrayIndex].id);
+        // }
       }
-
-      navigate(path); // Navigate to the dynamic path
+      navigate(path);
     }
   };
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>, header: any) => {
-    console.log(header)
 
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>, header: any) => {
     const value = e.target.value;
     setFilters({
       ...filters,
@@ -56,45 +71,63 @@ const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pat
     });
   };
 
-  
-  const filteredRows = rows.filter((row) => 
-    features.every((feature) => {
-      const featureValue = row[feature];
+  const handleCheckboxChange = (rowIndex: number,row:any, arrayIndex?: number) => {
+    const rowId = rowIndex; // Create unique identifier for each row or sub-row
+    setCheckedRows((prevCheckedRows) =>
+      prevCheckedRows.includes(rowId)
+        ? prevCheckedRows.filter((id) => id !== rowId) // Uncheck
+        : [...prevCheckedRows, rowId] // Check
+    );
+  };
 
-    // Log the feature value for debugging
-    // console.log(featureValue);
+  const filteredRows = rows
+    .map((row) => {
+      const filteredRow = { ...row };
+      features.forEach((feature) => {
+        const featureValue = row[feature];
 
-    // Handle undefined or null values
-    if (featureValue === undefined || featureValue === null) {
-      return true; // Filter out if the feature value is undefined or null
-    }
-    if (Array.isArray(featureValue)) {
-     return featureValue.some(item =>
-      item?.[arraycolumn] // Replace 'key' with the object key you want to filter on (e.g., 'code')
-            ?.toString()
-            .toLowerCase()
-            .includes(filters[feature]?.toLowerCase() || '')
-        );
-    }
-      return featureValue.toString().toLowerCase().includes(filters[feature]?.toLowerCase() || '');
+        if (featureValue === undefined || featureValue === null && !filters[feature]) return filteredRow[feature] = '';
+        else if (featureValue === undefined || featureValue === null && filters[feature]) {
+          filteredRow[feature] = null; // Mark as non-match
+          return;
+        }
+        if (Array.isArray(featureValue)) {
+          filteredRow[feature] = featureValue.filter((item) =>
+            item?.[arraycolumn]?.toString().toLowerCase().includes(filters[feature]?.toString().toLowerCase() || "")
+          );
+        } else {
+          filteredRow[feature] = featureValue?.toString().toLowerCase().includes(filters[feature]?.toLowerCase() || '')
+            ? featureValue
+            : null;
+        }
+      });
+      return filteredRow;
     })
-  )
-  console.log(filteredRows)
+    .filter((row) =>
+      features.every((feature) => {
+        const featureValue = row[feature];
+        if (Array.isArray(featureValue)) {
+          return featureValue.length > 0;
+        }
+        return featureValue !== null;
+      })
+    );
+
   return (
     <div>
       <Table striped bordered>
-        <thead className='table-title'>
+        <thead className="table-title">
           <tr>
             {headers.map((header, index) => (
               <th key={index}>
                 {header}
-                {showSearchBars && index > 0 && ( // Exclude the first column from search bars
+                {showSearchBars && index > 0 && (
                   <Input
                     type="text"
                     placeholder={`Search ${header}`}
                     value={filters[features[index - 1]] || ''}
                     onChange={(e) => handleFilterChange(e, features[index - 1])}
-                    style={{ marginTop: '5px', fontSize: 'small', width: "150px" }}
+                    style={{ marginTop: '5px', fontSize: 'small', width: '150px' }}
                   />
                 )}
               </th>
@@ -102,67 +135,82 @@ const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pat
           </tr>
         </thead>
         <tbody>
-
-        {filteredRows .map((row, rowIndex) => {
-            // Check if any feature value is an array
-            const arrayFeatures = features.filter((feature) => row[feature] !== undefined&&Array.isArray(row[feature]) );
-          // console.log(arrayFeatures)
-            // If no array-based features, just render the row normally
+          {filteredRows.map((row, rowIndex) => {
+            const arrayFeatures = features.filter((feature) => row[feature] !== undefined && Array.isArray(row[feature]));
             if (arrayFeatures.length === 0) {
               return (
-                <tr key={rowIndex} onClick={() => handleRowClick(row)} style={{ cursor: 'pointer' }}>
+                <tr key={rowIndex} style={{ cursor: 'pointer' }}>
                   <td>
-                    <Input style={{ marginRight: '7px' }} type="checkbox" />
+                    <Input
+                      style={{ marginRight: '7px' }}
+                      type="checkbox"
+                      checked={checkedRows.includes(rowIndex)}
+                      onChange={() => handleCheckboxChange(rowIndex,row)}
+                    />
                   </td>
                   {features.map((feature, featureIndex) => (
-                    <td key={featureIndex}>{row.hasOwnProperty(feature) ? row[feature] || '-' : '-'}</td>
+                    <td
+                      key={featureIndex}
+                      onClick={feature.toLowerCase().includes("code") ? () => handleRowClick(row) : undefined}
+                      style={feature.toLowerCase().includes("code") ? { cursor: 'pointer', color: '#007bff' } : {}}
+                    >
+                      {row.hasOwnProperty(feature) ? row[feature] || '-' : '-'}
+                    </td>
                   ))}
                   {headers.includes('Decision') && (
                     <td>
                       <Button onClick={() => onAccept(row)} color="success" style={{ marginRight: '5px' }}>
                         Accept
                       </Button>
-                      <Button  onClick={() => onDecline(row)} color="danger">Decline</Button>
+                      <Button onClick={() => onDecline(row)} color="danger">
+                        Decline
+                      </Button>
                     </td>
                   )}
                 </tr>
               );
             }
-
-            // If there are array-based features, create a row for each array element
             const maxArrayLength = Math.max(...arrayFeatures.map((feature) => row[feature].length));
-           
-            // Render multiple rows for the array features
             return Array.from({ length: maxArrayLength }).map((_, arrayIndex) => (
-              <tr key={`${rowIndex}-${arrayIndex}`} onClick={() => handleRowClick(row,arrayIndex)} style={{ cursor: 'pointer' }}>
+              <tr key={`${rowIndex}-${arrayIndex}`} style={{ cursor: 'pointer' }}>
                 <td>
-                  <Input style={{ marginRight: '7px' }} type="checkbox" />
+                  <Input
+                    style={{ marginRight: '7px' }}
+                    type="checkbox"
+                    checked={checkedRows.includes(`${rowIndex}-${arrayIndex}`)}
+                    onChange={() => handleCheckboxChange(rowIndex, arrayIndex)}
+                  />
                 </td>
                 {features.map((feature, featureIndex) => (
-                  <td key={featureIndex}>
-                    {/* If this feature is an array, display the current array item, else display the regular value */}
+                  <td
+                    key={featureIndex}
+                    onClick={feature.toLowerCase().includes("code") ? () => handleRowClick(row, arrayIndex) : undefined}
+                    style={feature.toLowerCase().includes("code") ? { cursor: 'pointer', color: '#007bff' } : {}}
+                  >
                     {row.hasOwnProperty(feature)
                       ? Array.isArray(row[feature])
                         ? row[feature][arrayIndex]
                           ? (
                             <a
                               href={`/path-to-id/${row[feature][arrayIndex].id}`}
-                              style={{ display: 'block' }} // Display each item on a new line
+                              style={{ display: "block" }}
                             >
                               {row[feature][arrayIndex][arraycolumn]}
                             </a>
-                            )
-                          : '-'
-                        : row[feature] || '-'
-                      : '-'}
+                          )
+                          : "-"
+                        : row[feature] || "-"
+                      : "-"}
                   </td>
                 ))}
                 {headers.includes('Decision') && (
                   <td>
-                    <Button onClick={() => onAccept(row,arrayIndex)} color="success" style={{ marginRight: '5px' }}>
+                    <Button onClick={() => onAccept(row, arrayIndex)} color="success" style={{ marginRight: '5px' }}>
                       Accept
                     </Button>
-                    <Button onClick={() => onDecline(row,arrayIndex)} color="danger">Decline</Button>
+                    <Button onClick={() => onDecline(row, arrayIndex)} color="danger">
+                      Decline
+                    </Button>
                   </td>
                 )}
               </tr>
@@ -175,3 +223,4 @@ const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pat
 };
 
 export default ViewTable;
+

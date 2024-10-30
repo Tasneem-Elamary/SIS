@@ -1,11 +1,12 @@
 import models, {
   Bylaw, Grade, BylawRule, Faculty, Course,
   BylawCourse,
+  BylawDepartment,
 } from '../../models';
 
 import { db } from '../../../config/postgresDB.config';
 import {
-  BylawCourseType, BylawRuleType, BylawType, CourseType, GradeType,
+  BylawCourseType, BylawDepartmentType, BylawRuleType, BylawType, CourseType, DepartmentType, GradeType,
 } from '../../types';
 import { BylawRepo } from '../Repositories';
 
@@ -73,6 +74,35 @@ class BylawDataAccess implements BylawRepo {
       return bylawCourse.get({ plain: true });
     } catch (error) {
       console.log('Error encountered while creating bylawCourse:', error);
+      return undefined;
+    }
+  };
+
+  addDepartmentToBylaw = async (bylawId: string, departmentId: string): Promise<BylawDepartmentType | undefined> => {
+    try {
+      const bylawDepartment = await BylawDepartment.create({ BylawId: bylawId, DepartmentId: departmentId });
+      if (!bylawDepartment) throw new Error('Failed to create bylawCourse');
+      return bylawDepartment.get({ plain: true });
+    } catch (error) {
+      console.log('Error encountered while creating bylawCourse:', error);
+      return undefined;
+    }
+  };
+
+  getBylawDepartments = async (id: string): Promise<Partial<BylawType & { Departments: Partial<DepartmentType>[] }> | undefined> => {
+    try {
+      const bylaw = await Bylaw.findByPk(id, {
+        include: [
+          { model: models.Department, attributes: ['code', 'name'], through: { attributes: [] } },
+        ],
+        attributes: ['code'],
+      });
+
+      if (bylaw) return bylaw.get({ plain: true });
+
+      return undefined;
+    } catch (error) {
+      console.log('Error encountered while fetching bylaw courses:', error);
       return undefined;
     }
   };

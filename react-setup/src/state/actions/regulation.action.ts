@@ -8,9 +8,9 @@ class Regulation {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
       const { data: { message, bylaws } } = await regulationApi.viewAllRegulations(); 
-    if(bylaws){
-      console.log("regulations",bylaws)
-    }
+    // if(bylaws){
+    //   console.log("regulations",bylaws)
+    // }
       dispatch(statusAction.addSuccessStatus(message));
       dispatch(fetchAction.fetchingFailed());
       return bylaws;

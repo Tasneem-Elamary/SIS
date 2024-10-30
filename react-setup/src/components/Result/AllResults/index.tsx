@@ -14,9 +14,10 @@ import resultAction from '../../../state/actions/result.action';
 
 
 function AllResults({ }) {
-    const [role, setRole] = useState<string>("student"); 
+    const [role, setRole] = useState<string>(localStorage.getItem('role') as string); 
     const [rowValues, setrowValues] = useState<ResultType[]>([]);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [checkedRows, setCheckedRows] = useState<number[]>([]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate(); 
@@ -35,6 +36,26 @@ function AllResults({ }) {
 
         fetchResults();
     }, [dispatch]);
+
+    const onCheckedRowsChange = (selectedRowIds: string[]) => {
+        setCheckedRows(selectedRowIds);
+    };
+
+    // Function to delete selected rows
+    const handleDeleteSelectedRows =async () => {
+        // Here you can dispatch an action to delete rows from the backend
+        // Filter out the selected rows from `rowValues`
+        const remainingRows = rowValues.filter((_, index) => !checkedRows.includes(index));
+        const deletedRows = rowValues.filter((_, index) => checkedRows.includes(index));
+        await Promise.all(
+            deletedRows.map(async (row) => {
+                await dispatch(resultAction.deleteResultsAction(row.id));
+            })
+        );
+        setrowValues(remainingRows);
+       
+        setCheckedRows([]);
+    };
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
        
@@ -118,8 +139,18 @@ function AllResults({ }) {
                     </div>
                     <hr />
                 </div>
+                {checkedRows.length > 0 && (
+                    <div className="selection-message">
+                        <span>{checkedRows.length} row(s) selected.</span>
+                        <Button color="danger" onClick={handleDeleteSelectedRows} style={{ marginLeft: '10px' }}>
+                            Delete Selected
+                        </Button>
+                    </div>
+                )}
+
                 <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade", "Grade Letter"]}
-                    features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues} pathKey="/Course/:id/bylaw/:bylawId" showSearchBars={true} arraycolumn='code' />
+                    features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues} pathKey="/Course/:id/bylaw/:bylawId" 
+                    showSearchBars={true} arraycolumn='code' onCheckedRowsChange={onCheckedRowsChange}/>
             </div>
 
         </div>

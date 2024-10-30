@@ -23,6 +23,8 @@ import StudentScheduleType from './studentSchedule';
 import StudentAdvisorType from './studentAdvisor';
 import CoursePrerequisitesType from './coursePrerequisite';
 import BylawDepartmentCourseType from './bylawDepartmentCourse';
+import AuditType from './audit';
+import BylawDepartmentType from './bylawDepartment';
 
 export {
   ErrorType,
@@ -50,5 +52,6 @@ export {
   CoursePrerequisitesType,
   BylawDepartmentCourseType,
   CoursewithRegistedStudentsType,
+  AuditType, BylawDepartmentType,
 
 };

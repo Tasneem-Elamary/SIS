@@ -33,6 +33,20 @@ class Result {
             return [];
         }
     };
+    deleteResultsAction = (Id:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message } } = await resultApi.deletResult(Id);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
    
 
     uploadResults = (formdata:FormData) => async (dispatch: Dispatch) => {

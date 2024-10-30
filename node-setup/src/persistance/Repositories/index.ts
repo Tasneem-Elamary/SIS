@@ -15,6 +15,7 @@ import ResultRepo from './result.repo';
 import UniversityRepo from './university.repo';
 import CoursePrerequisitesRepo from './coursePrerequisite.repo';
 import BylawDepartmentCourseRepo from './bylawDepartmentcourse.repo';
+import AuditRepo from './audit.repo';
 
 export {
   UserRepo,
@@ -22,5 +23,5 @@ export {
   BylawRepo, ScheduleRepo,
   InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo, BylawRuleRepo,
 
-  SemesterRepo, ResultRepo, UniversityRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo,
+  SemesterRepo, ResultRepo, UniversityRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo, AuditRepo,
 };

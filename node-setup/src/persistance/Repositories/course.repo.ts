@@ -1,4 +1,4 @@
-import { CourseType, CoursewithRegistedStudentsType } from '../../types';
+import { CourseType, CoursewithRegistedStudentsType, InstructorType } from '../../types';
 
 interface CourseRepo {
   create(course: CourseType): Promise<CourseType | undefined>;
@@ -13,5 +13,6 @@ interface CourseRepo {
   addCoursetoDepartment(departmentId:string, courseId: string): Promise<void | undefined>;
   getCoursesBylevel (level:number): Promise<CourseType[] | undefined[]>
   getCourseWithRegisteredStudentCounts (courseId: string, bylawId: string) : Promise<CoursewithRegistedStudentsType | undefined>
+  getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>
 }
 export default CourseRepo;

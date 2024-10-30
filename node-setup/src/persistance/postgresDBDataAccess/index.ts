@@ -12,6 +12,7 @@ import ResultDataAccess from './result.data';
 import UniversityDataAccess from './university.data';
 import CoursePrerequisitesData from './coursePrerequisties.data';
 import BylawDepartmentCourseData from './BylawDepartmentCourse.data';
+import AuditDataAccess from './audit.data';
 
 export {
   UserDataAccess,
@@ -21,5 +22,5 @@ export {
   CourseDataAcces, DepartmentDataAccess, FacultyDataAccess, CourseEnrollmentDataAccess,
 
   GradesDataAccess, SemesterDataAccess, ResultDataAccess, UniversityDataAccess,
-  CoursePrerequisitesData, BylawDepartmentCourseData,
+  CoursePrerequisitesData, BylawDepartmentCourseData, AuditDataAccess,
 };

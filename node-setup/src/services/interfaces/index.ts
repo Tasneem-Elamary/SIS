@@ -11,6 +11,7 @@ import ISemster from './ISemster';
 import IResult from './IResult';
 import Ifaculty from './Ifaculty';
 import IUniversity from './IUniversity';
+import IAudit from './IAudit';
 
 export {
   IUser,
@@ -24,5 +25,5 @@ export {
   IGrade,
   ISemster,
   IResult,
-  Ifaculty, IUniversity,
+  Ifaculty, IUniversity, IAudit,
 };

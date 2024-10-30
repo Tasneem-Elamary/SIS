@@ -113,6 +113,22 @@ class ResultController {
       res.status(500).json({ error: 'Failed to retrieve semester results' });
     }
   };
+
+  deleteResult = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const deletedResult = await this.result.deleteResultById(id);
+
+      if (!deletedResult) {
+        return res.status(404).json({ message: 'Reult not found' });
+      }
+
+      res.status(200).json({ message: 'Reult deleted successfully' });
+    } catch (e) {
+      next(e);
+    }
+  };
 }
 
 export default new ResultController();

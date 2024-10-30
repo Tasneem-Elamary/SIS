@@ -19,7 +19,7 @@ const CoursesNavlBar = ({ activeItem ,id, bylawId}) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href={`/Courses/level/3`} className={activeItem === 'Instructors' ? "nav-link-active" : "nav-link-custom "}>
+          <NavLink href={`/Course/${id}/instructors`} className={activeItem === 'Instructors' ? "nav-link-active" : "nav-link-custom "}>
            Instructors
           </NavLink>
         </NavItem>
@@ -33,6 +33,12 @@ const CoursesNavlBar = ({ activeItem ,id, bylawId}) => {
          Rules
           </NavLink>
         </NavItem>
+
+        {/* <NavItem>
+          <NavLink href={`/Course/${id}/PrerequesitiesAndDependants`} className={activeItem ===  'Registeration log' ? "nav-link-active" : "nav-link-custom "}>
+        Registeration log
+          </NavLink>
+        </NavItem> */}
       </Nav>
     </Navbar>
   );

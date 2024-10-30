@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import models from '../../models';
 import { CourseRepo } from '../Repositories';
-import { CourseType, CoursewithRegistedStudentsType } from '../../types';
+import { CourseType, CoursewithRegistedStudentsType, InstructorType } from '../../types';
 
 class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
@@ -184,7 +184,7 @@ class CourseData implements CourseRepo {
         throw new Error('Invalid course level');
       }
 
-      return courses.map((course) => course.get() );
+      return courses.map((course) => course.get());
     } catch (error) {
       // Type guard to ensure the error has a message property
       if (error instanceof Error) {
@@ -271,6 +271,45 @@ class CourseData implements CourseRepo {
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  };
+
+  getDistinctProfessorsByCourse = async (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined> => {
+    try {
+      // Find the course and include the associated schedules and professors
+      const course :any = await models.Course.findOne({
+        where: { id: courseId },
+        include: [
+          {
+            model: models.Schedule,
+            attributes: ['InstructorId'], // Only need InstructorId to get unique professors
+            include: [
+              {
+                model: models.Instructor,
+                where: { type: 'Professor' },
+                attributes: ['id', 'firstName', 'lastName', 'code'], // Include relevant professor attributes
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!course) {
+        console.error(`Course with ID ${courseId} not found.`);
+        return undefined;
+      }
+      console.log(course.Schedules);
+      const distinctProfessors = course.Schedules
+        ?.map((schedule: any) => schedule.Instructor) // Extract each instructor
+        .filter((professor: any, index: number, self: any[]) => index === self.findIndex((p: any) => p.id === professor.id));
+
+      return {
+        ...course.get(), // Spread course properties
+        Schedules: distinctProfessors, // Attach distinct professors
+      };
+    } catch (error) {
+      console.error('Error fetching distinct professors for course:', error);
+      return undefined;
     }
   };
 }

@@ -5,11 +5,19 @@ import vars from '../config/env.config';
 const backendUrl = vars.get('backendUrl');
 
 console.log(`mmmmmmmmmm${backendUrl}`)
+const token=localStorage.getItem('token')
+const config={
+  headers:{
+    Authorization:`Bearer ${token}`
+  }
+}
+
 
 class Result {
-  getAllResults = () => axios.get(`http://localhost:5000/result`);
-  getStudentResults = (studentId:string) => axios.get(`http://localhost:5000/result/${studentId}`);
-  uploadResults = (formData: FormData) =>  axios.post(`http://localhost:5000/result`,formData);
+  getAllResults = () => axios.get(`http://localhost:5000/result`,config);
+  getStudentResults = (studentId:string) => axios.get(`http://localhost:5000/result/${studentId}`,config);
+  uploadResults = (formData: FormData) =>  axios.post(`http://localhost:5000/result`,formData,config);
+  deletResult= (id:string) => axios.delete(`http://localhost:5000/result/${id}`,config);
     
 }
 

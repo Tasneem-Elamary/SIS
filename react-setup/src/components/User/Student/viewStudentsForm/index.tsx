@@ -14,6 +14,8 @@ import RegisterationNavbar from '../../../shared/registerationNavbar';
 function AllStudents() {
   const [rowValues, setRowValues] = useState<(StudentType & { User: UserType })[]>([]);
 
+  const role = localStorage.getItem('role');
+
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
@@ -34,7 +36,7 @@ function AllStudents() {
     <div>
          <RegisterationNavbar />
       <MainNavBar activeItem="Users"/>
-      <SubNavBar activeItem="Student"/>
+      {role === 'faculty admin' && ( <SubNavBar activeItem="Student"/>)} 
       <div className="container">
         <div className='container-table'>
           <div className="fixed-header">

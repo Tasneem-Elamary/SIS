@@ -18,6 +18,7 @@ function ListOfPendingStudents() {
     const { id } = useParams();
     const [rowValues, setrowValues] = useState<StudentType[]>([]);
     const [instructor, setInstructor] = useState<InstructorType>();
+    const role = localStorage.getItem('role');
 
     const dispatch = useDispatch();
 
@@ -73,7 +74,7 @@ function ListOfPendingStudents() {
         <div className="student-list-page">
             <RegisterationNavbar />
             <MainNavBar activeItem="Users" />
-            <UsersNavBar activeItem="Lecturer" />
+            {role === 'faculty admin' && ( <UsersNavBar activeItem="Lecturer" />)}
             <div className="content-section">
 
                 <div className="user-header">

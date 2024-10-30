@@ -23,10 +23,13 @@ router.post('/prerequisites', isAuth, authorizeRoles('university admin', 'facult
 router.get('/:courseId/prerequisites', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCoursePrerequisites);
 router.get('/:prerequisiteId/dependants', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCourseDependants);
 
-router.post('/department', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.addCoursetoDepartment);
+router.post('/bylaw/department', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.addCoursetoDepartment);
 
 router.get('/level/:level', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCoursesBylevel);
 
 router.get('/:courseId/bylaw/:bylawId', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), courseController.getCourseWithRegisteredStudentCounts);
 
+router.get('/:id/professors', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getDistinctProfessorsByCourse);
+
+router.delete('/:courseId/bylaw/:bylawId/department/:departmentId?', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.deleteCourseOfBylawAndDepartment);
 export default router;

@@ -38,17 +38,17 @@ describe('Course Service', () => {
     });
   });
 
-//   Test for getCoursesBylevel
+  //   Test for getCoursesBylevel
   describe('getCoursesBylevel', () => {
     it('should return courses for level 1 and 2 (Bylaw only)', async () => {
       const mockCourses = [
-       {get: jest.fn(() => ( { id: 'course1', level: 1, Bylaw: {} }))} ,
-       {get: jest.fn(() => ( { id: 'course2', level: 1, Bylaw: {} }))} ,
+        { get: jest.fn(() => ({ id: 'course1', level: 1, Bylaw: {} })) },
+        { get: jest.fn(() => ({ id: 'course2', level: 1, Bylaw: {} })) },
       ];
 
       const mockResultCourses = [
         { id: 'course1', level: 1, Bylaw: {} },
-        { id: 'course2', level: 1,  Bylaw: {} },
+        { id: 'course2', level: 1, Bylaw: {} },
       ];
 
       models.Course.findAll = jest.fn().mockResolvedValue(mockCourses);
@@ -64,15 +64,25 @@ describe('Course Service', () => {
 
     it('should return courses for level 3 and 4 (Bylaw and Department)', async () => {
       const mockResultCourses = [
-        { id: 'course3', level: 3, Department: {}, Bylaw: {} },
-        { id: 'course4', level: 3, Department: {}, Bylaw: {} },
+        {
+          id: 'course3', level: 3, Department: {}, Bylaw: {},
+        },
+        {
+          id: 'course4', level: 3, Department: {}, Bylaw: {},
+        },
       ];
       const mockCourses = [
-        {get: jest.fn(() => (  { id: 'course3', level: 3, Department: {}, Bylaw: {} }))} ,
-        {get: jest.fn(() => ( { id: 'course4', level: 3, Department: {}, Bylaw: {} }))} ,
-       ];
- 
-       
+        {
+          get: jest.fn(() => ({
+            id: 'course3', level: 3, Department: {}, Bylaw: {},
+          })),
+        },
+        {
+          get: jest.fn(() => ({
+            id: 'course4', level: 3, Department: {}, Bylaw: {},
+          })),
+        },
+      ];
 
       models.Course.findAll = jest.fn().mockResolvedValue(mockCourses);
 
@@ -95,13 +105,13 @@ describe('Course Service', () => {
     });
   });
 
-//   // Test for getCourseWithRegisteredStudentCounts
+  //   // Test for getCourseWithRegisteredStudentCounts
   describe('getCourseWithRegisteredStudentCounts', () => {
     it('should return course details with student counts', async () => {
       const mockCourse = {
-       
-        get: jest.fn(() => ({ id: 'courseId', name: 'Course Name',  Bylaw: {} })),
-     
+
+        get: jest.fn(() => ({ id: 'courseId', name: 'Course Name', Bylaw: {} })),
+
       };
 
       models.Course.findOne = jest.fn().mockResolvedValue(mockCourse);

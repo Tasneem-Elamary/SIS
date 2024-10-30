@@ -22,7 +22,7 @@ const TANavBar = ({ activeItem ,id}) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'System log' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/${id}/systemlog`}className={activeItem === 'System log' ? "nav-link-active" : "nav-link-custom "}>
             System log
             </NavLink>
           </NavItem>

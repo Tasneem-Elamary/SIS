@@ -5,6 +5,7 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 
 
 const CoursesLevelBar = ({ activeItem }) => {
+  const role = localStorage.getItem('role');
   return (
     <Navbar expand="md" className="sub-navbar">
       <Nav className="me-auto" navbar>
@@ -28,11 +29,17 @@ const CoursesLevelBar = ({ activeItem }) => {
             Level 4 courses
           </NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink href={`/Courses/level/5`} className={activeItem === 5 ? "nav-link-active" : "nav-link-custom "}>
-            Level 5 courses
-          </NavLink>
-        </NavItem>
+        
+        {role === "faculty admin" && (
+          <NavItem>
+            <NavLink
+              href={`/Courses/createNewCourse`}
+              className={activeItem === "create new course" ? "nav-link-active" : "nav-link-custom"}
+            >
+              Create New Course
+            </NavLink>
+          </NavItem>
+        )}
       </Nav>
     </Navbar>
   );

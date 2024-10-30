@@ -21,6 +21,8 @@ import user from './user.model';
 import studentSchedule from './studentSchedule.model';
 import coursePrerequisites from './coursePrerequisites.model';
 import departmentCourse from './departmentCourse.model';
+import audit from './audit.model';
+import bylawDepartment from './bylawDepartment.mode';
 
 const User = user(db);
 const Student = student(db);
@@ -44,6 +46,8 @@ const Semester = semester(db);
 const Room = room(db);
 const CoursePrerequisite = coursePrerequisites(db);
 const DepartmentCourse = departmentCourse(db);
+const Audit = audit(db);
+const BylawDepartment = bylawDepartment(db);
 
 Faculty.hasMany(Room, { foreignKey: 'FacultyId' });
 Room.belongsTo(Faculty, { foreignKey: 'FacultyId' });
@@ -84,20 +88,28 @@ Bylaw.belongsToMany(Course, {
   through: 'BylawCourses', foreignKey: 'BylawId', otherKey: 'CourseId', timestamps: false,
 });
 
-Course.belongsToMany(Department, {
-  through: 'DepartmentCourses',
-  foreignKey: 'CourseId',
-  otherKey: 'DepartmentId',
-  timestamps: false,
+Course.hasMany(DepartmentCourse, { foreignKey: 'CourseId' });
+Department.hasMany(DepartmentCourse, { foreignKey: 'DepartmentId' });
+Bylaw.hasMany(DepartmentCourse, { foreignKey: 'BylawId' });
 
-});
+DepartmentCourse.belongsTo(Course, { foreignKey: 'CourseId' });
+DepartmentCourse.belongsTo(Department, { foreignKey: 'DepartmentId' });
+DepartmentCourse.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
-Department.belongsToMany(Course, {
-  through: 'DepartmentCourses',
-  foreignKey: 'DepartmentId',
-  otherKey: 'CourseId',
-  timestamps: false,
-});
+// Course.belongsToMany(Department, {
+//   through: 'DepartmentCourses',
+//   foreignKey: 'CourseId',
+//   otherKey: 'DepartmentId',
+//   timestamps: false,
+
+// });
+
+// Department.belongsToMany(Course, {
+//   through: 'DepartmentCourses',
+//   foreignKey: 'DepartmentId',
+//   otherKey: 'CourseId',
+//   timestamps: false,
+// });
 Department.belongsToMany(Bylaw, {
   through: 'BylawDepartments',
   foreignKey: 'DepartmentId',
@@ -221,7 +233,7 @@ export {
   Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
   Result,
   CoursePrerequisite,
-  DepartmentCourse,
+  DepartmentCourse, Audit, BylawDepartment,
 };
 
 const models = {
@@ -247,6 +259,8 @@ const models = {
   Result,
   CoursePrerequisite,
   DepartmentCourse,
+  Audit,
+  BylawDepartment,
 };
 export const sequelize = db;
 

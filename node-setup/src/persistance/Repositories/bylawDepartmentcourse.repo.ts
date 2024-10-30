@@ -2,8 +2,10 @@ import { BylawDepartmentCourseType } from '../../types';
 
 interface BylawDepartmentCourseRepo {
   // Method to create a new bylaw
-  create(bylawId:string, departmentId:string, courseId: string): Promise<void | undefined>;
-
+  create (DepartmentId: string | null, CourseId: string, BylawId:string): Promise<BylawDepartmentCourseType | undefined>
+  getAll ():Promise<BylawDepartmentCourseType[] | undefined[]>
+  getAllByCourseLevel (courseLevel: number): Promise<BylawDepartmentCourseType[] | undefined[]>
+  delete (DepartmentId: string | null, CourseId: string, BylawId: string): Promise<boolean>
 //   // Method to find a bylaw by code
 //   getByCode(code: string): Promise<BylawType | undefined>;
 

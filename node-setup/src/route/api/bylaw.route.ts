@@ -1,14 +1,15 @@
 import * as express from 'express';
 import bylawController from '../../controller/bylaw.controller';
+import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
 
 const router = express.Router();
 
 // Routes for managing bylaws
 router.post('/createBylaw', bylawController.create);
-router.get('/:id', bylawController.getById);
+router.get('/:id', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), bylawController.getById);
 router.get('/limits/:id', bylawController.getBylawLimits);
 router.get('/code/:code', bylawController.getByCode);
-router.get('/', bylawController.getAll);
+router.get('/', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), bylawController.getAll);
 router.put('/:id', bylawController.update);
 router.delete('/:id', bylawController.delete);
 
