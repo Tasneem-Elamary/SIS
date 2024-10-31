@@ -1,5 +1,9 @@
-import { CourseEnrollment } from '../../models';
-import { CourseEnrollmentType } from '../../types';
+import { Op, where } from 'sequelize';
+import {
+  Course, CourseEnrollment, Grade, Result, Student,
+} from '../../models';
+import course from '../../models/course.model';
+import { CourseEnrollmentType, CourseType } from '../../types';
 import { CourseEnrollmentRepo } from '../Repositories';
 
 class CourseEnrollmentDataAccess implements CourseEnrollmentRepo {
@@ -64,6 +68,59 @@ class CourseEnrollmentDataAccess implements CourseEnrollmentRepo {
     } catch (error) {
       console.error('Error deleting enrollment:', error);
       return false;
+    }
+  }
+
+  public async getCoursesStudentAllowedToEnroll(studentId: string): Promise<CourseType[] | undefined> {
+    try {
+      const AllowedCoursesToEnroll = await Course.findAll({
+        include: [
+
+          {
+            model: Result,
+            where: {
+              StudentId: studentId,
+            },
+            include: [
+              {
+                model: Grade,
+                where: { letter: 'F' },
+              },
+            ],
+            required: false,
+            attributes: [],
+          },
+
+          {
+            model: Course,
+            as: 'Prerequisite',
+            include: [
+              {
+                model: Result,
+                where: {
+                  StudentId: studentId, // Check if the student passed the prerequisite course
+                },
+                include: [
+                  {
+                    model: Grade,
+                    where: { letter: { [Op.ne]: 'F' } }, // Only include passing grades
+                  },
+                ],
+                attributes: [], // Exclude Result attributes in the result
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!AllowedCoursesToEnroll) {
+        console.error('Courses to enroll in not found');
+        return undefined;
+      }
+
+      return AllowedCoursesToEnroll.map((course) => course.get({ plain: true }));
+    } catch (error) {
+      console.error('Error finding allowed courses to enroll in:', error);
     }
   }
 }

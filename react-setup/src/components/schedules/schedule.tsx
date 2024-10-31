@@ -1,64 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { logisticAction } from '../../state/actions';
+import { useNavigate, useParams } from 'react-router-dom';
+import { scheduleAction } from '../../state/actions';
 import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 import MainNavBar from '../shared/mainNavbar';
 import RegisterationNavbar from '../shared/registerationNavbar';
-import { Card, CardHeader, CardBody, CardTitle, CardText, Button, CardFooter } from 'reactstrap';
-import './logistics.scss'
-interface LogisticsProps {
-  getAllRoomsAction: () => Promise<any>;
+import { Table } from 'reactstrap';
+import './schedule.scss';
+import ScheduleNavBar from './scheduleNav';
+
+interface AllSchedulesrops {
+    getAllSchedules: () => Promise<{ schedules: any[] }>;//any again and again :""(
 }
 
-const Logistics = ({ getAllRoomsAction }: LogisticsProps) => {
-  const [roomValues, setRoomValues] = useState([]);
-  const navigate = useNavigate();
+const AllSchedules = ({ getAllSchedules }: AllSchedulesrops) => {// need to change any
+    const [schedules, setSchedules] = useState<any[]>([]);
+    const [times, setTimes] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchLogistics = async () => {
-      try {
-        const fetchedLogistics = await getAllRoomsAction();
+    const navigate = useNavigate();
 
-        if (fetchedLogistics) {
-          console.log(fetchedLogistics);
-          setRoomValues(fetchedLogistics);
-        }
-      } catch (error) {
-        console.error('Error fetching rooms:', error);
-      }
+    useEffect(() => {
+        const fetchAllSchedule = async () => {
+
+            try {
+                const { schedules } = await getAllSchedules();
+
+                if (schedules.length === 0) {
+                    console.log('No schedules found for this room.');
+                } else {
+                    const uniqueTimes = Array.from(new Set(schedules.map((schedule: any) => {
+                        return `${schedule.Slot.startTime.slice(0, 5)} - ${schedule.Slot.endTime.slice(0, 5)}`;
+                    })));
+
+                    setTimes(uniqueTimes.sort());
+                }
+                setSchedules(schedules);
+
+            } catch (error) {
+                console.error('Error fetching schedule:', error);
+            }
+
+        };
+
+        fetchAllSchedule();
+    }, [getAllSchedules]);
+
+    const handleBackClick = () => {
+        navigate('/logistics');
     };
 
-    fetchLogistics();
-  }, [getAllRoomsAction]);
+    const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-  const handleNavigatingScheduleClick = (roomId:string) => {
-    navigate(`/roon-schedule/${roomId}`);
-  };
+    const findSchedules = (day: string, startTime: string, endTime: string) => {
+        return schedules.filter((schedule: any) => {
+            const scheduleDay = schedule.Slot.day;
+            const scheduleStartTime = schedule.Slot.startTime.slice(0, 5);
+            const scheduleEndTime = schedule.Slot.endTime.slice(0, 5);
+            return scheduleDay === day && scheduleStartTime === startTime && scheduleEndTime === endTime;
+        });
+    };
 
-  return (
-    <div className="container555">
-                    <RegisterationNavbar />
-            <MainNavBar activeItem="Logistics" />
-<div className='logistics-container'>
 
-     <div><ul>
-        {roomValues.map((room: any) => (
-          <li key={room.id}>{room.type} {room.code}</li>
-        ))}
-      </ul></div> 
-      </div>
-    </div>
-  );
+    const renderSchedulesDetails = (schedules: any[]) => {
+        if (schedules.length == 0) return null;
+
+        return (
+
+            <ul>{schedules.map((schedule) => (<li>
+                <div className='black-bold'><span className='blue-bold'>{schedule.Course.code} </span>- {schedule.Course.name}</div>
+                <div className='black-bold'><span className='blue-bold'>{schedule.Room.code} </span></div>
+                <div className='blue-bold'>{schedule.Instructor.firstName} {schedule.Instructor.lastName}</div>
+                <div className='blue-bold'>Group: {schedule.Group.groupCode} | Section: {schedule.Section.sectionCode}</div>
+                <div className='black-bold'>{schedule.scheduleType}</div></li>)
+                )
+                }
+
+            </ul>
+        );
+    };
+
+    return (
+        <div className="page-container">
+            <RegisterationNavbar />
+            <MainNavBar activeItem="Schedule" />
+            <ScheduleNavBar activeNav={2}/>
+
+            <div className="fixed-title">
+                 
+                    <h3>All schedules</h3>
+             
+                <hr />
+
+
+            </div>
+
+            <div className="inside-container">
+                <Table bordered striped >
+                    <thead className='table-title'>
+                        <tr style={{ border: 'none' }}>
+                            <th style={{ border: 'none' }}>Day</th>
+                            {times.map((time, index) => (
+                                <th style={{ border: 'none' }} key={index} >{time}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className="schedules">
+                        {days.map((day, dayIndex) => (
+                            <tr key={dayIndex}>
+                                <td className='black-bold'>{day}</td>
+                                {times.map((time, timeIndex) => {
+                                    const [startTime, endTime] = time.split(' - ');
+                                    const schedule = findSchedules(day, startTime, endTime);
+                                    return (
+                                        <td key={timeIndex}>
+                                            {renderSchedulesDetails(schedule)}
+                                        </td>
+                                    );
+                                })}
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+
+            <button onClick={handleBackClick}>Back</button>
+        </div>
+    );
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-  return bindActionCreators(
-    {
-      getAllRoomsAction: logisticAction.getAllRoomsAction,     },
-    dispatch
-  );
+    return bindActionCreators(
+        {
+            getAllSchedules: scheduleAction.getAllSchedules,
+        },
+        dispatch
+    );
 };
 
-export default connect(null, mapDispatchToProps)(Logistics);
+export default connect(null, mapDispatchToProps)(AllSchedules);

@@ -112,9 +112,22 @@ class StudentController {
   };
 
   public registerSchedule = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { studentId, scheduleId } = req.body;
+    const { StudentId, ScheduleId } = req.body;
+    console.log('Debugging from controller', StudentId, ScheduleId);
     try {
-      await this.student.registerSchedule(studentId, scheduleId);
+      await this.student.registerSchedule(StudentId, ScheduleId);
+      res.status(200).send({ msg: 'Schedule registered successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public registerSchedules = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { StudentId } = req.params;
+    const { scheduleIds } = req.body;
+    console.log('Debugging from controller', StudentId, scheduleIds);
+    try {
+      await this.student.registerSchedules(StudentId, scheduleIds);
       res.status(200).send({ msg: 'Schedule registered successfully' });
     } catch (error) {
       next(error);
@@ -128,6 +141,31 @@ class StudentController {
       res.status(200).send({ msg: 'Schedule unregistered successfully' });
     } catch (error) {
       next(error);
+    }
+  };
+
+  public getFailedOrNotEnrolledStudents = async (req: Request, res: Response) => {
+    const { courseId } = req.params;
+
+    try {
+      const students = await this.student.studentFailedOrNotEnrolledCourse(courseId);
+
+      if (students) {
+        return res.status(200).json({
+          success: true,
+          data: students,
+        });
+      }
+      return res.status(404).json({
+        success: false,
+        message: 'No students found for this course',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'An error occurred while fetching students',
+        error,
+      });
     }
   };
 
@@ -222,7 +260,7 @@ class StudentController {
   //     if (user && isPasswordValid(user.password, password)) {
   //       const token = signUser(user);
   //       res.send({
-  //         msg: 'Signin successfully',
+  //         msg: 'Sign in successfully',
   //         token,
   //       });
   //     } else {

@@ -211,13 +211,13 @@ class Instructor extends User implements IInstuctor {
       if (!instructor || instructor.type !== 'TA') {
         throw new Error('instructor must br TA type');
       }
-      await sequelize.query(
-        'INSERT INTO "StudentAdvisors"("StudentId", "InstructorId") VALUES (:studentId, :instructorId)',
-        {
-          replacements: { studentId, instructorId },
-          type: QueryTypes.INSERT,
-        },
-      );
+      // await sequelize.query(
+      //   'INSERT INTO "StudentAdvisors"("StudentId", "InstructorId") VALUES (:studentId, :instructorId)',
+      //   {
+      //     replacements: { studentId, instructorId },
+      //     type: QueryTypes.INSERT,
+      //   },
+      // );
       console.log('Record inserted successfully');
     } catch (error) {
       console.error('Error inserting record:', error);
@@ -227,13 +227,13 @@ class Instructor extends User implements IInstuctor {
 
   updateAdvisedStudent = async (instructorId: string, studentId: string, newInstructorId: string): Promise<void> => {
     try {
-      await sequelize.query(
-        'UPDATE "StudentAdvisors" SET "InstructorId" = :newInstructorId WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
-        {
-          replacements: { studentId, instructorId, newInstructorId },
-          type: QueryTypes.UPDATE, // Use QueryTypes directly
-        },
-      );
+      // await sequelize.query(
+      //   'UPDATE "StudentAdvisors" SET "InstructorId" = :newInstructorId WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
+      //   {
+      //     replacements: { studentId, instructorId, newInstructorId },
+      //     type: QueryTypes.UPDATE, // Use QueryTypes directly
+      //   },
+      // );
       console.log('Record updated successfully');
     } catch (error) {
       console.error('Error updating record:', error);
@@ -243,13 +243,13 @@ class Instructor extends User implements IInstuctor {
 
   deleteAdvisedStudent = async (studentId: string, instructorId: string): Promise<void> => {
     try {
-      await sequelize.query(
-        'DELETE FROM "StudentAdvisors" WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
-        {
-          replacements: { studentId, instructorId },
-          type: QueryTypes.DELETE, // Use QueryTypes directly
-        },
-      );
+      // await sequelize.query(
+      //   'DELETE FROM "StudentAdvisors" WHERE "StudentId" = :studentId AND "InstructorId" = :instructorId',
+      //   {
+      //     replacements: { studentId, instructorId },
+      //     type: QueryTypes.DELETE, // Use QueryTypes directly
+      //   },
+      // );
       console.log('Record deleted successfully');
     } catch (error) {
       console.error('Error deleting record:', error);

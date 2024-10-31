@@ -6,9 +6,9 @@ import courseController from './course.controller';
 import departmentController from './department.controller';
 import gradeController from './grade.controller';
 import semsterController from './semster.controller';
-import resultController from './result.controller';
 import FacultyController from './faculty.controller';
 import courseEnrollmentController from './courseEnrollment.controller';
+import resultController from './result.controller';
 
 export {
   userController,

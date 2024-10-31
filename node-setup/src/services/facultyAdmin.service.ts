@@ -8,7 +8,7 @@ import {
 import {
   UserType, StudentType, InstructorType, CourseType, DepartmentType, StudentAdvisorType, GradeType, SemesterType,
 } from '../types';
-import { sequelize } from '../models';
+
 import { db } from '../../config/postgresDB.config';
 
 class FacultyAdmin extends User implements IfacultyAdmin {

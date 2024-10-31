@@ -1,9 +1,11 @@
-import { CourseEnrollmentRepo } from '../persistance/Repositories';
-import { CourseEnrollmentType } from '../types';
+import { CourseEnrollmentRepo, StudentRepo } from '../persistance/Repositories';
+import { CourseEnrollmentType, CourseType } from '../types';
 import { ICourseEnrollment } from './interfaces';
+import { DataAccess } from '../persistance';
+
 
 class CourseEnrollmentService implements ICourseEnrollment {
-  constructor(private courseEnrollmentData: CourseEnrollmentRepo) {}
+  constructor(private courseEnrollmentData: CourseEnrollmentRepo,private studentDataAccess:StudentRepo) {}
 
   public async create(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
@@ -14,11 +16,44 @@ class CourseEnrollmentService implements ICourseEnrollment {
     }
   }
 
+  public async request(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+    try {
+      const enrollment = await this.courseEnrollmentData.create({
+        ...enrollmentData,
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      });
+      return enrollment;
+    } catch (error) {
+      throw new Error('Failed to create course enrollment, Please try again!');
+    }
+  }
+public async requestByStudentCode(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+  try {
+    const studentCode=enrollmentData.StudentId
+    console.log(studentCode)
+    const student= await this.studentDataAccess.getStudentByCode(studentCode)
+    const StudentId= student?.id;
+    if(StudentId)
+    enrollmentData.StudentId=StudentId;
+  else{
+    throw Error("Couldn't find equivalent student code ")
+  }
+    const enrollment = await this.courseEnrollmentData.create({
+      ...enrollmentData,
+      hasPaidFees: false,
+      approvalStatus: 'pending',
+    });
+    return enrollment;
+  } catch (error) {
+    throw new Error('Failed to create course enrollment, Please try again!');
+  }
+}
   public async requestOverload(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollmentWithDefaults: CourseEnrollmentType = {
         ...enrollmentData,
-        enrollmentType: 'overload' as const, // Type assertion
+        enrollmentType: 'overload' as const,
         hasPaidFees: false,
         approvalStatus: 'pending',
       };
@@ -30,11 +65,12 @@ class CourseEnrollmentService implements ICourseEnrollment {
     }
   }
 
-  public async requestSelfStudey(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+  public async requestSelfStudy(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollmentWithDefaults: CourseEnrollmentType = {
-        ...enrollmentData,
-        enrollmentType: 'seltstudy' as 'selfstudy', // Type assertion
+        StudentId: enrollmentData.StudentId,
+        CourseId: enrollmentData.CourseId,
+        enrollmentType: 'seltstudy' as 'selfstudy',
         hasPaidFees: false,
         approvalStatus: 'pending',
       };
@@ -50,7 +86,7 @@ class CourseEnrollmentService implements ICourseEnrollment {
     try {
       const enrollmentWithDefaults: CourseEnrollmentType = {
         ...enrollmentData,
-        enrollmentType: 'regular' as const, // Type assertion
+        enrollmentType: 'regular' as const,
         hasPaidFees: false,
         approvalStatus: 'pending',
       };
@@ -97,7 +133,6 @@ class CourseEnrollmentService implements ICourseEnrollment {
     }
   }
 
-  // Method to delete an existing course enrollment
   public async delete(id: string): Promise<boolean> {
     try {
       const success = await this.courseEnrollmentData.delete(id);
@@ -107,6 +142,18 @@ class CourseEnrollmentService implements ICourseEnrollment {
       throw new Error('Course enrollment not found');
     } catch (error) {
       throw new Error('Failed to delete course enrollment, Please try again!');
+    }
+  }
+
+  public async getCoursesStudentAllowedToEnroll(StudentId: string): Promise<CourseType[]> {
+    try {
+      const success = await this.courseEnrollmentData.getCoursesStudentAllowedToEnroll(StudentId);
+      if (success) {
+        return success;
+      }
+      throw new Error('No Courses allowed to enroll inc found');
+    } catch (error) {
+      throw new Error('Failed to find allowed courses to enroll in, Please try again!');
     }
   }
 }

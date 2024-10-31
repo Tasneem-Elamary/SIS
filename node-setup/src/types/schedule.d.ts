@@ -9,6 +9,7 @@ type ScheduleType ={
     InstructorId: string|undefined,
     SemesterId: string|undefined,
     level?:number;
+    cell?:number;
     DepartmentId?:string;
     cell?:number
 

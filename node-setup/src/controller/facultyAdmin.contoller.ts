@@ -5,12 +5,6 @@ import { signUser } from '../util/auth.util';
 import { FacultyAdmin } from '../services';
 import { IfacultyAdmin } from '../services/interfaces';
 import { DataAccess } from '../persistance';
-import {
-  UserType, InstructorType, CourseType, DepartmentType, StudentAdvisorType, GradeType, SemesterType,
-} from '../types';
-import { UserRepo } from '../persistance/Repositories';
-import { passwordGenerator } from '../util/passwordGenerator';
-// import { DataAccess } from '../persistance/postgresDBDataAccess';
 
 const {
   UserDataAccess, InstructorDataAccess, CourseDataAcces, DepartmentDataAccess, FacultyDataAccess, GradesDataAccess, SemesterDataAccess,

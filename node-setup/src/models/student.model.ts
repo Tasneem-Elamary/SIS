@@ -24,6 +24,7 @@ const StudentModel = (sequelize: Sequelize) => {
       },
       level: {
         type: DataTypes.INTEGER,
+        defaultValue: 1,
         allowNull: true,
       },
 

@@ -1,49 +1,51 @@
 import request from 'supertest';
-import {httpServer} from '../../server'; // Adjust to your Express app path
-import models from '../../models'; // Adjust to your models path
 import { NextFunction, Request, Response } from 'express';
+import { httpServer } from '../../server'; // Adjust to your Express app path
+import models from '../../models'; // Adjust to your models path
 
 // Mock database methods if necessary
 jest.mock('../../models'); // Adjust if you mock models or specific methods
 jest.mock('../../middleware/auth.middleware', () => ({
-    isAuth: (req: Request, res: Response, next: NextFunction) => {
-      
-      next();
-    },
-    authorizeRoles: (roles:any) => (req: Request, res: Response, next: NextFunction) => next(),
-  }));
+  isAuth: (req: Request, res: Response, next: NextFunction) => {
+    next();
+  },
+  authorizeRoles: (roles:any) => (req: Request, res: Response, next: NextFunction) => next(),
+}));
 
 describe('Course API Integration Tests', () => {
-  const mockCourseData ={get: jest.fn(() => ({
-    id: 'course123',
-    code: 'CS101',
-    name: 'Introduction to Computer Science',
-    creditHours: 3,
-    level: 1,
-    min_GPA: 2.5,
-    minEarnedHours: 30,
-}))}
+  const mockCourseData = {
+    get: jest.fn(() => ({
+      id: 'course123',
+      code: 'CS101',
+      name: 'Introduction to Computer Science',
+      creditHours: 3,
+      level: 1,
+      min_GPA: 2.5,
+      minEarnedHours: 30,
+    })),
+  };
 
-  const mockPrerequisitesData = {get: jest.fn(() => ({
-    id: 'course123',
-    name: 'Introduction to Computer Science',
-    Prerequisite: [
-      {
-        id: 'course456',
-        code: 'Cal101',
-        name: 'Calculus I',
-        creditHours: 4,
-      },
-    ],
-}))}
+  const mockPrerequisitesData = {
+    get: jest.fn(() => ({
+      id: 'course123',
+      name: 'Introduction to Computer Science',
+      Prerequisite: [
+        {
+          id: 'course456',
+          code: 'Cal101',
+          name: 'Calculus I',
+          creditHours: 4,
+        },
+      ],
+    })),
+  };
 
   beforeEach(() => {
     // Clear mock implementations before each test
     jest.clearAllMocks();
   });
 
-
-  afterAll(()=>{httpServer.close})
+  afterAll(() => { httpServer.close; });
 
   /**
    * Test GET /courses/:code
@@ -101,7 +103,7 @@ describe('Course API Integration Tests', () => {
       expect(res.body.course.Prerequisite).toEqual(
         expect.arrayContaining([
           expect.objectContaining({ code: 'Cal101' }),
-        ])
+        ]),
       );
 
       // Ensure the correct database query was made

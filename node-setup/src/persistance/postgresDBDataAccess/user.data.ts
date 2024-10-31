@@ -5,7 +5,7 @@ import { UserType } from '../../types';
 import { db } from '../../../config/postgresDB.config';
 // let User =models.User
 class UserData implements UserRepo {
-  public async create(user: UserType, transaction?: Transaction): Promise<Partial<UserType> | undefined> {
+  public async create(user: UserType, transaction?: Transaction): Promise<UserType | undefined> {
     try {
       console.log('debugg user', user);
       const newUser = await models.User.create(user, { transaction });

@@ -12,7 +12,7 @@ const TANavBar = ({ activeItem ,id}) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" className={activeItem === 'My Schedule' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href={`/instructor-schedule/${id}`} className={activeItem === 'My Schedule' ? "nav-link-active" : "nav-link-custom "}>
             My Schedule
             </NavLink>
           </NavItem>

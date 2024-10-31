@@ -43,10 +43,10 @@ const Logistics = ({ getAllRoomsAction }: LogisticsProps) => {
     <RegisterationNavbar />
     <MainNavBar activeItem="Logistics" />
 
-    <div className="fixed-header">
-        <div style={{ marginLeft: "10px" }} className='header-content'>
+    <div className="logistics-fixed-header">
+        <div style={{ marginLeft: "10px" }} >
             <h3>Locations</h3>
-        </div>
+        </div><hr/>
     </div>
 
     <div className="logistics-container">

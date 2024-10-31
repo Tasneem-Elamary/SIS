@@ -4,7 +4,7 @@ import {
 
 export interface ISchedule {
     createSchedule(instructorId:string, roomId:string,
-    semesterId:string, groupCode:string,
+    groupCode:string,
     sectionCode:string, startTime:Date, endTime:Date):
     Promise<ScheduleType>
     getScheduleById (id: string):Promise<Partial<ScheduleType>

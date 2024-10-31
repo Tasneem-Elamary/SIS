@@ -77,13 +77,22 @@ class StudentService implements IStudent {
       return student;
     } catch (error) {
       console.error('Error fetching student:', error);
-      throw error;
+      throw new Error('Fail to get the Student Data by code, Please try again !!');
     }
   };
 
-  public registerSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+  public registerSchedule = async (StudentId: string, ScheduleId: string): Promise<void> => {
     try {
-      await this.StudentData.registerSchedule(studentId, scheduleId);
+      await this.StudentData.registerSchedule(StudentId, ScheduleId);
+    } catch (error) {
+      throw new Error('Failed to register the schedule, Please try again!');
+    }
+  };
+
+  public registerSchedules = async (StudentId: string, ScheduleIds: string[]): Promise<void> => {
+    try {
+      console.log('schedule ids service', ScheduleIds);
+      await this.StudentData.registerSchedules(StudentId, ScheduleIds);
     } catch (error) {
       throw new Error('Failed to register the schedule, Please try again!');
     }
@@ -96,6 +105,31 @@ class StudentService implements IStudent {
       throw new Error('Failed to unregister the schedule, Please try again!');
     }
   };
+
+  public getStudentsForSpecificBylaw = async (BylawId: string): Promise<void> => {
+    try {
+      await this.StudentData.getStudentsForSpecificBylaw(BylawId);
+    } catch (error) {
+      throw new Error('Failed to unregister the schedule, Please try again!');
+    }
+  };
+
+  public studentFailedOrNotEnrolledCourse = async (courseId:string):Promise<Partial<StudentType&UserType>[] |undefined> => {
+    try {
+      const notEnrolledStudents = await this.StudentData.getFailedUnenrolledStudents(courseId);
+
+      return notEnrolledStudents;
+    } catch (error) {
+      throw Error("Couldn't load student who failed or didn't enroll in a course");
+    }
+  };
+  // getByEmail = (email: string) => {w
+  //   try {
+  //     return this.userData.getByEmail(email);
+  //   } catch {
+  //     throw new Error('Fail to get the user Data, Please try again !!');
+  //   }
+  // };
 
   ApproveRegularRequest = async (studentId: string, schedulecell: number): Promise<StudentType|undefined> => {
     try {

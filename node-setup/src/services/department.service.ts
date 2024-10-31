@@ -65,6 +65,16 @@ class Department implements IDepartment {
     }
   };
 
+  getAllDepartments = async (): Promise<DepartmentType[] | undefined[]> => {
+    try {
+      const departments = await this.departmentData.getAllDepartments();
+
+      return departments;
+    } catch {
+      throw new Error('Failed to get all departments.');
+    }
+  };
+
   // Method to update a department
   updateDepartment = async (id: string, updatedData: Partial<DepartmentType>): Promise<DepartmentType | undefined> => {
     try {

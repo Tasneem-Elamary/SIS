@@ -1,4 +1,4 @@
-import models from '../../models';
+import models, { Department } from '../../models';
 import { DepartmentRepo } from '../Repositories';
 import { DepartmentType } from '../../types';
 
@@ -39,6 +39,16 @@ class DepartmentData implements DepartmentRepo {
   getAllDepartmentsByFacultId = async (FacultyId: string): Promise<DepartmentType[] | undefined[]> => {
     try {
       const departments = await models.Department.findAll({ where: { FacultyId } });
+      return departments.map((department) => department.get() as DepartmentType);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to retrieve departments, please try again!');
+    }
+  };
+
+  getAllDepartments = async (): Promise<DepartmentType[] | undefined[]> => {
+    try {
+      const departments = await models.Department.findAll();
       return departments.map((department) => department.get() as DepartmentType);
     } catch (error) {
       console.error(error);

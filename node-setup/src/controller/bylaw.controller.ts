@@ -2,15 +2,18 @@ import { NextFunction, Request, Response } from 'express';
 import {
   Route, Get, Post, Put, Delete,
 } from 'tsoa';
-import { BylawType, BylawCourseType, BylawRuleType } from '../types';
+import {
+  BylawType, BylawCourseType, BylawRuleType, GradeType,
+} from '../types';
 import BylawService from '../services/bylaw.service';
 import { DataAccess } from '../persistance';
 import IBylaw from '../services/interfaces/IBylaw';
 import BylawRuleService from '../services/bylawRule.service';
 import BylawRuleDataAccess from '../persistance/postgresDBDataAccess/bylawRules.data';
+import { GradesDataAccess } from '../persistance/postgresDBDataAccess';
 
 const { BylawDataAccess } = DataAccess;
-
+const GradesData = new GradesDataAccess();
 @Route('Bylaw')
 class BylawController {
   private bylaw: IBylaw;
@@ -20,7 +23,7 @@ class BylawController {
   constructor() {
     const bylawDataAccess = new BylawDataAccess();
     const bylawRuleDataAccess = new BylawRuleDataAccess();
-    this.bylaw = new BylawService(bylawDataAccess);
+    this.bylaw = new BylawService(bylawDataAccess, GradesData);
     this.bylawRule = new BylawRuleService(bylawRuleDataAccess);
   }
 
@@ -146,8 +149,30 @@ class BylawController {
         }
       };
 
+      @Post('/{bylawId}/grades')
+    public createBylawGrades = async (req: Request, res: Response, next: NextFunction) => {
+          const { bylawId } = req.params;
+          const grades: Partial<GradeType>[] = req.body;
+
+          try {
+            const createdGrades = await this.bylaw.createBylawGrades(bylawId, grades);
+            if (createdGrades && createdGrades.length > 0) {
+              res.status(201).send({
+                message: 'Bylaw Grade schema created successfully',
+                createdGrades,
+              });
+            } else {
+              res.status(400).send({
+                message: 'Failed to create bylaw grade schema. No valid rules provided.',
+              });
+            }
+          } catch (e) {
+            next(e);
+          }
+        };
+
   @Delete('/{id}')
-    public delete = async (req: Request, res: Response, next: NextFunction) => {
+      public delete = async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
       try {
         const success = await this.bylaw.delete(id);

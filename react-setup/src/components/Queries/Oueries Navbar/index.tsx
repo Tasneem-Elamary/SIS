@@ -10,12 +10,12 @@ const OueriesNavBar = ({ activeItem }) => {
         <Nav className="me-auto" navbar>
           <NavItem>
             <NavLink href="/Queries/Rank of students" className={activeItem === 'Rank of students' ? "nav-link-active" : "nav-link-custom "}>
-              Doctor
+              Rank students
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/" className={activeItem === 'Lecturer' ? "nav-link-active" : "nav-link-custom "}>
-              TA
+            <NavLink href="/" className={activeItem === 'Student failed not enrolled' ? "nav-link-active" : "nav-link-custom "}>
+              Students who failed
             </NavLink>
           </NavItem>
           <NavItem>

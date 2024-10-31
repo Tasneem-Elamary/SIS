@@ -77,6 +77,15 @@ class DepartmentController {
     }
   };
 
+  getAllDepartments = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const departments = await this.department.getAllDepartments();
+      res.status(200).json({ departments });
+    } catch (e) {
+      next(e);
+    }
+  };
+
   // Update Department
   updateDepartment = async (req: Request, res: Response, next: NextFunction) => {
     try {

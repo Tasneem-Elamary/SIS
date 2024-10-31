@@ -1,0 +1,47 @@
+.navbar{   padding-left: 5%;
+}
+.schedule-container{
+    width: calc(100% - 60px); 
+    
+    margin: 0px 30px 0px 30px; 
+ 
+    background: #FFFF;
+    display: flex;
+    overflow-y: auto; 
+}
+table tr td ul{
+    display: flex;
+   gap: 2%;
+    flex-wrap: wrap !important;
+}
+table tr td:first-child {
+    vertical-align:middle;
+ 
+}
+.inline-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+}
+.confirm-button{
+    align-self: end !important;
+    background-color:#047015 !important;
+    border-color: #047015 !important;
+    
+   
+   }
+.title{
+    width: calc(100% - 60px);
+    margin: 50px 30px  0px 30px ; 
+    position: sticky;
+    top: 108px; 
+    z-index: 800;
+    background-color: #ffffff;
+ 
+    padding: 10px;
+}
+
+.navbar .nav{
+    gap: 6rem !important;
+}

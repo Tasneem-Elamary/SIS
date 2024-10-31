@@ -1,0 +1,35 @@
+.container{
+    background:  #F7F7F7;
+    height: 1000vh;
+
+  }
+  .nav{
+    background: #E2E1E1;
+    top:122px;
+    height: 60px;
+    position: sticky;
+    display: flex;
+    padding-left: 40px;
+    gap: 40px;
+  }
+.s-active{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+background: white;
+padding: 10px 10px 10px 30px;
+text-decoration: none;
+}
+.s-not-active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #E2E1E1 !important;
+    padding: 10px 10px 10px 10px;
+text-decoration: none !important;
+
+}
+.nav-link-text {
+    text-decoration: none;
+    font-weight: bold; 
+    color: black;  }

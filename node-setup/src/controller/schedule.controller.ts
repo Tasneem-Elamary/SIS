@@ -65,15 +65,25 @@ class ScheduleController {
   public uploadCSVSchedules = async (req: Request, res: Response, next: NextFunction) => {
     const filePath = req.file?.path;
     if (!filePath) {
-      return res.status(400).send({ msg: 'CSV file is required' });
+      return res.status(400).send({
+        status: 'error',
+        message: 'CSV file is required',
+      });
     }
 
     try {
       const parsedData = await parseCSV<ScheduleInputType>(filePath);
-      await this.scheduleService.createSchedules(parsedData);
-      return res.status(201).send({ msg: 'Schedule created successfully' });
+      const result = await this.scheduleService.createSchedules(parsedData);
+
+      return res.status(201).send({
+        status: 'success',
+        message: 'Schedules created successfully from CSV.',
+      });
     } catch (error) {
-      return res.status(500).send({ message: `couldn;t create schedules due to${error}` });
+      return res.status(500).send({
+        status: 'error',
+        message: 'Failed to create schedules from CSV.',
+      });
     }
   };
 
@@ -89,9 +99,42 @@ class ScheduleController {
   public getInstructorSchedules = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const schedules = await this.scheduleService.getInstructorSchedules(id);
+      const data = await this.scheduleService.getInstructorSchedules(id);
+      res.status(200).json({ message: 'Succeeded', data });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getStudentSchedules = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    try {
+      const schedules = await this.scheduleService.getStudentSchedules(id);
       res.status(200).json({ message: 'Succeeded', schedules });
     } catch (error) {
+      console.log('debugging', error);
+      next(error);
+    }
+  };
+
+  public getStudentPendingSchedules = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    try {
+      const schedules = await this.scheduleService.getStudentPendingSchedules(id);
+      res.status(200).json({ message: 'Succeeded', schedules });
+    } catch (error) {
+      console.log('debugging', error);
+      next(error);
+    }
+  };
+
+  public getStudentToRegisterSchedules = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    try {
+      const schedules = await this.scheduleService.getStudenToRegistertSchedules(id);
+      res.status(200).json({ message: 'Succeeded', schedules });
+    } catch (error) {
+      console.log('debugging', error);
       next(error);
     }
   };
@@ -109,8 +152,8 @@ class ScheduleController {
   public getCourseSchedules = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const schedules = await this.scheduleService.getCourseSchedules(id);
-      res.status(200).json({ message: 'Succeeded', schedules });
+      const data = await this.scheduleService.getCourseSchedules(id);
+      res.status(200).json({ message: 'Succeeded', data });
     } catch (error) {
       next(error);
     }

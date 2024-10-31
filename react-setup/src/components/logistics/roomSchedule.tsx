@@ -86,8 +86,8 @@ const RoomSchedule = ({ getRoomSchedule }: RoomScheduleProps) => {
             <RegisterationNavbar />
             <MainNavBar activeItem="Logistics" />
 
-            <div className="fixed-header">
-                <div style={{ marginLeft: "10px" }} className='header-content'>
+            <div className="logistics-fixed-header">
+                <div style={{ marginLeft: "10px" }}>
                     <h3>{room?.code || 'Loading...'}</h3>
                 </div>
                 <hr />
@@ -99,15 +99,15 @@ const RoomSchedule = ({ getRoomSchedule }: RoomScheduleProps) => {
 
             <div className="room-schedule-container">
                 <Table bordered striped >
-                    <thead>
-                        <tr>
-                            <th>Day</th>
+                    <thead className='table-title'>
+                        <tr style={{border:'none'}}>
+                            <th style={{border:'none'}}>Day</th>
                             {times.map((time, index) => (
-                                <th key={index}>{time}</th>
+                                <th style={{border:'none'}} key={index} >{time}</th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="schedules">
                         {days.map((day, dayIndex) => (
                             <tr key={dayIndex}>
                                 <td className='black-bold'>{day}</td>

@@ -1,6 +1,8 @@
+import { fn, col } from 'sequelize';
 import models, {
   Bylaw, Grade, BylawRule, Faculty, Course,
   BylawCourse,
+  Student,
 } from '../../models';
 
 import { db } from '../../../config/postgresDB.config';
@@ -32,7 +34,31 @@ class BylawDataAccess implements BylawRepo {
 
   getById = async (id: string): Promise<BylawType | undefined> => {
     try {
-      const bylaw = await Bylaw.findOne({ where: { id }, include: [{ model: Faculty, attributes: ['name'] }] });
+      const bylaw = await Bylaw.findOne({
+        where: { id },
+        include: [
+          { model: Student, attributes: [] },
+          { model: Faculty, attributes: ['name'] }],
+        attributes: [
+          'id',
+          'code',
+          'year',
+          'credit_Hours',
+          'min_GPA',
+          'min_Hours',
+          [fn('COUNT', col('Students.id')), 'studentsCount'],
+        ],
+        group: [
+          'Bylaw.id',
+          'Bylaw.code',
+          'Bylaw.year',
+          'Bylaw.credit_Hours',
+          'Bylaw.min_GPA',
+          'Bylaw.min_Hours',
+          'Faculty.id',
+          'Faculty.name',
+        ],
+      });
       return bylaw ? (bylaw.get() as BylawType) : undefined;
     } catch (error) {
       console.error('Failed to find the bylaw by ID:', error);
@@ -56,7 +82,7 @@ class BylawDataAccess implements BylawRepo {
   getBylawCourses = async (id: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[] }> | undefined> => {
     const bylawDetails = await Bylaw.findByPk(id, {
       include: [
-        { model: Course, attributes: ['code', 'name'], through: { attributes: [] } },
+        { model: Course, attributes: ['code', 'name'], through: { attributes: ['isElective'] } },
       ],
       attributes: ['code'],
     });

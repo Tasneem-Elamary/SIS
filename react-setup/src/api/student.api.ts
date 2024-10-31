@@ -1,18 +1,36 @@
 import axios from 'axios';
 import StudentType from '../interfaces/domain/student';
 import vars from '../config/env.config';
+import CourseEnrollmentType from '../interfaces/domain/courseEnrollment';
 
 const backendUrl = vars.get('backendUrl');
 
-
-console.log(`mmmmmmmmmm${backendUrl}`)
+console.log(`Backend URL: ${backendUrl}`);
 
 class Student {
-  addStudent = (student : StudentType) => axios.post(`http://localhost:5000/student/createStudent`, student);
-  addStudents = (formData: FormData) => axios.post(`http://localhost:5000/student/uploadCSVStudents`, formData);
-  getAllStudents = () => axios.get(`http://localhost:5000/student/getAllStudents`);
-  getTopStudentsByGPA= (prefix: string, limit: number) => axios.get(`http://localhost:5000/student/${prefix}/topStudents/${limit}`);
-  getStudentRank = (studentCode:string) => axios.get(`http://localhost:5000/student/${studentCode}/rank`);
+  addStudent = (student: StudentType) => axios.post(`${backendUrl}/student/createStudent`, student);
+  addStudents = (formData: FormData) => axios.post(`${backendUrl}/student/uploadCSVStudents`, formData);
+  getAllStudents = () => axios.get(`${backendUrl}/student/getAllStudents`);
+  getTopStudentsByGPA = (prefix: string, limit: number) => axios.get(`${backendUrl}/student/${prefix}/topStudents/${limit}`);
+  getStudentRank = (studentCode: string) => axios.get(`${backendUrl}/student/${studentCode}/rank`);
+  requestEnrollmentByStudentCode=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl}/enrollment/requestByStudentCode`,enrollmentData);
+  requestEnrollment=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl} /enrollemnt/request`,enrollmentData);
+  
+  registerSchedule = (registeringData: { StudentId: string; ScheduleId: string }) => 
+    axios.post(`${ backendUrl } /student/registerSchedule`, registeringData);
+  registerSchedules = ( studentId:string,scheduleIds: string[] ) => 
+   { 
+    console.log("Sending scheduleIds3:", scheduleIds);
+
+    axios.post(`${ backendUrl } /student/registerSchedules / ${ studentId } `, {scheduleIds})};
+  
+  unregisterSchedule = (unregisteringData: { StudentId: string; ScheduleId: string }) => 
+    axios.post(`${ backendUrl } /student/unregisterSchedule`, unregisteringData); 
+   
+  getFailedOrUnenrolledCourses = (courseId: string) => 
+    axios.get(`${ backendUrl } /student/course / ${ courseId }/failed-or-unenrolled`);
+  getAllowedCourses = (studentId: string) => 
+    axios.get(`${backendUrl}/enrollment/${studentId}/allowed-courses`);
 
 }
 

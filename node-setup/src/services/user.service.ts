@@ -11,8 +11,7 @@ class UserService implements IUser {
   // eslint-disable-next-line no-useless-constructor
   constructor(protected userData: UserRepo) {}
 
-  login = async (email: string, password: string) : Promise<{token:string, user:Partial<UserType>}> => {
-    console.log('Usssseeerr', email, password);
+  login = async (email: string, password: string) : Promise<{token:string, id:string|undefined, user:Partial<UserType>}> => {
     const user = await this.userData.getByEmail(email);
     console.log('Usssseeerr', user);
     if (!user) {
@@ -28,7 +27,7 @@ class UserService implements IUser {
     try {
       if (user.role === 'student') {
         const student = await new StudentDataAccess().getByUserId(id);
-        id = student?.id;// return user
+        id = student?.id;
       }
     } catch {
       throw Error('Something went wrong, please try again ');
@@ -42,10 +41,12 @@ class UserService implements IUser {
 
     return {
       token,
+      id,
       user: {
         email: user.email,
         role: user.role,
       },
+
     };
   };
 

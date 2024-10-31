@@ -12,7 +12,7 @@ import {
 import './style.scss';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
-const SubNavBar = ({ activeItem }) => {
+const SubNavBar = ({ activeItem }:{activeItem:string}) => {
   return (
     <Navbar expand="md" className="sub-navbar">
       <Nav className="me-auto" navbar>

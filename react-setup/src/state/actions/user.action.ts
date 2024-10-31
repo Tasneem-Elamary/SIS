@@ -24,37 +24,39 @@ class User {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
 
-      const { data: { userData} } = await userApi.login(credentials);
-      const { token, user } = userData;
-      if (userData ) {
-        console.log('Token and role received:', token , user.role );
-userData
-        // Store token and role in localStorage
+      const { data: { userData } } = await userApi.login(credentials);
+      const { token,id, user } = userData;
+      if (userData) {
+        console.log('Token and role received:', token, user.role);
+        userData
+   
         localStorage.setItem('token', token);
         localStorage.setItem('role', user.role);
+        localStorage.setItem('id', id);
 
-        // Verify storage
+     
         const storedToken = localStorage.getItem('token');
         const storedRole = localStorage.getItem('role');
         console.log('Stored Token:', storedToken);
         console.log('Stored Role:', storedRole);
+        console.log('Stored Role:', id);
 
-        // Dispatch success action
+  
         dispatch(statusAction.addSuccessStatus('Login successful'));
 
-        // Navigate based on role
+  
         if (storedRole === 'student') {
           console.log('Navigating to /view-students');
-          navigate('/view-students');
-        } 
-        else if(storedRole === 'faculty admin'){
+          navigate('/register-schedule');
+        }
+        else if (storedRole === 'faculty admin') {
           console.log('Navigating to /view-students');
           navigate('/view-students');
         }
-        else if(storedRole === 'professor'){
+        else if (storedRole === 'professor') {
           console.log('Navigating to /view-students');
           navigate('/view-students');
-        }        else if(storedRole === 'teaching assistant'){
+        } else if (storedRole === 'teaching assistant') {
           console.log('Navigating to /view-students');
           navigate('/view-students');
         }
@@ -63,12 +65,13 @@ userData
         }
       } else {
         console.error('Token or role not received');
-        
-      const { data: { userData, role } } = await userApi.login(credentials);
 
-      // Ensure token and role are received
-      if (userData ) {
-        console.log('Token and role received:', {userData , role });}
+        const { data: { userData, role } } = await userApi.login(credentials);
+
+        // Ensure token and role are received
+        if (userData) {
+          console.log('Token and role received:', { userData, role });
+        }
       }
     } catch (e: any) {
       dispatch(statusAction.addErrorStatus(e));

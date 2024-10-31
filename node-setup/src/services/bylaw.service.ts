@@ -1,14 +1,17 @@
+import { hash } from 'bcrypt';
 import {
   BylawRuleType, BylawType, GradeType, BylawCourseType,
   CourseType,
 } from '../types';
-import { BylawRepo } from '../persistance/Repositories'; // Assuming you have a BylawCourseRepo
+import { BylawRepo, GradesRepo } from '../persistance/Repositories'; // Assuming you have a BylawCourseRepo
 import IBylaw from './interfaces/IBylaw';
+import { hashPassword } from '../util/hashing';
 
 class BylawService implements IBylaw {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private BylawData: BylawRepo,
+    private grade:GradesRepo,
   //  private BylawCourseData: BylawCourseRepo // Add BylawCourseRepo for managing BylawCourse
   ) {}
 
@@ -38,6 +41,7 @@ class BylawService implements IBylaw {
       const bylaw = await this.BylawData.getById(id);
       return bylaw;
     } catch (error) {
+      console.log('Failed to find the bylaw due to', error);
       throw new Error('Failed to find the bylaw by ID, Please try again!');
     }
   };
@@ -53,6 +57,7 @@ class BylawService implements IBylaw {
 
   public getAll = async (): Promise<BylawType[]> => {
     try {
+      console.log(hashPassword('PASS'));
       const bylaws = await this.BylawData.getAll();
       if (bylaws) return bylaws;
       throw new Error("Couldn't retrieve bylaws");
@@ -118,6 +123,26 @@ class BylawService implements IBylaw {
       return success;
     } catch (error) {
       throw new Error('Failed to remove course from bylaw, Please try again!');
+    }
+  };
+
+  public createBylawGrades = async (BylawId: string, grades: Partial<GradeType>[]): Promise<GradeType[] | undefined> => {
+    try {
+      const createdGrades = [];
+
+      for (const grade of grades) {
+        const { letter, point } = grade;
+        if (letter === undefined || point === undefined) {
+          throw new Error('Missing required Grade input: GPA point or letter');
+        }
+        const gradeToCreate: GradeType = { letter, point, BylawId };
+        const createdGrade = await this.grade.create(gradeToCreate);
+        if (createdGrade) { createdGrades.push(createdGrade); }
+      }
+      return createdGrades;
+    } catch (error) {
+      console.log('Failed to create new bylaw rule due to error', error);
+      throw new Error('Failed to create new bylaw rule');
     }
   };
 }

@@ -6,6 +6,7 @@ import { validateCreateDepartment, validateUpdateDepartment, validateDepartmentI
 const router = express.Router();
 
 router.post('/', validateCreateDepartment, departmentController.createDepartment);
+router.get('/departments', departmentController.getAllDepartments);
 
 router.get('/Faculty/:FacultyId', departmentController.getAllDepartmentsByFacultId);
 

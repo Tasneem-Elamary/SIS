@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'; // Use useParams
 import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 import './style.scss';
-import regulationAction from '../../state/actions/regulation.action';
-import MainNavBar from '../shared/mainNavbar';
-import RegisterationNavbar from '../shared/registerationNavbar';
+
 import {
   Navbar,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  NavLink
 } from 'reactstrap';
+import regulationAction from '../../state/actions/regulation.action';
+import MainNavBar from '../shared/mainNavbar';
+import RegisterationNavbar from '../shared/registerationNavbar';
 
 interface RegulationsProps {
   getAllRegulationsAction: () => Promise<any>;
 }
 
 const Regulations = ({ getAllRegulationsAction }: RegulationsProps) => {
-  const [regulations, setRegulations] = useState([]);
+  const [regulations, setRegulations] = useState<any[]>([]);
+  const { regulationId } = useParams<{ regulationId: string }>(); // Extract regulationId from the URL
   const navigate = useNavigate();
-  const [activeRegulation, setActiveRegulation] = useState<string | null>(null);
+  const [activeRegulation, setActiveRegulation] = useState<string | undefined>(regulationId); // Set activeRegulation based on URL params
 
-  const handleNavItemClick = (regulationId: string) => {
-    setActiveRegulation(regulationId);
-  };
+  // Fetch regulations
   useEffect(() => {
     const fetchRegulations = async () => {
       try {
@@ -47,36 +43,33 @@ const Regulations = ({ getAllRegulationsAction }: RegulationsProps) => {
     fetchRegulations();
   }, [getAllRegulationsAction]);
 
-  const handleNavigation = (regulationId: string) => {
-    navigate(`/regulation-details/${regulationId}`);
+  // Handle nav item click
+  const handleNavItemClick = (id: string) => {
+    setActiveRegulation(id); 
+    navigate(`/regulation/${id}`); 
   };
 
   return (
-    <div className="container555">
-      <RegisterationNavbar />
-      <MainNavBar activeItem="Regulations" regulations={regulations}/>
-
-      {/* Sub-navbar with mapped regulations */}
-      <Navbar expand="md" className="sub-navbar">
-        <Nav className="me-auto" navbar>
-        {regulations.map((regulation: any) => (
-            <NavItem key={regulation.id}>
-            <NavLink 
-              href={`/regulation/${regulation.id}`} 
-              className={`nav-link-custom ${activeRegulation === regulation.id ? 'active-nav-item' : ''}`} 
-              onClick={() => handleNavItemClick(regulation.id)}
-            
-            >
-              {regulation.code}
-            </NavLink>
-          </NavItem>
-        ))}
-
-        </Nav>
-      </Navbar>
-
    
-    </div>
+
+ 
+ 
+        <Navbar expand="md" className="sub-navbar">
+          <Nav className="me-auto" navbar>
+            {regulations.map((regulation: any) => (
+              <NavItem key={regulation.id}>
+                <NavLink
+                  className={regulation.id === regulationId ?"nav-link-active" : "nav-link-custom"}  
+                  onClick={() => handleNavItemClick(regulation.id)}  
+                >
+                  <div >{regulation.code}</div>
+                </NavLink>
+              </NavItem>
+            ))}
+          </Nav>
+        </Navbar>
+ 
+ 
   );
 };
 

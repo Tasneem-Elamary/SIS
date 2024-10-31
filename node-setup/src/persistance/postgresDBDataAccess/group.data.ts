@@ -23,6 +23,16 @@ class GroupDataAccess {
     }
   };
 
+  getByGroupCodeAndCapacity = async (groupCode: string, capacity:number): Promise<GroupType | undefined> => {
+    try {
+      const group = await Group.findOne({ where: { groupCode, capacity } });
+      return group ? (group.get() as GroupType) : undefined;
+    } catch (error) {
+      console.error('Failed to find the group by group code and capacity:', error);
+      throw new Error('Failed to find the group, please try again!');
+    }
+  };
+
   getById = async (id: string): Promise<GroupType | undefined> => {
     try {
       const group = await Group.findOne({ where: { id } });

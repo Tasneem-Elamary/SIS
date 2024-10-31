@@ -1,5 +1,5 @@
 import { Transaction } from 'sequelize';
-import models from '../../models';
+import models, { Instructor, User } from '../../models';
 import { InstructorRepo } from '../Repositories';
 import {
   CourseType, InstructorType, StudentType, UserType,
@@ -31,7 +31,7 @@ class InstructorData implements InstructorRepo {
       });
 
       if (instructor) {
-        const user = instructor.User; // Extract the User model instance
+        const user = instructor.User;
         if (user) {
           const { User, ...instructorData } = instructor.get() as (InstructorType&{User:UserType});
           return {

@@ -23,6 +23,7 @@ import StudentScheduleType from './studentSchedule';
 import StudentAdvisorType from './studentAdvisor';
 import CoursePrerequisitesType from './coursePrerequisite';
 import BylawDepartmentCourseType from './bylawDepartmentCourse';
+import MappedCourseType from './mappeDCourse';
 
 export {
   ErrorType,
@@ -49,6 +50,6 @@ export {
   StudentAdvisorType,
   CoursePrerequisitesType,
   BylawDepartmentCourseType,
-  CoursewithRegistedStudentsType,
+  CoursewithRegistedStudentsType, MappedCourseType,
 
 };

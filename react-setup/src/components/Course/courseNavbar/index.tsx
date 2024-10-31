@@ -24,7 +24,7 @@ const CoursesNavlBar = ({ activeItem ,id, bylawId}) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href={`/Courses/level/4`} className={activeItem === 'Offer state' ? "nav-link-active" : "nav-link-custom "}>
+          <NavLink href={`/Course/${id}/schedule`} className={activeItem === 'Offer state' ? "nav-link-active" : "nav-link-custom "}>
            Offer state
           </NavLink>
         </NavItem>

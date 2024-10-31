@@ -9,7 +9,6 @@ import { SectionDataAccess } from '../persistance/postgresDBDataAccess/section.d
 import InstructorData from '../persistance/postgresDBDataAccess/instructor.data';
 import RoomDataAccess from '../persistance/postgresDBDataAccess/room.data';
 import { SemesterDataAccess } from '../persistance/postgresDBDataAccess/semester.data';
-import RoomService from './room.service';
 import { CourseDataAcces } from '../persistance/postgresDBDataAccess';
 import ScheduleInputType from '../types/scheduleInput';
 
@@ -64,8 +63,11 @@ class Schedule {
       }
       const course = await this.course.getByCourseCode(courseCode);
       console.log(course);
-      const group = await this.group.create({ groupCode, capacity: groupCapacity });
-      const section = await this.section.create({ sectionCode, capacity: sectionCapacity });
+      let group = await this.group.getByGroupCodeAndCapacity(groupCode, groupCapacity);
+      if (!group) group = await this.group.create({ groupCode, capacity: groupCapacity });
+      let section = await this.section.getBySectionCodeAndCapacity(sectionCode, sectionCapacity);
+      if (!section) section = await this.section.create({ sectionCode, capacity: sectionCapacity });
+
       const semester = await this.semester.getCurrentSemester();
 
       const schedule: ScheduleType = {
@@ -82,7 +84,8 @@ class Schedule {
       const createdSchedule = await this.ScheduleData.create(schedule);
       return createdSchedule;
     } catch (error) {
-      throw new Error(`Failed to create the schedule, Please try again! Due to${error} Error`);
+      console.log(`Failed to create the schedule, Please try again! Due to${error} Error`);
+      throw new Error('Failed to create the schedules, Please try again!');
     }
   };
 
@@ -152,10 +155,37 @@ class Schedule {
     }
   };
 
-  public getInstructorSchedules = async (instructorId: string): Promise<ScheduleType[]> => {
+  public getInstructorSchedules = async (instructorId: string):Promise<{ schedules: ScheduleType[], instructorData:(InstructorType | undefined) }> => {
     try {
       return await this.ScheduleData.getInstructorSchedules(instructorId);
     } catch (error) {
+      throw new Error('Failed to get all schedules, Please try again!');
+    }
+  };
+
+  public getStudentSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+    try {
+      return await this.ScheduleData.getStudentSchedules(studentId);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to get all schedules, Please try again!');
+    }
+  };
+
+  public getStudentPendingSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+    try {
+      return await this.ScheduleData.getStudentPendingSchedules(studentId);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to get all schedules, Please try again!');
+    }
+  };
+
+  public getStudenToRegistertSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+    try {
+      return await this.ScheduleData.getStudentToReisterSchedules(studentId);
+    } catch (error) {
+      console.log(error);
       throw new Error('Failed to get all schedules, Please try again!');
     }
   };
@@ -168,7 +198,7 @@ class Schedule {
     }
   };
 
-  public getCourseSchedules = async (courseId: string): Promise<ScheduleType[]> => {
+  public getCourseSchedules = async (courseId: string): Promise<{schedules:ScheduleType[], courseData:CourseType}> => {
     try {
       return await this.ScheduleData.getCourseSchedules(courseId);
     } catch (error) {

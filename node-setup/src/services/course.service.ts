@@ -12,7 +12,7 @@ import {
 class Course implements ICourse {
   constructor(
 private courseData: CourseRepo,
-    private coursePrerequesitieData: CoursePrerequisitesRepo,
+    private coursePrerequisiteData: CoursePrerequisitesRepo,
 private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
   ) {
   }
@@ -76,7 +76,6 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
     }
   };
 
-  
   addcourseToDepartment = async (departmentId:string, courseId: string): Promise<void | undefined> => {
     try {
       return await this.courseData.addCoursetoDepartment(departmentId, courseId);
@@ -88,7 +87,7 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
 
   createCoursePrerequisites = async (courseId: string, prerequisiteId: string): Promise<CoursePrerequisitesType | undefined> => {
     try {
-      const prerequisite = await this.coursePrerequesitieData.create(courseId, prerequisiteId);
+      const prerequisite = await this.coursePrerequisiteData.create(courseId, prerequisiteId);
 
       return prerequisite || undefined;
     } catch (error) {

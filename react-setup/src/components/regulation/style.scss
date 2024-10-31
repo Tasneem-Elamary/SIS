@@ -1,0 +1,184 @@
+.page-container{
+background: #F7F7F7;
+ 
+}
+.fixed-title{
+background: #ffffff; 
+padding: 1.3% 1.3%;
+width: 94%;
+position: fixed;
+margin: 3% 0% 3% 3% ;
+}
+.fixed-title-padding{
+    padding: 4% 1.3%;
+    
+    width: 94%;
+    margin: 0% 0% 3% 3% ; 
+    background: #F7F7F7;
+    position: fixed;
+}
+.fixed-title2{
+    background: #ffffff; 
+    padding: 1.3% 1.3%;
+    width: 94%;
+    position: fixed;
+    margin: 18% 0% 3% 3% ;
+    }
+.inside-container{
+    background: #ffffff;
+    margin-top: 2%;
+    padding: 4% 1.3%;
+    width: 94%;
+    margin: 7% 0% 3% 3% ;
+    min-height: 90%;
+    overflow-y: auto;
+ }
+ label{
+    font-weight: bold;
+ }
+ .row-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    flex-wrap: wrap;
+ }
+.reg-container{
+    background: #F7F7F7;
+ height: 1000vh;
+}
+
+ 
+.regulation-detail-container {
+    width: calc(100% - 60px);
+   min-height: 600px;
+    margin: 20px 30px 0px 30px;
+    background-color: #FFFF;
+   
+    padding: 20px;
+}
+.tab-container{
+overflow-y: auto;
+height: calc(1000vh - 225px);
+}
+/* Fixed header for regulation details */
+.reg-fixed-header {
+    width: calc(100% - 60px);
+    margin: 0px 30px 0px 30px;
+    position: sticky;
+    top: 240px; 
+ 
+    background-color: #ffffff;
+    padding: 10px;
+}
+/* Main navigation bar below the top navbar */
+.sub-reg-nav {
+    width: 100%;
+    position: sticky !important;
+    top: 300px;  
+    z-index: 800; 
+    margin: 0px 0px 30px 0px;
+    height: 70px;
+    background: #E2E1E1;
+}
+
+/* Custom navbar styles */
+.custom-navbar {
+    display: flex;
+    position: sticky;
+    top: 125px; 
+    z-index: 800;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10px;
+    height: 60px;
+    background: #E2E1E1;
+}
+
+/* Navigation link custom style */
+.nav-reg-link-custom {
+    color: black !important;
+    
+    padding: 10% 20px;
+    font-weight: bold;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+/* Active state of navigation link */
+.nav-reg-link-active {
+    color: black !important;
+    background-color: #ffffff !important;
+    padding: 21% 30px;
+    font-weight: bold;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+/* Full page container to handle overflow */
+.container-reg {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: visible;
+}
+
+
+
+
+
+/* Limit tables section */
+/* Flex container for aligning the tables horizontally */
+.reg-limit-tables {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;  
+    width: 100% !important;
+    gap:5px!important;
+}
+.reg-limit-table-1 {
+    padding: 20px 0px 30px 30px !important;
+    width: 30% !important;
+    margin: 20px 10px 0px 0px !important;
+  }
+  
+.reg-limit-table {
+    padding: 20px 0px 30px 30px !important;
+    width: 800px !important;
+    margin: 20px 10px 0px 0px !important;
+  }
+  
+  .hide {
+    display: none;
+}
+.show {
+    display: block;
+}
+
+
+/* Regulation table */
+.reg-table {
+    padding: 20px 0px 30px 30px;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+
+.reg-table td:nth-child(1) {
+    width: 25%;
+}
+
+
+.reg-table td:nth-child(2) {
+    width: 75%;
+}
+
+.reg-limit-table td:nth-child(1) {
+    width: 20%;
+}
+
+
+.reg-limit-table td:nth-child(2) {
+    width: 80%;
+}
+ 

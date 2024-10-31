@@ -5,10 +5,9 @@ import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 
 import './style.scss';
-import regulationAction from '../../state/actions/regulation.action';
-import MainNavBar from '../shared/mainNavbar';
-import RegisterationNavbar from '../shared/registerationNavbar';
+
 import RegulationNav from './regulationNav';
+import regulationAction from '../../state/actions/regulation.action';
 
 interface RegulationDetailsProps {
     getRegulationDetails: (regulationId: string) => Promise<{  bylaw: any }>;

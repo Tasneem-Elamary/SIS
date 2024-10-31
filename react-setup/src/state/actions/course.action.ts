@@ -11,6 +11,7 @@ class Course {
             const { data: { message, courses } } = await courseApi.getAllcourses();
             dispatch(statusAction.addSuccessStatus(message));
             dispatch(fetchAction.fetchingFailed());
+            console.log("courses",courses)
             return courses;
         } catch (e) {
             dispatch(fetchAction.fetchingFailed());

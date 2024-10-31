@@ -15,10 +15,12 @@ import ResultRepo from './result.repo';
 import UniversityRepo from './university.repo';
 import CoursePrerequisitesRepo from './coursePrerequisite.repo';
 import BylawDepartmentCourseRepo from './bylawDepartmentcourse.repo';
+import MappedCoursesRepo from './mappedCourse.repo';
 
 export {
   UserRepo,
   StudentRepo,
+  MappedCoursesRepo,
   BylawRepo, ScheduleRepo,
   InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo, BylawRuleRepo,
 

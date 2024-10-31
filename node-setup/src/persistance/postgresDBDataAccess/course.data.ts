@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import models from '../../models';
+import models, { Course } from '../../models';
 import { CourseRepo } from '../Repositories';
 import { CourseType, CoursewithRegistedStudentsType } from '../../types';
 
@@ -184,7 +184,7 @@ class CourseData implements CourseRepo {
         throw new Error('Invalid course level');
       }
 
-      return courses.map((course) => course.get() );
+      return courses.map((course) => course.get());
     } catch (error) {
       // Type guard to ensure the error has a message property
       if (error instanceof Error) {

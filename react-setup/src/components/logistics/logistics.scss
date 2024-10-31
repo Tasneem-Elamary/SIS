@@ -6,26 +6,26 @@
 }
 
 
-.fixed-header {
+.logistics-fixed-header {
+    width: calc(100% - 60px);
     margin: 50px 30px 30px 30px; 
-
+     margin-right: 310px;
     position: fixed;
-    top: 130px; 
+    top: 118px; 
     z-index: 800;
     background-color: #ffffff;
-    width: calc(100% - 60px);
-    padding: 10px; /* Adds padding to header */
+ 
+    padding: 10px;
    }
 
 /* Main content that starts after the header */
 .logistics-container {
     width: calc(100% - 60px); 
-    margin: 50px 30px 30px 30px; /* Adjusted to have space on all sides */
+    margin: 100px 30px 30px 30px; 
       flex: 1;
     background: #FFFF;
     display: flex;
-    overflow-y: auto; /* Allows scrolling in the content area */
-}
+    overflow-y: auto; }
 
 /* Grid layout for rooms */
 .room-grid {
@@ -47,10 +47,12 @@ column-gap: 210px;
 .blue-bold {
     font-weight: bold;  /* Set the font weight as normal */
     color: #0064AD;
+    
 }
 .black-bold {
     font-weight: bold;  /* Set the font weight as normal */
     color: black;
+    text-transform: capitalize !important;
 }
 .room-type{
     color: black;
@@ -63,14 +65,21 @@ column-gap: 210px;
 .room-schedule-container{
  
     width: calc(100% - 60px); 
-    margin: 133px 30px 30px 30px; /* Adjusted to have space on all sides */
+    /*margin: 273px 30px 30px 30px; */
+    margin: 120px 30px 30px 30px; 
       flex: 1;
     background: #FFFF;
     display: flex;
-    overflow-y: auto; /* Allows scrolling in the content area */
+    overflow-y: auto; 
 }
 .header-room-details{
 display: flex;
 flex-direction: row;
 gap: 60px; 
+}
+.logistics-table-title{
+    position: sticky;
+    top: 240px; 
+    z-index: 1000;
+    background-color: #ffffff;
 }

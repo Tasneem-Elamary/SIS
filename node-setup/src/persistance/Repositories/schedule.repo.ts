@@ -13,11 +13,14 @@ import {
         room?: Partial<RoomType>
       }>
     getAll(): Promise<ScheduleType[]>;
-    getInstructorSchedules(InstructorId:string): Promise<ScheduleType[]>;
+    getInstructorSchedules(InstructorId: string): Promise<{ schedules: ScheduleType[], instructorData: InstructorType|undefined }>;
+    getStudentSchedules(studentId:string): Promise<{schedules:ScheduleType[]}>
+    getStudentToReisterSchedules(studentId:string): Promise<{schedules:ScheduleType[]}>
+    getStudentPendingSchedules(StudentId: string): Promise<{ schedules: ScheduleType[] }>
     getRoomSchedules(RoomId:string): Promise<{schedules:ScheduleType[], roomData:RoomType}>
-    getCourseSchedules(CourseId:string): Promise<ScheduleType[]>;
+    getCourseSchedules(CourseId:string): Promise<{schedules:ScheduleType[], courseData:CourseType}>
     update(id: string, schedule: Partial<ScheduleType>): Promise<boolean>;
     delete(id: string): Promise<boolean>;
     findExistingSchedule(schedule: Partial<ScheduleType>): Promise<ScheduleType | null>;
-}
+  }
 export default ScheduleRepo;

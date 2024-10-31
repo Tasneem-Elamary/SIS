@@ -22,7 +22,6 @@ const MainNavBar = ({ activeItem }: any) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Fetch Courses
   useEffect(() => {
     const fetchCourses = async () => {
       const fetchedCourses = await dispatch(courseAction.getCourseAction());
@@ -74,22 +73,14 @@ const MainNavBar = ({ activeItem }: any) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            href="/"
-            className={
-              activeItem === 'Users' ? 'navlink-active' : 'navlink-custom'
-            }
-          >
+
+          <NavLink href="/all-lecturers" className={activeItem === 'Users' ? 'navlink-active' : "navlink-custom"}>
             Users
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            href="#"
-            className={
-              activeItem === 'Schedule' ? 'navlink-active' : 'navlink-custom'
-            }
-          >
+
+          <NavLink href="/all-schedules" className={activeItem === 'Schedule' ? 'navlink-active' : 'navlink-custom'}>
             Schedule
           </NavLink>
         </NavItem>
@@ -111,8 +102,8 @@ const MainNavBar = ({ activeItem }: any) => {
             Queries
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem href="#">Query 1</DropdownItem>
-            <DropdownItem href="#">Query 2</DropdownItem>
+            <DropdownItem href="/Oueries/Rank of Student">Rank of students</DropdownItem>
+            <DropdownItem href="/Queries/Students who failed">Students who failed</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
 
@@ -138,7 +129,7 @@ const MainNavBar = ({ activeItem }: any) => {
           >
             Courses
           </DropdownToggle>
-          <DropdownMenu right>
+          <DropdownMenu end>
             {/* {courses.length > 0 ? (
               courses.map(course => (
                 <DropdownItem key={course.id} href="/Courses">
@@ -179,6 +170,7 @@ const MainNavBar = ({ activeItem }: any) => {
             ) : (
               <DropdownItem disabled>No Regulations Available</DropdownItem>
             )}
+            <DropdownItem onClick={()=>{navigate('/add-regulation')}}>Add regulation</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
 

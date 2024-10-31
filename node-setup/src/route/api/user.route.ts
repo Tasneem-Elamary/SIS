@@ -15,7 +15,7 @@ router.route('/login')
   .post(userController.login);
 
 router.route('/')
-  .all(isAuth)
+
   .get(userController.get);
 // .delete(userController.getUserById)
 // .patch(userController.getUserById)

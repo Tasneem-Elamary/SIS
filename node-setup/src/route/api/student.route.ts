@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { userController } from '../../controller';
-
 import studentController from '../../controller/student.controller';
 import { uploadCSV } from '../../middleware/fileUpload';
 import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
@@ -36,9 +35,12 @@ router.route('/deleteStudent/:studentId')
   .delete(studentController.deleteStudent);
 router.route('/registerSchedule')
   .post(studentController.registerSchedule);
+router.route('/registerSchedules/:StudentId')
+  .post(studentController.registerSchedules);
 
 router.route('/unregisterSchedule')
   .post(studentController.unregisterSchedule);
+router.get('/course/:courseId/failed-or-unenrolled', studentController.getFailedOrNotEnrolledStudents);
 
 router.route('/:studentId/RequestAprroved/:schedulecell')
   .patch(isAuth, authorizeRoles('university admin', 'faculty admin', 'teaching assistant'), studentController.ApproveRegularRequest);

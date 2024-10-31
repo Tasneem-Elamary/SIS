@@ -1,5 +1,7 @@
 import { Op } from 'sequelize';
-import models from '../../models';
+import models, {
+  CourseEnrollment, Grade, Result, Student, StudentSchedule, User,
+} from '../../models';
 import { StudentRepo } from '../Repositories';
 import {
   StudentType, UserType, BylawType, CourseType,
@@ -22,42 +24,65 @@ class StudentDataAccess implements StudentRepo {
     return bylaw ? bylaw.getDataValue('id') : undefined;
   }
 
-  public registerSchedule = async (studentId: string, scheduleId: string): Promise<void> => {
+  public registerSchedule = async (StudentId: string, ScheduleId: string): Promise<void> => {
     const transaction = await db.transaction();
 
     try {
-      const student = await models.Student.findByPk(studentId, { transaction });
+      console.log('StudentId:', StudentId);
+      console.log('ScheduleId:', ScheduleId);
+
+      if (!StudentId) {
+        throw new Error('StudentId is missing or undefined');
+      }
+
+      if (!ScheduleId) {
+        throw new Error('ScheduleId is missing or undefined');
+      }
+
+      const student = await Student.findOne({ where: { id: StudentId }, transaction });
       if (!student) {
         throw new Error('Student not found');
       }
 
-      const schedule = await models.Schedule.findByPk(scheduleId, { transaction });
+      const schedule = await models.Schedule.findByPk(ScheduleId, { transaction });
+      // const schedule = await Schedule.findByPk(ScheduleId, { transaction });
       if (!schedule) {
         throw new Error('Schedule not found');
       }
 
-      await models.StudentSchedule.create(
-        { studentId, scheduleId },
-        { transaction },
-      );
-
       const courseId = schedule.getDataValue('CourseId');
-      await models.CourseEnrollment.create(
-        {
-          studentId,
-          courseId,
-          enrollmentType: 'regular',
-          hasPaidFees: false,
-          approvalStatus: 'pending',
-        },
-        { transaction },
-      );
+      if (!courseId) {
+        throw new Error('CourseId is missing in the schedule');
+      }
+
+      await StudentSchedule.create({ StudentId, ScheduleId }, { transaction });
+
+      await CourseEnrollment.create({
+        StudentId,
+        CourseId: courseId,
+        enrollmentType: 'regular',
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      }, { transaction });
 
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
       console.error('Failed to register schedule:', error);
       throw new Error('Failed to register the schedule, please try again!');
+    }
+  };
+
+  public registerSchedules = async (StudentId: string, scheduleIds: string[]): Promise<void> => {
+    try {
+      for (const ScheduleId of scheduleIds) {
+        console.log('singleId', ScheduleId);
+        await this.registerSchedule(StudentId, ScheduleId);
+      }
+    } catch (error) {
+      console.log('Error encountered while creating schedules', error);
+
+      throw Error('Error encountered while creating schedules');
     }
   };
 
@@ -273,6 +298,46 @@ class StudentDataAccess implements StudentRepo {
     }
   };
 
+  // findStudentsForSpecificBylaw = async(BylawId: string):Promise<(StudentType&string)[]>=>{
+  getStudentsForSpecificBylaw = async (BylawId: string):Promise<StudentType[]> => {
+    try {
+      const students = await Student.findAll({ where: { BylawId }, include: [{ model: User, attributes: ['email'] }] });
+      return students.map((student) => student.get({ plain: true }));
+    } catch (error) {
+      console.log('Failed to find bylaw students due to error: ', error);
+      throw Error('Failed to find bylaw students');
+    }
+  };
+
+  getFailedUnenrolledStudents = async (courseId: string):Promise<StudentType[]> => {
+    try {
+      const failedUnenrolledStudents = await Student.findAll({
+        include: [
+          {
+            model: Result,
+            required: false,
+            where: {
+              CourseId: courseId,
+            },
+            include: [
+              {
+                model: Grade,
+                where: { letter: 'F' },
+                required: false,
+              },
+            ],
+          },
+        ],
+        attributes: ['name', 'gainedHours', 'GPA'],
+      });
+
+      return failedUnenrolledStudents.map((student) => student.get({ plain: true }));
+    } catch (error) {
+      console.error('Error fetching failed or unenrolled students:', error);
+      return [];
+    }
+  };
+
   getEnrolledCoursesByStudent = async (studentId: string): Promise<StudentType> => {
     try {
       const student:any = await models.Student.findOne({
@@ -288,7 +353,7 @@ class StudentDataAccess implements StudentRepo {
 
       if (!student) throw new Error('Student not found');
 
-      return student.get(); // Return enrolled courses
+      return student.get();
     } catch (error) {
       console.error(error);
       throw new Error('Failed to get enrolled courses, please try again!');
@@ -585,6 +650,16 @@ class StudentDataAccess implements StudentRepo {
       throw new Error('Failed to retrieve student rank, please try again!');
     }
   };
+
+//   getByEmail = async (email: string): Promise<StudentType | undefined> => {
+//     try {
+//       const user = await Student.findOne({ where: { email } });
+//       return user ? (user.get() as UserType) : undefined;
+//     } catch (error) {
+//       console.error(error);
+//       throw new Error('Fail to get the user, Please try again !!');
+//     }
+//   };
 }
 
 export default StudentDataAccess;

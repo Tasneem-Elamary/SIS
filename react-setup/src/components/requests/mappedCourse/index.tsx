@@ -79,25 +79,7 @@ const MappedCourse = ({ addStudentAction, addStudentsAction }: any) => {
                 ) : null}
               </FormGroup>
 
-              <FormGroup>
-                <Label for="advisorName" style={{ color: '#000000' }}>
-                  Advisor Name
-                </Label>
-                <Input
-                  type="text"
-                  name="advisorName"
-                  id="advisorName"
-                  placeholder="advisor name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.advisorName}
-                  invalid={!!(errors.advisorName && touched.advisorName)}
-                  style={{ width: '80%' }}
-                />
-                {errors.advisorName && touched.advisorName ? (
-                  <FormFeedback>{errors.advisorName}</FormFeedback>
-                ) : null}
-              </FormGroup>
+            
 
               <FormGroup>
                 <Label for="scheduleCourse" style={{ color: '#000000' }}>

@@ -18,6 +18,11 @@ export class SectionDataAccess implements ISectionRepo {
     return section ? section.toJSON() : null;
   }
 
+  async getBySectionCodeAndCapacity(sectionCode: string, capacity:number): Promise<SectionType | null> {
+    const section = await Section.findOne({ where: { sectionCode, capacity } });
+    return section ? section.toJSON() : null;
+  }
+
   async update(id: string, section: Partial<SectionType>): Promise<void> {
     await Section.update(section, { where: { id } });
   }
