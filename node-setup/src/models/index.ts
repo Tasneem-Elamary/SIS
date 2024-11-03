@@ -48,6 +48,9 @@ const Room = room(db);
 const CoursePrerequisite = coursePrerequisites(db);
 const DepartmentCourse = departmentCourse(db);
 // const MappedCourses = mappedCourses(db);
+const Audit = audit(db);
+const BylawDepartment = bylawDepartment(db);
+
 Faculty.hasMany(Room, { foreignKey: 'FacultyId' });
 Room.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 
@@ -114,9 +117,14 @@ BylawCourse.belongsTo(BylawCourse, {
 Course.belongsToMany(Department, {
   through: 'DepartmentCourses',
   foreignKey: 'CourseId',
-  otherKey: 'DepartmentId',
+  otherKey: 'DepartmentId',})
+Course.hasMany(DepartmentCourse, { foreignKey: 'CourseId' });
+Department.hasMany(DepartmentCourse, { foreignKey: 'DepartmentId' });
+Bylaw.hasMany(DepartmentCourse, { foreignKey: 'BylawId' });
 
-// });
+DepartmentCourse.belongsTo(Course, { foreignKey: 'CourseId' });
+DepartmentCourse.belongsTo(Department, { foreignKey: 'DepartmentId' });
+DepartmentCourse.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
 Department.belongsToMany(Course, {
   through: 'DepartmentCourses',
@@ -124,6 +132,20 @@ Department.belongsToMany(Course, {
   otherKey: 'CourseId',
 
 });
+// Course.belongsToMany(Department, {
+//   through: 'DepartmentCourses',
+//   foreignKey: 'CourseId',
+//   otherKey: 'DepartmentId',
+//   timestamps: false,
+
+// });
+
+// Department.belongsToMany(Course, {
+//   through: 'DepartmentCourses',
+//   foreignKey: 'DepartmentId',
+//   otherKey: 'CourseId',
+//   timestamps: false,
+// });
 Department.belongsToMany(Bylaw, {
   through: 'BylawDepartments',
   foreignKey: 'DepartmentId',
@@ -283,7 +305,8 @@ const models = {
   Result,
   CoursePrerequisite,
   DepartmentCourse,
-
+  Audit,
+  BylawDepartment,
 };
 export const sequelize = db;
 

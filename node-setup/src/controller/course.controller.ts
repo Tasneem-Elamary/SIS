@@ -181,6 +181,38 @@ class CourseController {
       next(e);
     }
   };
+
+  deleteCourseOfBylawAndDepartment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { courseId, bylawId, departmentId } = req.params;
+      const result = await this.course.deleteCourseOfBylawAndDepartment(departmentId || null, courseId, bylawId);
+
+      if (result) {
+        return res.status(200).json({ message: 'Association deleted successfully.' });
+      }
+      return res.status(404).json({ message: 'Association not found.' });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getDistinctProfessorsByCourse = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const course = await this.course.getDistinctProfessorsByCourse(id);
+
+      if (!course) {
+        return res.status(404).json({ message: 'failed to get professors teaches this course' });
+      }
+
+      res.status(200).json({ message: 'done', course });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+
+  
   // mapped courses
 
   addBylawMappedCourse = async (req: Request, res: Response, next: NextFunction) => {
@@ -220,33 +252,6 @@ class CourseController {
       res.status(200).send({ message: 'Mapped courses for bylaw retrieved successfully', bylawCourses });
     } catch (error) {
       next(error);
-
-  deleteCourseOfBylawAndDepartment = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { courseId, bylawId, departmentId } = req.params;
-      const result = await this.course.deleteCourseOfBylawAndDepartment(departmentId || null, courseId, bylawId);
-
-      if (result) {
-        return res.status(200).json({ message: 'Association deleted successfully.' });
-      }
-      return res.status(404).json({ message: 'Association not found.' });
-    } catch (e) {
-      next(e);
-    }
-  };
-
-  getDistinctProfessorsByCourse = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      const course = await this.course.getDistinctProfessorsByCourse(id);
-
-      if (!course) {
-        return res.status(404).json({ message: 'failed to get professors teaches this course' });
-      }
-
-      res.status(200).json({ message: 'done', course });
-    } catch (e) {
-      next(e);
     }
   };
 }
