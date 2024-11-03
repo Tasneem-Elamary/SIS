@@ -6,13 +6,13 @@ class Schedule {
     try {
       dispatch(statusAction.clearStatus());
       dispatch(fetchAction.fetchingTime());
-      
+      console.log("HIIIActionsss")
       const response = await scheduleApi.uploadSchedules(formData); 
-
+console.log (response)
         
       if (response) {
         
-        dispatch(statusAction.addSuccessStatus(response.data));   
+        dispatch(statusAction.addSuccessStatus(response.data)); 
         dispatch(fetchAction.fetchingFailed());       
         return {response};  
       }

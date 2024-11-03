@@ -44,8 +44,8 @@ function CourseDetailsPage() {
                     </div>
                     <hr />
                 </div>
-                <TwoColumnTable headers = {['Course Name','Regulations','Credit hours','Min. CGPA to enroll','Min. earned ch to enroll', 'Regular Registered','Pending Registered'] } 
-                values={[course?.name,bylawId,course?.creditHours,course?.min_GPA,course?.minEarnedHours,course?.approvedRegularCount,course?.pendingRegularCount]}/>
+                <TwoColumnTable headers={['Course Name', 'Regulations', 'Credit hours', 'Min. CGPA to enroll', 'Min. earned ch to enroll', 'Regular Registered', 'Pending Registered']}
+                values={[course?.name, bylawId, course?.creditHours, course?.min_GPA, course?.minEarnedHours, course?.approvedRegularCount, course?.pendingRegularCount]} renderItem={undefined}/>
             </div>
 
         </div>

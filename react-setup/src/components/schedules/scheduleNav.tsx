@@ -6,16 +6,17 @@ import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 import MainNavBar from '../shared/mainNavbar';
 import RegisterationNavbar from '../shared/registerationNavbar';
-import { Nav, NavItem, Table } from 'reactstrap';
+import { Nav, Navbar, NavItem, Table } from 'reactstrap';
 import './schedule.scss';
 import ViewTable from '../shared/viewTable/ViewTable';
 import 'bootstrap/dist/css/bootstrap.min.css';
  
 
-const ScheduleNavBar = ({ activeNav }) => {
+const ScheduleNavBar = ({ activeNav }:{activeNav:number}) => {
     
 
     return (
+         
  
         <Nav pills>
             <NavItem 

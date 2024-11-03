@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { scheduleAction } from '../../state/actions';
@@ -24,6 +24,26 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
     const [file, setFile] = useState<File | null>(null);
     const [fileError, setFileError] = useState<string | null>(null);
     const navigate = useNavigate();
+  
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const getScheduleDetails = (schedules: any[]): any[] => {
+        if (schedules.length === 0) return [];
+        return schedules.map((schedule) => ({
+            id: schedule.id,
+            courseCode: schedule.Course.code,
+            courseName: schedule.Course.name,
+            roomCode: schedule.Room.code,
+            instructorName: `${schedule.Instructor.firstName} ${schedule.Instructor.lastName}`,
+            groupCode: schedule.Group.groupCode,
+            sectionCode: schedule.Section.sectionCode,
+            scheduleType: schedule.scheduleType,
+            day: schedule.Slot.day,
+            startTime: schedule.Slot.startTime.slice(0, 5),
+            endTime: schedule.Slot.endTime.slice(0, 5),
+            capacity: schedule.Room.capacity
+        }));
+    };
 
     useEffect(() => {
         const fetchAllSchedule = async () => {
@@ -42,50 +62,34 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
                 console.error('Error fetching schedule:', error);
             }
         };
-
         fetchAllSchedule();
     }, [getAllSchedules]);
 
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileUpload = async(event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files ? event.target.files[0] : null;
         setFile(selectedFile);
         setFileError(null);
+
+        if (selectedFile) {
+            handleImport(selectedFile);
+        }
     };
 
-    const handleImport = async () => {
-        if (!file) {
+    const handleImport = async (selectedFile: File) => {
+        if (!selectedFile) {
             setFileError('Please select a CSV file to import.');
             return;
         }
-
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', selectedFile);
 
         try {
             await uploadCsvSchedules(formData);
-            navigate('/view-schedules');
+            console.log("Schedule uploaded");
+            // navigate('/view-schedules');  
         } catch (error) {
             setFileError('Failed to upload the file.');
         }
-    };
-
-    const getScheduleDetails = (schedules: any[]): any[] => {
-        if (schedules.length === 0) return [];
-
-        return schedules.map((schedule) => ({
-            id: schedule.id,
-            courseCode: schedule.Course.code,
-            courseName: schedule.Course.name,
-            roomCode: schedule.Room.code,
-            instructorName: `${schedule.Instructor.firstName} ${schedule.Instructor.lastName}`,
-            groupCode: schedule.Group.groupCode,
-            sectionCode: schedule.Section.sectionCode,
-            scheduleType: schedule.scheduleType,
-            day: schedule.Slot.day,
-            startTime: schedule.Slot.startTime.slice(0, 5),
-            endTime: schedule.Slot.endTime.slice(0, 5),
-            capacity: schedule.Room.capacity
-        }));
     };
 
     const navClick = (id: number): void => {
@@ -97,18 +101,17 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
             <RegisterationNavbar />
             <MainNavBar activeItem="Schedules" />
             <ScheduleNavBar activeNav={1} />
-            <div className="fixed-title" style={{ display: 'flex', flexDirection: 'row', gap: '75%' }}>
+            <div className="fixed-title" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <h3>Schedule</h3>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div>
                    
-                    <Button color="primary" onClick={() => document.getElementById('csvFileInput')?.click()}>
+                    <Button color="primary" onClick={() => fileInputRef.current?.click()}>
                         CSV Schedule
                     </Button>
-                 
                     <Input
                         type='file'
                         accept='.csv'
-                        id='csvFileInput'
+                        innerRef={fileInputRef} // Referencing the input
                         style={{ display: 'none' }}
                         onChange={handleFileUpload}
                     />
@@ -116,13 +119,13 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
                 {fileError && <p className="error">{fileError}</p>}
             </div>
             <div className='inside-container'>
-            <hr />
- 
+                <hr />
                 <ViewTable
                     headers={["", "day", "start time", "end time", "Course Code", "Room code", "Schedule type", "capacity"]}
                     features={["day", "startTime", "endTime", "courseCode", "roomCode", "scheduleType", "capacity"]}
                     rowValues={getScheduleDetails(schedules)}
                     showSearchBars={true}
+                    arraycolumn={''}
                 />
             </div>
         </div>

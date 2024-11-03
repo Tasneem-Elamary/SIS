@@ -1,5 +1,6 @@
 import {
   CourseType, GroupType, InstructorType, RoomType, ScheduleType, SectionType, SlotType,
+  StudentType,
 } from '../../types';
 
 export interface ISchedule {
@@ -17,4 +18,8 @@ export interface ISchedule {
     getAllSchedules(): Promise<ScheduleType[]>;
     updateSchedule(id: string, schedule: Partial<ScheduleType>): Promise<boolean>;
     deleteSchedule(id: string): Promise<void>;
-}
+    getStudentsInASpecificSection(CourseId: string, SectionId: string): Promise<StudentType[]>
+    getStudentsInASpecificGroup(CourseId: string, SectionId:string): Promise<StudentType[]>;
+    getSectionsInASpecificGroup(CourseId: string, GroupId: string):Promise<Partial<SectionType>[]>;
+
+  }

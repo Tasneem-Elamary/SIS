@@ -22,7 +22,6 @@ import user from './user.model';
 import studentSchedule from './studentSchedule.model';
 import coursePrerequisites from './coursePrerequisites.model';
 import departmentCourse from './departmentCourse.model';
-import mappedCourses from './mappedCourses.model';
 
 const User = user(db);
 const Student = student(db);
@@ -46,7 +45,7 @@ const Semester = semester(db);
 const Room = room(db);
 const CoursePrerequisite = coursePrerequisites(db);
 const DepartmentCourse = departmentCourse(db);
-const MappedCourses = mappedCourses(db);
+// const MappedCourses = mappedCourses(db);
 Faculty.hasMany(Room, { foreignKey: 'FacultyId' });
 Room.belongsTo(Faculty, { foreignKey: 'FacultyId' });
 
@@ -62,19 +61,6 @@ Student.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 Bylaw.hasMany(BylawRule, { foreignKey: 'BylawId' });
 BylawRule.belongsTo(Bylaw, { foreignKey: 'BylawId' });
 
-Course.belongsToMany(Course, {
-  through: 'CoursePrerequisites',
-  as: 'Prerequisite',
-  foreignKey: 'courseId',
-  otherKey: 'prerequisiteId',
-});
-BylawCourse.belongsToMany(BylawCourse, {
-  through: MappedCourses,
-  as: 'Mapped',
-  foreignKey: 'BylawCourseId',
-  otherKey: 'MappedBylawCourseId',
-  constraints: true,
-});
 // BylawCourse.belongsToMany(BylawCourse, {
 //   through: 'MappedCourses',
 //   as: 'Course',
@@ -98,6 +84,31 @@ Bylaw.belongsToMany(Course, {
   through: 'BylawCourse', foreignKey: 'BylawId', otherKey: 'CourseId', timestamps: false,
 });
 
+Course.belongsToMany(Course, {
+  through: 'CoursePrerequisites',
+  as: 'Prerequisite',
+  foreignKey: 'courseId',
+  otherKey: 'prerequisiteId',
+});
+
+BylawCourse.belongsTo(Course);
+Course.belongsTo(BylawCourse);
+BylawCourse.belongsTo(Bylaw);
+Bylaw.belongsTo(BylawCourse);
+BylawCourse.hasMany(BylawCourse, {
+
+  as: 'MappedCourses',
+  foreignKey: 'SourceCourseId',
+  constraints: true,
+});
+
+BylawCourse.belongsTo(BylawCourse, {
+
+  as: 'SourceCourse',
+  foreignKey: 'SourceCourseId',
+
+  constraints: true,
+});
 Course.belongsToMany(Department, {
   through: 'DepartmentCourses',
   foreignKey: 'CourseId',
@@ -244,7 +255,7 @@ export {
   Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
   Result,
   CoursePrerequisite,
-  DepartmentCourse, MappedCourses,
+  DepartmentCourse,
 };
 
 const models = {
@@ -270,7 +281,7 @@ const models = {
   Result,
   CoursePrerequisite,
   DepartmentCourse,
-  MappedCourses,
+
 };
 export const sequelize = db;
 

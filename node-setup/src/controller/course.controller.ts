@@ -181,6 +181,47 @@ class CourseController {
       next(e);
     }
   };
+  // mapped courses
+
+  addBylawMappedCourse = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { bylawCourseId, mappedBylawCourseId } = req.body;
+      const result = await this.course.addBylawMappedCourse(bylawCourseId, mappedBylawCourseId);
+      res.status(201).send({ message: 'Mapped course added successfully', result });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getMappedCoursesForBylawCourseId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { bylawCourseId } = req.params;
+      const mappedCourses = await this.course.getMappedCoursesForBylawCourseId(bylawCourseId);
+      res.status(200).send({ message: 'Mapped courses retrieved successfully', mappedCourses });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getCourseMappedToCourseId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const sourceCourse = await this.course.getCourseMappedToCourseId(courseId);
+      res.status(200).send({ message: 'Source course retrieved successfully', sourceCourse });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getBylawMappedCourses = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { bylawId } = req.params;
+      const bylawCourses = await this.course.getBylawMappedCourses(bylawId);
+      res.status(200).send({ message: 'Mapped courses for bylaw retrieved successfully', bylawCourses });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default new CourseController();

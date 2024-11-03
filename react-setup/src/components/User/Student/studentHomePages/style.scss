@@ -9,15 +9,36 @@
     display: flex;
     overflow-y: auto; 
 }
-table tr td ul{
+table tr td ul {
     display: flex;
-   gap: 2%;
-    flex-wrap: wrap !important;
+    gap: 0.7%;
+ 
+    flex-wrap: wrap;
 }
+
+table tr td ul li {
+    flex-basis: calc(33.33% - 0.7%); /* 3 items per row with the gap considered */
+   
+    box-sizing: border-box;
+}
+
+.schedule tr td ul li{
+ 
+  margin-left:0%;
+    
+}
+
 table tr td:first-child {
     vertical-align:middle;
+    padding-left:.5%;
  
 }
+
+.schedule tr td{
+    padding-left: 0%;
+    font-size:70%;
+}
+
 .inline-items{
     display: flex;
     flex-direction: row;
@@ -33,9 +54,9 @@ table tr td:first-child {
    }
 .title{
     width: calc(100% - 60px);
-    margin: 50px 30px  0px 30px ; 
+    margin: 20px 30px  0px 30px ; 
     position: sticky;
-    top: 108px; 
+    top: 88px; 
     z-index: 800;
     background-color: #ffffff;
  

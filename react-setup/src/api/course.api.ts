@@ -11,11 +11,12 @@ const config = {
 console.log(`mmmmmmmmmm${backendUrl}`)
 
 class Course {
-  getAllcourses = () => axios.get(`http://localhost:5000/course`,config);
-  getcourseBylevel = (level:number) => axios.get(`http://localhost:5000/course/level/${level}`,config);
-  getcourseDetails = (CourseId:string,bylawId:string) => axios.get(`http://localhost:5000/course/${CourseId}/bylaw/${bylawId}`,config);
-  getcoursePrerequisite = (CourseId:string) => axios.get(`http://localhost:5000/course/${CourseId}/prerequisites`,config);
-  getcourseDepentant = (CourseId:string) => axios.get(`http://localhost:5000/course/${CourseId}/dependants`,config);
+  getAllcourses = () => axios.get(`${backendUrl}/course`,config);
+  getcourseBylevel = (level:number) => axios.get(`${backendUrl}/course/level/${level}`,config);
+  getcourseDetails = (CourseId:string,bylawId:string) => axios.get(`${backendUrl}/course/${CourseId}/bylaw/${bylawId}`,config);
+  getcoursePrerequisite = (CourseId:string) => axios.get(`${backendUrl}/course/${CourseId}/prerequisites`,config);
+  getcourseDepentant = (CourseId:string) => axios.get(`${backendUrl}/course/${CourseId}/dependants`,config);
+  getCourseMappedToCourse = (CourseId:string) => axios.get(`${backendUrl}/mappedCourses/mappedCourse/${CourseId}`,config);
 }
 
 export default new Course();

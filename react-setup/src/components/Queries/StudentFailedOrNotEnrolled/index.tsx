@@ -35,19 +35,20 @@ const StudentToEnrollInCourse = ({ getCourseAction, failedOrNotEnrolledAction }:
   const handleFormSubmit = async (values: any, bag: any) => {
     try {
       if (values) {
-        const resultData = await failedOrNotEnrolledAction(values.overloadCourse);
+        console.log("here")
+        const resultData = await failedOrNotEnrolledAction(values.course);
         if (resultData) {
-          // Convert the resultData to CSV format
+          console.log("here",resultData)
+       
           const csvData = convertToCSV(resultData);
 
-          // Create a Blob from the CSV string
+    
           const blob = new Blob([csvData], { type: 'text/csv' });
-
-          // Create a link to download the Blob
+ 
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'failed_or_not_enrolled_courses.csv'; // Specify the file name
+          a.download = 'failed_or_not_enrolled_courses.csv';  
           document.body.appendChild(a);
           a.click();
           a.remove();
@@ -62,10 +63,10 @@ const StudentToEnrollInCourse = ({ getCourseAction, failedOrNotEnrolledAction }:
     }
   };
 
-  // Function to convert data to CSV format
+ 
   const convertToCSV = (data: any) => {
-    const headers = ['Course ID', 'Student Name', 'Gained Hours', 'GPA']; 
-    const rows = data.map((item: any) => [item.courseId, item.name, item.gainedHours, item.GPA]); // Adjust the data structure according to API response
+    const headers = ['Student Name', 'Gained Hours', 'GPA']; 
+    const rows = data.map((item: any) => [item.courseId, item.name, item.gainedHours, item.GPA]); 
 
     console.log(rows)
     const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
@@ -88,7 +89,7 @@ const StudentToEnrollInCourse = ({ getCourseAction, failedOrNotEnrolledAction }:
           initialValues={{
             studentId: '',
             advisorName: '',
-            overloadCourse: '',
+            course: '',
             lastNSemesters: '',
           }}
           onSubmit={handleFormSubmit}
@@ -140,15 +141,15 @@ const StudentToEnrollInCourse = ({ getCourseAction, failedOrNotEnrolledAction }:
               )}
 
               <FormGroup>
-                <Label for="overloadCourse" style={{ color: '#000000' }}>Course Code/Name</Label>
+                <Label for="course" style={{ color: '#000000' }}>Course Code/Name</Label>
                 <Input
                   type="select"
-                  name="overloadCourse"
-                  id="overloadCourse"
+                  name="course"
+                  id="course"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.overloadCourse}
-                  invalid={!!(errors.overloadCourse && touched.overloadCourse)}
+                  value={values.course}
+                  invalid={!!(errors.course && touched.course)}
                   style={{ width: '80%' }}
                 >
                   <option value="">Select a course</option>
@@ -158,7 +159,7 @@ const StudentToEnrollInCourse = ({ getCourseAction, failedOrNotEnrolledAction }:
                     </option>
                   ))}
                 </Input>
-                {errors.overloadCourse && touched.overloadCourse ? <FormFeedback>{errors.overloadCourse}</FormFeedback> : null}
+                {errors.course && touched.course ? <FormFeedback>{errors.course}</FormFeedback> : null}
               </FormGroup>
 
               {withLastNSemesters && (

@@ -159,6 +159,16 @@ class ScheduleController {
     }
   };
 
+  public getStudentsInSection = async (req: Request, res: Response) => {
+    const { courseId, sectionId } = req.params;
+    try {
+      const students = await this.scheduleService.getStudentsInASpecificSection(courseId, sectionId);
+      res.status(200).json(students);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving students for the specified section', error });
+    }
+  };
+
   public updateSchedule = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const updateData = req.body;

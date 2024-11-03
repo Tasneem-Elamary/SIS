@@ -24,7 +24,7 @@ const StudentNavlBar = ({ activeItem }:{activeItem:string}) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar expand="md" className="navbar">
+    <Navbar expand="md" className="Main-navbar">
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>
@@ -33,7 +33,7 @@ const StudentNavlBar = ({ activeItem }:{activeItem:string}) => {
               <DropdownToggle
                 nav
                 caret
-                className={activeItem === 'Schedule' ? "active" : "custom"}
+                className={activeItem === 'Schedule' ? "navlink-active" : "navlink-custom"}
               >
                 Schedule
               </DropdownToggle>
@@ -54,9 +54,9 @@ const StudentNavlBar = ({ activeItem }:{activeItem:string}) => {
                 Request
               </DropdownToggle>
               <DropdownMenu end>
-                <DropdownItem href="/Requests/MappedCourse">Self-study</DropdownItem>
-                <DropdownItem href="/Requests/CreateSelfstudy">Overload</DropdownItem>
-                <DropdownItem href="/Requests/CreateOverload">Mapped Courses</DropdownItem>
+                <DropdownItem href="/Requests/MappedCourseCreateSelfStudy">Self-study</DropdownItem>
+                <DropdownItem href="/Requests/CreateAnOverload">Overload</DropdownItem>
+                <DropdownItem href="/Requests/MappedCourse">Mapped Courses</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </NavItem>

@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize';
-import models, { Course } from '../../models';
+import models, { Bylaw, BylawCourse, Course } from '../../models';
 import { CourseRepo } from '../Repositories';
-import { CourseType, CoursewithRegistedStudentsType } from '../../types';
+import {
+  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, MappedCourseType,
+} from '../../types';
 
 class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
@@ -271,6 +273,98 @@ class CourseData implements CourseRepo {
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  };
+
+  // Managing Mapped Courses
+  addBylawMappedCourse = async (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined> => {
+    try {
+      const sourceCourse = await BylawCourse.findByPk(BylawCourseId);
+      const mappedCourse = await BylawCourse.findByPk(BylawCourseId);
+      if (!sourceCourse) {
+        throw Error('Failed to find bylaw course ');
+      }
+      if (!mappedCourse) {
+        throw Error('Failed to find mapped bylaw course ');
+      }
+      const newMappedCourse = await models.BylawCourse.update(
+        { SourceCourseId: BylawCourseId },
+        { where: { id: MappedBylawCourseId } },
+      );
+      return sourceCourse ? (sourceCourse.get() as MappedCourseType) : undefined;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to create the mapped course entry, please try again!');
+    }
+  };
+
+  getMappedCoursesForBylawCourseId = async (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined> => {
+    try {
+      const mappedCourses = await models.BylawCourse.findAll({
+        where: { SourceCourseId: BylawCourseId },
+
+        include: [{ model: Course, attributes: ['id', 'code', 'name'] },
+          { model: Bylaw, attributes: ['id', 'code'] }],
+
+        attributes: [],
+      });
+      return mappedCourses.map((mappedCourse) => mappedCourse as MappedCourseType);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get mapped courses, please try again!');
+    }
+  };
+
+  getCourseMappedToCourseId = async (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined> => {
+    try {
+      const mappedCourse = await models.BylawCourse.findOne({ where: { id: CourseId } });
+      const bylawCourse = await models.BylawCourse.findOne({
+        where: { id: mappedCourse?.getDataValue('SourceCourseId') },
+
+        include: [{ model: Course, attributes: ['id', 'code', 'name'] },
+          { model: Bylaw, attributes: ['id', 'code'] }],
+
+      });
+      return bylawCourse ? (bylawCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType }) : undefined;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get courses mapped to this course, please try again!');
+    }
+  };
+
+  getBylawMappedCourses = async (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined> => {
+    try {
+      const bylawMappedCourses = await models.BylawCourse.findAll({
+        where: { BylawId: bylawId }, // Find courses for a specific bylaw
+        include: [
+          {
+            model: models.Course, // Include primary course details
+            attributes: ['id', 'code','name'], // Select relevant course attributes
+          },
+          {
+            model: models.Bylaw, // Include bylaw details
+            attributes: ['id', 'code'], // Select relevant bylaw attributes
+          },
+          {
+            model: models.BylawCourse, // Self-referenced mapped courses
+            as: 'MappedCourses', // Alias to indicate self-reference
+           required:true,
+            include: [
+              {
+                model: models.Course, // Include details of mapped courses
+                attributes: ['id', 'code','name'],
+              },
+            ],
+          },
+        ],
+      });
+      
+      return bylawMappedCourses
+        ? bylawMappedCourses.map((bylawMappedCourse) => bylawMappedCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType[] })
+        : undefined;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get courses mapped to this bylaw, please try again!');
     }
   };
 }

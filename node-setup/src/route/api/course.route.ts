@@ -28,5 +28,14 @@ router.post('/department', isAuth, authorizeRoles('university admin', 'faculty a
 router.get('/level/:level', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getCoursesBylevel);
 
 router.get('/:courseId/bylaw/:bylawId', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), courseController.getCourseWithRegisteredStudentCounts);
+// mapped courses
+
+router.post('/bylaw-courses/mapped', courseController.addBylawMappedCourse);
+
+router.get('/bylaw-courses/:bylawCourseId/mapped', courseController.getMappedCoursesForBylawCourseId);
+
+router.get('/courses/:courseId/mapped-source', courseController.getCourseMappedToCourseId);
+
+router.get('/bylaws/:bylawId/mapped-courses', courseController.getBylawMappedCourses);
 
 export default router;

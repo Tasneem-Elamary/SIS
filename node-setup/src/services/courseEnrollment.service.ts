@@ -3,9 +3,8 @@ import { CourseEnrollmentType, CourseType } from '../types';
 import { ICourseEnrollment } from './interfaces';
 import { DataAccess } from '../persistance';
 
-
 class CourseEnrollmentService implements ICourseEnrollment {
-  constructor(private courseEnrollmentData: CourseEnrollmentRepo,private studentDataAccess:StudentRepo) {}
+  constructor(private courseEnrollmentData: CourseEnrollmentRepo, private studentDataAccess:StudentRepo) {}
 
   public async create(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
@@ -28,27 +27,27 @@ class CourseEnrollmentService implements ICourseEnrollment {
       throw new Error('Failed to create course enrollment, Please try again!');
     }
   }
-public async requestByStudentCode(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
-  try {
-    const studentCode=enrollmentData.StudentId
-    console.log(studentCode)
-    const student= await this.studentDataAccess.getStudentByCode(studentCode)
-    const StudentId= student?.id;
-    if(StudentId)
-    enrollmentData.StudentId=StudentId;
-  else{
-    throw Error("Couldn't find equivalent student code ")
+
+  public async requestByStudentCode(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+    try {
+      const studentCode = enrollmentData.StudentId;
+      console.log(studentCode);
+      const student = await this.studentDataAccess.getStudentByCode(studentCode);
+      const StudentId = student?.id;
+      if (StudentId) { enrollmentData.StudentId = StudentId; } else {
+        throw Error("Couldn't find equivalent student code ");
+      }
+      const enrollment = await this.courseEnrollmentData.create({
+        ...enrollmentData,
+        hasPaidFees: false,
+        approvalStatus: 'pending',
+      });
+      return enrollment;
+    } catch (error) {
+      throw new Error('Failed to create course enrollment, Please try again!');
+    }
   }
-    const enrollment = await this.courseEnrollmentData.create({
-      ...enrollmentData,
-      hasPaidFees: false,
-      approvalStatus: 'pending',
-    });
-    return enrollment;
-  } catch (error) {
-    throw new Error('Failed to create course enrollment, Please try again!');
-  }
-}
+
   public async requestOverload(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollmentWithDefaults: CourseEnrollmentType = {

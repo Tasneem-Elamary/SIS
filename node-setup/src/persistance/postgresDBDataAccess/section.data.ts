@@ -1,5 +1,5 @@
-import { Section } from '../../models';
-import { SectionType } from '../../types';
+import { Section, Student, StudentSchedule } from '../../models';
+import { SectionType, StudentType } from '../../types';
 import { ISectionRepo } from '../Repositories/section.repo';
 
 export class SectionDataAccess implements ISectionRepo {
@@ -25,6 +25,14 @@ export class SectionDataAccess implements ISectionRepo {
 
   async update(id: string, section: Partial<SectionType>): Promise<void> {
     await Section.update(section, { where: { id } });
+  }
+
+  async getStudentsInASpecificSection(CourseId: string, SectionId:string): Promise<StudentType[]> {
+    const students = await StudentSchedule.findAll({
+      where: { CourseId, SectionId },
+      include: [{ model: Student }],
+    });
+    return students.map((student) => student.get({ plain: true }));
   }
 
   async delete(id: string): Promise<void> {

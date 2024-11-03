@@ -106,11 +106,12 @@ class StudentService implements IStudent {
     }
   };
 
-  public getStudentsForSpecificBylaw = async (BylawId: string): Promise<void> => {
+  public getStudentsForSpecificBylaw = async (BylawId: string): Promise<StudentType[]> => {
     try {
-      await this.StudentData.getStudentsForSpecificBylaw(BylawId);
+      const students = await this.StudentData.getStudentsForSpecificBylaw(BylawId);
+      return students;
     } catch (error) {
-      throw new Error('Failed to unregister the schedule, Please try again!');
+      throw new Error('Failed to get Bylaw students, Please try again!');
     }
   };
 

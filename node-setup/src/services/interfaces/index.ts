@@ -11,6 +11,7 @@ import ISemster from './ISemster';
 import IResult from './IResult';
 import Ifaculty from './Ifaculty';
 import IUniversity from './IUniversity';
+import IMappedCourse from './IMappedCourse';
 
 export {
   IUser,
@@ -19,7 +20,7 @@ export {
   IStudent,
   IInstuctor,
   ICourse, ICourseEnrollment,
-
+  IMappedCourse,
   IDepartment,
   IGrade,
   ISemster,

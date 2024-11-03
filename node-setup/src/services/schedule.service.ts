@@ -1,6 +1,7 @@
 import { ISchedule } from './interfaces/ISchedule';
 import {
   CourseType, GroupType, InstructorType, RoomType, ScheduleType, SectionType, SlotType,
+  StudentType,
 } from '../types';
 import { ScheduleRepo } from '../persistance/Repositories';
 import GroupDataAccess from '../persistance/postgresDBDataAccess/group.data';
@@ -227,6 +228,34 @@ class Schedule {
       throw new Error('Failed to delete the schedule, Please try again!');
     }
   };
+
+  public getStudentsInASpecificSection = async (CourseId: string, SectionId: string): Promise<StudentType[]> => {
+    try {
+      const students = this.section.getStudentsInASpecificSection(CourseId, SectionId);
+      return students;
+    } catch (error) {
+      throw new Error('Failed to et section students!');
+    }
+  };
+
+  public getStudentsInASpecificGroup = async (CourseId: string, GroupId: string): Promise<StudentType[]> => {
+    try {
+      const students = this.group.getStudentsInASpecificGroup(CourseId, GroupId);
+      return students;
+    } catch (error) {
+      throw new Error('Failed to et group students!');
+    }
+  };
+
+  public getSectionsInASpecificGroup = async (CourseId: string, GroupId: string): Promise<Partial<SectionType>[]> => {
+    try {
+      const sections = this.group.getSectionsInASpecificGroup(CourseId, GroupId);
+      return sections;
+    } catch (error) {
+      throw new Error('Failed to et group sections!');
+    }
+  };
+
   //
 }
 

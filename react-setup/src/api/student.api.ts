@@ -19,16 +19,15 @@ class Student {
   registerSchedule = (registeringData: { StudentId: string; ScheduleId: string }) => 
     axios.post(`${ backendUrl } /student/registerSchedule`, registeringData);
   registerSchedules = ( studentId:string,scheduleIds: string[] ) => 
-   { 
-    console.log("Sending scheduleIds3:", scheduleIds);
+   
 
-    axios.post(`${ backendUrl } /student/registerSchedules / ${ studentId } `, {scheduleIds})};
+    axios.post(`${ backendUrl } /student/registerSchedules / ${ studentId } `, {scheduleIds});
   
   unregisterSchedule = (unregisteringData: { StudentId: string; ScheduleId: string }) => 
     axios.post(`${ backendUrl } /student/unregisterSchedule`, unregisteringData); 
    
   getFailedOrUnenrolledCourses = (courseId: string) => 
-    axios.get(`${ backendUrl } /student/course / ${ courseId }/failed-or-unenrolled`);
+    axios.get(`${ backendUrl }/student/course/${ courseId }/failed-or-unenrolled`);
   getAllowedCourses = (studentId: string) => 
     axios.get(`${backendUrl}/enrollment/${studentId}/allowed-courses`);
 

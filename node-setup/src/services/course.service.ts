@@ -7,6 +7,8 @@ import { DepartmentDataAccess } from '../persistance/postgresDBDataAccess';
 import {
   UserType, StudentType, InstructorType, CourseType, CoursePrerequisitesType,
   CoursewithRegistedStudentsType,
+  BylawCourseType,
+  BylawType,
 } from '../types';
 
 class Course implements ICourse {
@@ -132,6 +134,49 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
       return course;
     } catch (error) {
       throw new Error('Error fetching prerequisites for course ');
+    }
+  };
+
+  // Managing Mapped courses
+  addBylawMappedCourse = async (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }> | undefined> => {
+    try {
+
+      const mappedToCourse=await this.courseData.addBylawMappedCourse(BylawCourseId,MappedBylawCourseId);
+      return mappedToCourse;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to create the mapped course entry, please try again!');
+    }
+  };
+
+
+  getMappedCoursesForBylawCourseId = async (BylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }>[]> => {
+    try {
+      const mappedCourses = await this.courseData.getMappedCoursesForBylawCourseId(BylawCourseId);
+      return mappedCourses || [];
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get mapped courses, please try again!');
+    }
+  };
+
+  getCourseMappedToCourseId = async (CourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }> | undefined> => {
+    try {
+      const sourceCourse = await this.courseData.getCourseMappedToCourseId(CourseId);
+      return sourceCourse;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get courses mapped to this course, please try again!');
+    }
+  };
+
+  getBylawMappedCourses = async (bylawId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }>[]> => {
+    try {
+      const bylawCourses = await this.courseData.getBylawMappedCourses(bylawId);
+      return bylawCourses || [];
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get courses mapped to this bylaw, please try again!');
     }
   };
 }

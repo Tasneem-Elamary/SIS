@@ -1,6 +1,8 @@
-import { Group } from '../../models';
+import {
+  Group, Schedule, Section, Student, StudentSchedule,
+} from '../../models';
 import { db } from '../../../config/postgresDB.config';
-import { GroupType } from '../../types';
+import { GroupType, SectionType, StudentType } from '../../types';
 
 class GroupDataAccess {
   create = async (group: GroupType, transaction?: any): Promise<GroupType | undefined> => {
@@ -95,6 +97,22 @@ class GroupDataAccess {
       throw new Error('Failed to delete the group, please try again!');
     }
   };
+
+  async getStudentsInASpecificGroup(CourseId: string, SectionId:string): Promise<StudentType[]> {
+    const students = await StudentSchedule.findAll({
+      where: { CourseId, SectionId },
+      include: [{ model: Student }],
+    });
+    return students.map((student) => student.get({ plain: true }));
+  }
+
+  async getSectionsInASpecificGroup(CourseId: string, GroupId: string):Promise<Partial<SectionType>[]> {
+    const sections = await Schedule.findAll({
+      where: { CourseId, GroupId },
+      include: [{ model: Section }],
+    });
+    return sections.map((section) => section.get({ plain: true }));
+  }
 }
 
 export default GroupDataAccess;

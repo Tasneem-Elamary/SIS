@@ -1,4 +1,6 @@
-import { CourseType, CoursewithRegistedStudentsType } from '../../types';
+import {
+  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType,
+} from '../../types';
 
 interface CourseRepo {
   create(course: CourseType): Promise<CourseType | undefined>;
@@ -13,5 +15,12 @@ interface CourseRepo {
   addCoursetoDepartment(departmentId:string, courseId: string): Promise<void | undefined>;
   getCoursesBylevel (level:number): Promise<CourseType[] | undefined[]>
   getCourseWithRegisteredStudentCounts (courseId: string, bylawId: string) : Promise<CoursewithRegistedStudentsType | undefined>
+// Mapped courses
+
+addBylawMappedCourse (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
+getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
+getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
+getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
+
 }
 export default CourseRepo;

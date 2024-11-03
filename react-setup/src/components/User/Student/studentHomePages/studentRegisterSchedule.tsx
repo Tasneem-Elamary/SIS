@@ -5,11 +5,9 @@ import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Table } from 'reactstrap';
 import StudentNavlBar from './studentNavBar';
-import { scheduleAction } from '../../../../state/actions';
 import RegisterationNavbar from '../../../shared/registerationNavbar';
 import studentAction from '../../../../state/actions/student.action';
 import './style.scss'
-import DepartmentType from '../../../../interfaces/domain/department';
 interface AllSchedulesProps {
     getAllSchedules: (studentId: string) => Promise<{ schedules: any[] }>;
     registerSchedules: (studentId: string, schedulesIds: string[]) => Promise<void>;
@@ -115,7 +113,7 @@ setSelectedLevel(level)
                             {schedule.Instructor.firstName} {schedule?.Instructor?.lastName}
                         </div>
                         <div className='blue-bold'>
-                            Group: {schedule?.Group.groupCode} | Section: {schedule?.Section?.sectionCode}
+                           <span className='black-bold'>Group: </span>  {schedule?.Group.groupCode}<span className='black-bold'>| Section:</span> {schedule?.Section?.sectionCode}
                         </div>
                         <div className='black-bold'>{schedule?.scheduleType}</div>
                     </li>
@@ -164,7 +162,7 @@ setSelectedLevel(level)
 
 
             <div className="schedule-container">
-                <Table bordered striped >
+                <Table bordered striped className='schedule' >
                     <thead className='table-title'>
                         <tr style={{ border: 'none' }}>
                             <th style={{ border: 'none' }}>Day</th>

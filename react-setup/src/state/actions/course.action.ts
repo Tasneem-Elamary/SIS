@@ -75,6 +75,20 @@ class Course {
             return [];
         }
     };
+    getCourseMappedToCourse = (CourseId:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, data:{Mapped} } } = await courseApi.getCourseMappedToCourse(CourseId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return Mapped;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
 }
 
 export default new Course()

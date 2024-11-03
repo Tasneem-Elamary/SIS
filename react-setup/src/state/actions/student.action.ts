@@ -240,7 +240,7 @@ getFailedOrUnenrolledCoursesAction = (courseId: string) => async (dispatch: Disp
       dispatch(fetchAction.fetchingTime());
 
       const { data: { success, data } } = await studentApi.getFailedOrUnenrolledCourses(courseId);
-
+console.log("data",data)
       if (success) {
           dispatch(statusAction.addSuccessStatus('Successfully fetched failed or unenrolled courses.'));
           return data; 
