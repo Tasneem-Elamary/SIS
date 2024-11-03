@@ -10,7 +10,7 @@ import Grade from './Grade.service';
 import Semster from './semster.service';
 import Result from './result.service';
 import University from './university.service';
-import MappedCourseService from './mappedCourses.service';
+import Audit from './audit.service';
 
 export {
   User,
@@ -20,5 +20,5 @@ export {
   ScheduleService,
   Instructor,
   Course,
-  Department, Grade, Semster, Result, University, MappedCourseService,
+  Department, Grade, Semster, Result, University, Audit,
 };

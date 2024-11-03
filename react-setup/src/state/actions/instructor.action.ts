@@ -59,6 +59,34 @@ getAdvisorStudentsAction = (id:string) => async (dispatch: Dispatch) => {
       return [];
   }
 };
+getTASystemlogAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message, audits} } = await instructorApi.getTASystemLog(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return audits;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
+getInstructorByIdAction = (id:string) => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const { data: { message,instructor} } = await instructorApi.getInstructorById(id);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return instructor;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
 
 getPendingStudentsAction = (id:string) => async (dispatch: Dispatch) => {
   try {

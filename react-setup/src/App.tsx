@@ -23,8 +23,12 @@ import CourseDetailsPage from './components/Course/courseDetailsPage';
 import ListOfPendingStudents from './components/User/Instructor/TA/List of pending';
 import ListOfSelfStudyOROverloadStudents from './components/User/Instructor/TA/List of self study or overload';
 import AddRegualtion from './components/regulation/addRegulation';
+import Systemlog from './components/User/Instructor/TA/system log'
+import Createcoursepage from './components/Course/createCoursePage'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CoureInstructors from './components/Course/courseInstructors'
 import CourseRulesPage from './components/Course/courseRulePage';
 import RegulationDetails from './components/regulation/regulationDetails';
 import AllResults from './components/Result/AllResults';
@@ -56,6 +60,8 @@ function App() {
 
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
+          {/* /* <Route path="/" element={<Navigate to="/login" />} /> */}
+          <Route path="/" element={<Login />} />
           <Route path="/logistics" element={<Logistics />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/register" element={<RegisterationNavbar />} />
@@ -70,6 +76,9 @@ function App() {
           <Route path="/update-schedules" element={<UpdateSchedules/>} />
           <Route path='/instructor-schedule/:instructorId' element={<InstructorSchedule/>}/>
           <Route path="/list-student-lecturer" element={<ListOfStudents />} />
+
+
+          {/* Route for Room Schedule */}
           <Route path="/room-schedule/:roomId" element={<RoomSchedule />} />
           {/* Route for regulation */}
           {/* {/*  <Route path="/regulation" element={<Regulations />} />} */}
@@ -87,18 +96,24 @@ function App() {
           <Route path="/All-lecturers" element={<PrivateRoute allowedRoles={['faculty admin', 'professor', 'teaching assistant']}><CreateLecturer userType="Lecturer" /></PrivateRoute>} />
           <Route path="/list-student-lecturer" element={<ListOfStudents />} /> 
           <Route path="/" element={<AllLecturer userType="Lecturer" path="/CreateLecturer" />} />
+
+
+          <Route path="/AllLecturer" element={<AllLecturer userType="Lecturer" path="/CreateLecturer" />} />
           <Route path="/CreateLecturer" element={<CreateLecturer userType="Lecturer" />} />
           <Route path="/:id/list-of-students" element={<ListOfStudents />} />
           <Route path="/:id/list-of-pendingStudents" element={<ListOfPendingStudents />} />
           <Route path="/:id/list-of-selfstudy-students" element={<ListOfSelfStudyOROverloadStudents activeItem="selfstudy" />} />
           <Route path="/:id/list-of-overload-students" element={<ListOfSelfStudyOROverloadStudents activeItem="overload" />} />
+          <Route path="/:id/systemlog" element={<Systemlog />} />
           <Route path="/CreateDoctor" element={<CreateLecturer userType="Doctor" />} />
           <Route path="/Doctors" element={<AllLecturer userType="Doctor" path="/CreateDoctor" />} />
           <Route path="/:id/list-of-courses" element={<ListOfCourse />} />
-          <Route path="/Courses/level/1" element={<CourseLevel level={1} />} />
+          {/* <Route path="/Courses/level/1" element={<CourseLevel level={1} />} />
           <Route path="/Courses/level/2" element={<CourseLevel level={2} />} />
           <Route path="/Courses/level/3" element={<CourseLevel level={3} />} />
-          <Route path="/Courses/level/4" element={<CourseLevel level={4} />} />
+          <Route path="/Courses/level/4" element={<CourseLevel level={4} />} /> */}
+
+          <Route path="/Courses/level/:level" element={<CourseLevel  />} />
 
           <Route
             path="/Course/:id/bylaw/:bylawId"
@@ -108,13 +123,23 @@ function App() {
             path="/Course/:id/PrerequesitiesAndDependants"
             element={<CourseRulesPage />}
           />
+          <Route
+            path="/Course/:id/instructors"
+            element={<CoureInstructors />}
+          />
+
+          <Route
+            path="/Courses/createNewCourse"
+            element={<Createcoursepage/>}
+          />
 
           <Route path="/view-students" element={<ViewAllStudents />} />
 
-          <Route path="/results" element={<AllResults/>} />
+          <Route path="/results" element={<AllResults />} />
 
           <Route path="/Oueries/Rank of Student" element={<RankOfStudentPage activeItem="Rank of student"/>} />
           <Route path="/Queries/Students who failed" element={<StudentToEnrollInCourse activeItem="Students failed not enrolled"/>} />
+          <Route path="/Oueries/RankOfStudent" element={<RankOfStudentPage activeItem="Rank of student" />} />
           <Route path="/Requests/MappedCourse" element={<MappedCourse />} />
           <Route
             path="/Requests/CreateAnOverload"

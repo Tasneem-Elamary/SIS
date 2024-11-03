@@ -2,6 +2,7 @@ import { hash } from 'bcrypt';
 import {
   BylawRuleType, BylawType, GradeType, BylawCourseType,
   CourseType,
+  BylawDepartmentType,
 } from '../types';
 import { BylawRepo, GradesRepo } from '../persistance/Repositories'; // Assuming you have a BylawCourseRepo
 import IBylaw from './interfaces/IBylaw';
@@ -96,6 +97,15 @@ class BylawService implements IBylaw {
     }
   };
 
+  public addDepartmentToBylaw = async (bylawId: string, departmentId: string): Promise<BylawDepartmentType | undefined> => {
+    try {
+      const bylawCourse = await this.BylawData.addDepartmentToBylaw(bylawId, departmentId);
+      return bylawCourse;
+    } catch (error) {
+      throw new Error('Failed to add course to bylaw, Please try again!');
+    }
+  };
+
   // Method to get all bylaw courses
   public getAllBylawCourses = async (): Promise<BylawCourseType[] | undefined> => {
     try {
@@ -103,6 +113,15 @@ class BylawService implements IBylaw {
       return bylawCourses;
     } catch (error) {
       throw new Error('Failed to retrieve bylaw courses, Please try again!');
+    }
+  };
+
+  public getBylawDepartments = async (bylawId:string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined> => {
+    try {
+      const bylawDepartments = await this.BylawData.getBylawDepartments(bylawId);
+      return bylawDepartments;
+    } catch (error) {
+      throw new Error('Failed to retrieve bylaw departments, Please try again!');
     }
   };
 

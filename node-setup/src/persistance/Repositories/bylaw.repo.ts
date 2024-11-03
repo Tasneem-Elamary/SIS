@@ -1,5 +1,7 @@
 import {
   BylawRuleType, BylawType, GradeType, BylawCourseType, CourseType,
+  DepartmentType,
+  BylawDepartmentType,
 } from '../../types';
 
 interface BylawRepo {
@@ -17,6 +19,8 @@ interface BylawRepo {
   getAllBylawCourses(): Promise<BylawCourseType[] | undefined>;
   removeCourseFromBylaw(bylawId: string, courseId: string): Promise<boolean>;
   getBylawCourses(id: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[] }> | undefined>;
+  addDepartmentToBylaw (bylawId: string, departmentId: string): Promise<BylawDepartmentType | undefined>
+  getBylawDepartments (id: string): Promise<Partial<BylawType & { Departments: Partial<DepartmentType>[] }> | undefined>
 }
 
 export default BylawRepo;

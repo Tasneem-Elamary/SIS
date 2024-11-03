@@ -13,5 +13,5 @@ router.route('/:id').post(resultController.updateResultById);
 router.get('/:studentId', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), validategetStudentResult, resultController.getStudentResult);
 router.get('/:studentId/:courseId/:semesterId', validategetStudentCourseResult, isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), resultController.getStudentCourseResult);
 router.get('/:studentId/:semesterId', validategetStudentSemesterResult, isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), resultController.getStudentSemesterResult);
-
+router.route('/:id').delete(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), resultController.deleteResult);
 export default router;

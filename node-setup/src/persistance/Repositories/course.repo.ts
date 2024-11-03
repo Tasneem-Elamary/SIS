@@ -1,5 +1,6 @@
 import {
   BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType,
+  InstructorType,
 } from '../../types';
 
 interface CourseRepo {
@@ -22,5 +23,6 @@ getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawC
 getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
 getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
 
+  getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>
 }
 export default CourseRepo;

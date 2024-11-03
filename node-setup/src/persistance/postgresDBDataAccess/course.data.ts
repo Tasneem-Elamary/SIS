@@ -2,8 +2,9 @@ import { Sequelize } from 'sequelize';
 import models, { Bylaw, BylawCourse, Course } from '../../models';
 import { CourseRepo } from '../Repositories';
 import {
-  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, MappedCourseType,
+  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, InstructorType, MappedCourseType,
 } from '../../types';
+
 
 class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
@@ -277,7 +278,7 @@ class CourseData implements CourseRepo {
   };
 
   // Managing Mapped Courses
-  addBylawMappedCourse = async (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined> => {
+  addBylawMappedCourse = async (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }> | undefined> => {
     try {
       const sourceCourse = await BylawCourse.findByPk(BylawCourseId);
       const mappedCourse = await BylawCourse.findByPk(BylawCourseId);
@@ -298,13 +299,13 @@ class CourseData implements CourseRepo {
     }
   };
 
-  getMappedCoursesForBylawCourseId = async (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined> => {
+  getMappedCoursesForBylawCourseId = async (BylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }>[] | undefined> => {
     try {
       const mappedCourses = await models.BylawCourse.findAll({
         where: { SourceCourseId: BylawCourseId },
 
         include: [{ model: Course, attributes: ['id', 'code', 'name'] },
-          { model: Bylaw, attributes: ['id', 'code'] }],
+        { model: Bylaw, attributes: ['id', 'code'] }],
 
         attributes: [],
       });
@@ -315,14 +316,14 @@ class CourseData implements CourseRepo {
     }
   };
 
-  getCourseMappedToCourseId = async (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined> => {
+  getCourseMappedToCourseId = async (CourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }> | undefined> => {
     try {
       const mappedCourse = await models.BylawCourse.findOne({ where: { id: CourseId } });
       const bylawCourse = await models.BylawCourse.findOne({
         where: { id: mappedCourse?.getDataValue('SourceCourseId') },
 
         include: [{ model: Course, attributes: ['id', 'code', 'name'] },
-          { model: Bylaw, attributes: ['id', 'code'] }],
+        { model: Bylaw, attributes: ['id', 'code'] }],
 
       });
       return bylawCourse ? (bylawCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType }) : undefined;
@@ -332,39 +333,79 @@ class CourseData implements CourseRepo {
     }
   };
 
-  getBylawMappedCourses = async (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined> => {
+  getBylawMappedCourses = async (bylawId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }>[] | undefined> => {
     try {
       const bylawMappedCourses = await models.BylawCourse.findAll({
-        where: { BylawId: bylawId }, // Find courses for a specific bylaw
+        where: { BylawId: bylawId },
         include: [
           {
-            model: models.Course, // Include primary course details
-            attributes: ['id', 'code','name'], // Select relevant course attributes
+            model: models.Course,
+            attributes: ['id', 'code', 'name'],
           },
           {
-            model: models.Bylaw, // Include bylaw details
-            attributes: ['id', 'code'], // Select relevant bylaw attributes
+            model: models.Bylaw,
+            attributes: ['id', 'code'],
           },
           {
-            model: models.BylawCourse, // Self-referenced mapped courses
-            as: 'MappedCourses', // Alias to indicate self-reference
-           required:true,
+            model: models.BylawCourse,
+            as: 'MappedCourses',
+            required: true,
             include: [
               {
-                model: models.Course, // Include details of mapped courses
-                attributes: ['id', 'code','name'],
+                model: models.Course,
+                attributes: ['id', 'code', 'name'],
+
               },
-            ],
-          },
-        ],
-      });
-      
+              {
+                model: models.Bylaw,
+                attributes: ['id', 'code'],
+
+              }]
+          }]})
       return bylawMappedCourses
         ? bylawMappedCourses.map((bylawMappedCourse) => bylawMappedCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType[] })
         : undefined;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to get courses mapped to this bylaw, please try again!');
+    }
+  }
+  getDistinctProfessorsByCourse = async (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined> => {
+    try {
+      // Find the course and include the associated schedules and professors
+      const course: any = await models.Course.findOne({
+        where: { id: courseId },
+        include: [
+          {
+            model: models.Schedule,
+            attributes: ['InstructorId'], // Only need InstructorId to get unique professors
+            include: [
+              {
+                model: models.Instructor,
+                where: { type: 'Professor' },
+                attributes: ['id', 'firstName', 'lastName', 'code'], // Include relevant professor attributes
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!course) {
+        console.error(`Course with ID ${courseId} not found.`);
+        return undefined;
+      }
+      console.log(course.Schedules);
+      const distinctProfessors = course.Schedules
+        ?.map((schedule: any) => schedule.Instructor) // Extract each instructor
+        .filter((professor: any, index: number, self: any[]) => index === self.findIndex((p: any) => p.id === professor.id));
+
+      return {
+        ...course.get(), // Spread course properties
+        Schedules: distinctProfessors, // Attach distinct professors
+      };
+    } catch (error) {
+      console.error('Error fetching distinct professors for course:', error);
+      return undefined;
     }
   };
 }

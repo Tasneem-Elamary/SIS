@@ -7,16 +7,28 @@ const DepartmentCourses = (db: Sequelize) => db.define('DepartmentCourse', {
     type: DataTypes.UUID,
     allowNull: true,
     primaryKey: true, // Mark this as part of the composite primary key
+    references: {
+      model: 'Courses',
+      key: 'id',
+    },
   },
   DepartmentId: {
     type: DataTypes.UUID,
     allowNull: true,
     primaryKey: true, // Mark this as part of the composite primary key
+    references: {
+      model: 'Departments',
+      key: 'id',
+    },
   },
   BylawId: {
     type: DataTypes.UUID,
     allowNull: true,
-    primaryKey: true, // Mark this as part of the composite primary key
+    primaryKey: true,
+    references: {
+      model: 'Bylaws',
+      key: 'id',
+    },
   },
 }, {
 

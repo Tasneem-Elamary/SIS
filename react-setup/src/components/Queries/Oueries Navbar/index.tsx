@@ -19,8 +19,8 @@ const OueriesNavBar = ({ activeItem }) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/view-students" className={activeItem === 'Student' ? "nav-link-active" : "nav-link-custom "}>
-              Student
+            <NavLink href="#" className={activeItem === 'number of Students' ? "nav-link-active" : "nav-link-custom "}>
+            number of Students
             </NavLink>
           </NavItem>
         </Nav>

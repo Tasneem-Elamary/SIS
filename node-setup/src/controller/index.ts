@@ -9,6 +9,7 @@ import semsterController from './semster.controller';
 import FacultyController from './faculty.controller';
 import courseEnrollmentController from './courseEnrollment.controller';
 import resultController from './result.controller';
+import auditController from './audit.controller';
 
 export {
   userController,
@@ -21,5 +22,5 @@ export {
   semsterController,
   resultController,
   FacultyController,
-  courseEnrollmentController,
+  courseEnrollmentController, auditController,
 };

@@ -3,7 +3,7 @@ import { IUser } from './interfaces';
 import { UserType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
 import { isPasswordValid } from '../util/hashing';
-import { StudentDataAccess } from '../persistance/postgresDBDataAccess';
+import { InstructorDataAccess, StudentDataAccess } from '../persistance/postgresDBDataAccess';
 import Env from '../../config';
 
 const { JWT_SECRET } = Env;
@@ -28,6 +28,9 @@ class UserService implements IUser {
       if (user.role === 'student') {
         const student = await new StudentDataAccess().getByUserId(id);
         id = student?.id;
+      } else if (user.role === 'teaching assistant' || user.role === 'professor') {
+        const instrcutor = await new InstructorDataAccess().getByUserId(id as string);
+        id = instrcutor?.id;
       }
     } catch {
       throw Error('Something went wrong, please try again ');
@@ -43,6 +46,7 @@ class UserService implements IUser {
       token,
       id,
       user: {
+        id,
         email: user.email,
         role: user.role,
       },

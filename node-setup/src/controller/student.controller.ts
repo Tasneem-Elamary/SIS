@@ -9,6 +9,7 @@ import { StudentType, UserType } from '../types';
 import { UserRepo } from '../persistance/Repositories';
 import StudentService from '../services/student.service';
 import { parseCSV } from '../util/csvParser';
+import auditservice from '../util/auditservice';
 
 const { StudentDataAccess, ResultDataAccess, CourseDataAcces } = DataAccess;
 
@@ -199,7 +200,15 @@ class StudentController {
       const { studentId } = req.params;
       const schedulecell = parseInt(req.params.schedulecell, 10);
       const { courseType } = req.body;
-      const student = await this.student.ApproveRegularRequest(studentId, schedulecell);
+      const student :any = await this.student.ApproveRegularRequest(studentId, schedulecell);
+      console.log(student);
+      auditservice.logAudit({
+        action: 'Approve Regular Request',
+        userId: req?.user?.id as string, // Admin performing the action
+        entityIds: [student?.studentCode, student?.Courses?.[0].code], // Array of entity IDs
+        entityTypes: ['student', 'course'], // Array of entity types
+        details: 'TA  approved student  Regular Request with course.',
+      });
       res.status(200).json({ message: 'done', student });
     } catch (e) {
       next(e);
@@ -210,7 +219,14 @@ class StudentController {
     try {
       const { studentId, courseCode, courseType } = req.params;
       // const { courseType } = req.body;
-      const student = await this.student.ApproveSelfstudyOROverloadRequest(studentId, courseCode, courseType);
+      const student:any = await this.student.ApproveSelfstudyOROverloadRequest(studentId, courseCode, courseType);
+      auditservice.logAudit({
+        action: `Approve ${courseType} Request`,
+        userId: req?.user?.id as string, // Admin performing the action
+        entityIds: [student?.studentCode, student?.Courses?.[0].code], // Array of entity IDs
+        entityTypes: ['student', 'course'], // Array of entity types
+        details: `TA  approved student  ${courseType} Request with course.`,
+      });
       res.status(200).json({ message: 'done', student });
     } catch (e) {
       next(e);
@@ -221,7 +237,14 @@ class StudentController {
     try {
       const { studentId } = req.params;
       const schedulecell = parseInt(req.params.schedulecell, 10);
-      const student = await this.student.RejectRegularRequest(studentId, schedulecell);
+      const student:any = await this.student.RejectRegularRequest(studentId, schedulecell);
+      auditservice.logAudit({
+        action: 'Reject Regular Request',
+        userId: req?.user?.id as string, // Admin performing the action
+        entityIds: [student?.studentCode, student?.Courses?.[0].code], // Array of entity IDs
+        entityTypes: ['student', 'course'], // Array of entity types
+        details: 'TA  Rejected student  Regular Request with course.',
+      });
       res.status(200).json({ message: 'done', student });
     } catch (e) {
       next(e);
@@ -232,7 +255,14 @@ class StudentController {
     try {
       const { studentId, courseCode, courseType } = req.params;
       // const { courseType } = req.body;
-      const student = await this.student.RejectSelfstudyRequestOROverload(studentId, courseCode, courseType);
+      const student:any = await this.student.RejectSelfstudyRequestOROverload(studentId, courseCode, courseType);
+      auditservice.logAudit({
+        action: `Reject ${courseType} Request`,
+        userId: req?.user?.id as string, // Admin performing the action
+        entityIds: [student?.studentCode, student?.Courses?.[0].code], // Array of entity IDs
+        entityTypes: ['student', 'course'], // Array of entity types
+        details: `TA  Rejected student  ${courseType} Request with course.`,
+      });
       res.status(200).json({ message: 'done', student });
     } catch (e) {
       next(e);

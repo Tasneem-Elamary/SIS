@@ -11,17 +11,22 @@ const config = {
 console.log(`mmmmmmmmmm${backendUrl}`)
 console.log(localStorage.getItem('role'))
 class Instructor {
-  addInstructor = (instructor : InstructorType) => axios.post(`http://localhost:5000/instructor`, instructor,config);
-  getAllTAs = () => axios.get(`http://localhost:5000/instructor/TAs`,config);
-  getAllDoctors = () => axios.get(`http://localhost:5000/instructor/Doctors`,config);
-  getAdvisorStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/students`,config);
-  getselfStudyStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/students/selfstudy`,config);
-  getOverLoadStudents = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/students/overload`,config);
-  getDoctorCourses = (id:string) => axios.get(`http://localhost:5000/instructor/${id}/courses`,config);
-  approveRegularRequest = (StudentId:string,cell:number) => axios.patch(`http://localhost:5000/student//${StudentId}/RequestAprroved/${cell}`,config);
-  rejectRegularRequest = (StudentId:string,cell:number) => axios.patch(`http://localhost:5000/student//${StudentId}/RequestRejected/${cell}`,config);
-  approveselfstudyOROverloadRequest = (StudentId:string,courseCode:string,courseType:string) => axios.patch(`http://localhost:5000/student//${StudentId}/RequestAprroved/${courseType}/${courseCode}`,config);
-  rejectedselfstudyOROverloadRequest = (StudentId:string,courseCode:string,courseType:string) => axios.patch(`http://localhost:5000/student//${StudentId}/RequestRejected/${courseType}/${courseCode}`,config);
+  addInstructor = (instructor: InstructorType) => axios.post(`http://localhost:5000/instructor`, instructor, config);
+  getInstructorById = (id: string) => axios.get(`http://localhost:5000/instructor/${id}`, config);
+  getAllTAs = () => axios.get(`http://localhost:5000/instructor/TAs`, config);
+  getAllDoctors = () => axios.get(`http://localhost:5000/instructor/Doctors`, config);
+  getAdvisorStudents = (id: string) => axios.get(`http://localhost:5000/instructor/${id}/students`, config);
+  getPendingStudents = (id: string) => axios.get(`http://localhost:5000/instructor/${id}/pendingStudents`, config);
+  getselfStudyStudents = (id: string) => axios.get(`http://localhost:5000/instructor/${id}/students/selfstudy`, config);
+  getOverLoadStudents = (id: string) => axios.get(`http://localhost:5000/instructor/${id}/students/overload`, config);
+  getDoctorCourses = (id: string) => axios.get(`http://localhost:5000/instructor/${id}/courses`, config);
+  approveRegularRequest = (StudentId: string, cell: number) => axios.patch(`http://localhost:5000/student/${StudentId}/RequestAprroved/${cell}`, {}, config);
+  rejectRegularRequest = (StudentId: string, cell: number) => axios.patch(`http://localhost:5000/student/${StudentId}/RequestRejected/${cell}`,  config);
+  approveselfstudyOROverloadRequest = (StudentId: string, courseCode: string, courseType: string) =>
+    axios.patch(`http://localhost:5000/student/${StudentId}/RequestAprroved/${courseType}/${courseCode}`,{} , config);
+  rejectedselfstudyOROverloadRequest = (StudentId: string, courseCode: string, courseType: string) =>
+    axios.patch(`http://localhost:5000/student/${StudentId}/RequestRejected/${courseType}/${courseCode}`,  config);
+  getTASystemLog = (id: string) => axios.get(`http://localhost:5000/audit/${id}`, config);
 }
 
 export default new Instructor();

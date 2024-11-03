@@ -10,6 +10,7 @@ interface resultRepo {
     getStudentSemesterResult(studentId: string, semesterId: string): Promise<ResultType[] | undefined[]>;
 
     getAllResults(): Promise<ResultType[]| undefined[]>;
+    deleteResultById(id: string): Promise<boolean>;
 }
 
 export default resultRepo;

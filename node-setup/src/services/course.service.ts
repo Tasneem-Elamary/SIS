@@ -3,12 +3,13 @@ import { ICourse } from './interfaces';
 import {
   UserRepo, InstructorRepo, CourseRepo, CoursePrerequisitesRepo, BylawDepartmentCourseRepo,
 } from '../persistance/Repositories';
-import { DepartmentDataAccess } from '../persistance/postgresDBDataAccess';
+import { BylawDataAccess, DepartmentDataAccess } from '../persistance/postgresDBDataAccess';
 import {
   UserType, StudentType, InstructorType, CourseType, CoursePrerequisitesType,
   CoursewithRegistedStudentsType,
   BylawCourseType,
   BylawType,
+  BylawDepartmentCourseType,
 } from '../types';
 
 class Course implements ICourse {
@@ -69,18 +70,51 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
     }
   };
 
-  getAllCourses = async (): Promise<CourseType[] | undefined[]> => {
+  getAllCourses = async (): Promise<BylawDepartmentCourseType[]| undefined[]> => {
     try {
-      return await this.courseData.getAll();
+      return await this.bylawDepartmentCourseData.getAll();
     } catch (error) {
       console.error(error);
       throw new Error('Failed to get all courses, please try again!');
     }
   };
 
-  addcourseToDepartment = async (departmentId:string, courseId: string): Promise<void | undefined> => {
+  addcourseToDepartment = async (departmentId:string | null, courseId: string, BylawId: string): Promise<BylawDepartmentCourseType| undefined> => {
     try {
-      return await this.courseData.addCoursetoDepartment(departmentId, courseId);
+      const course = await this.courseData.getByCourseCode(courseId);
+      const Bylaw = await new BylawDataAccess().getByCode(BylawId);
+      const ByawCourses = await new BylawDataAccess().getBylawCourses(Bylaw?.id as string);
+
+      if (!course || !Bylaw) {
+        throw new Error('Course or Bylaw not found');
+      }
+
+      const courseExistsInBylaw = ByawCourses?.Courses?.some(
+        (courseObj) => courseObj.code === courseId,
+      );
+      if (!courseExistsInBylaw) {
+        throw new Error('Bylaw does not include this course');
+      }
+
+      let department;
+      if (departmentId) {
+        department = await new DepartmentDataAccess().getBydepartmentCode(departmentId);
+        const ByawDepartments = await new BylawDataAccess().getBylawDepartments(Bylaw?.id as string);
+
+        const departmentExistsInBylaw = ByawDepartments?.Departments?.some(
+          (departmentObj) => departmentObj.code === departmentId,
+        );
+        if (!departmentExistsInBylaw) {
+          throw new Error('Bylaw does not include this department');
+        }
+      }
+
+      const courseDepartment = await this.bylawDepartmentCourseData.create(
+        department?.id ?? null,
+          course.id as string,
+          Bylaw.id as string,
+      );
+      return courseDepartment;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to get all courses, please try again!');
@@ -117,9 +151,9 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
     }
   };
 
-  getCoursesBylevel = async (level:number): Promise<CourseType[] | undefined[]> => {
+  getCoursesBylevel = async (level:number): Promise<BylawDepartmentCourseType[] | undefined[]> => {
     try {
-      const courses = await this.courseData.getCoursesBylevel(level);
+      const courses = await this.bylawDepartmentCourseData.getAllByCourseLevel(level);
 
       return courses;
     } catch (error) {
@@ -176,7 +210,28 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
       return bylawCourses || [];
     } catch (error) {
       console.error(error);
-      throw new Error('Failed to get courses mapped to this bylaw, please try again!');
+      throw new Error('Failed to get courses mapped to this bylaw, please try again!');}}
+  deleteCourseOfBylawAndDepartment = async (departmentId:string | null, courseId: string, BylawId: string): Promise<boolean> => {
+    try {
+      const result = await this.bylawDepartmentCourseData.delete(
+        departmentId ?? null,
+        courseId as string,
+        BylawId as string,
+      );
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to get all courses, please try again!');
+    }
+  };
+
+  getDistinctProfessorsByCourse = async (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined> => {
+    try {
+      const course = await this.courseData.getDistinctProfessorsByCourse(courseId);
+
+      return course || undefined;
+    } catch (error) {
+      throw new Error('Failed to get professors teaches this course');
     }
   };
 }

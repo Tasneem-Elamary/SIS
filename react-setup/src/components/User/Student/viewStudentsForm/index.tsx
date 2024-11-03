@@ -13,6 +13,8 @@ import RegisterationNavbar from '../../../shared/registerationNavbar';
 function AllStudents() {
   const [rowValues, setRowValues] = useState<(StudentType & { User: UserType })[]>([]);
 
+  const role = localStorage.getItem('role');
+
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 

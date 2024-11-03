@@ -7,6 +7,13 @@ const backendUrl = vars.get('backendUrl');
 
 console.log(`Backend URL: ${backendUrl}`);
 
+const token=localStorage.getItem('token')
+const config={
+  headers:{
+    Authorization:`Bearer ${token}`
+  }
+}
+
 class Student {
   addStudent = (student: StudentType) => axios.post(`${backendUrl}/student/createStudent`, student);
   addStudents = (formData: FormData) => axios.post(`${backendUrl}/student/uploadCSVStudents`, formData);

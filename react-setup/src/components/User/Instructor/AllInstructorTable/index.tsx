@@ -33,6 +33,7 @@ function AllLecturer({ userType, path }) {
       // Ensure we only set values that are not undefined
       if (fetchedUsers) {
         setrowValues(fetchedUsers);
+        
       }
     };
 
@@ -55,7 +56,7 @@ function AllLecturer({ userType, path }) {
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","ID", "Name", "Email"]} features={["id", "name", "email"]} rowValues={rowValues}  pathKey={userType === "Lecturer" ? "/:id/list-of-students" : "/:id/list-of-courses"} showSearchBars={false} />
+                <ViewTable headers={["","Code", "Name", "Email"]} features={["code", "name", "email"]} rowValues={rowValues}  pathKey={userType === "Lecturer" ? "/:taId/list-of-students" : "/:doctorId/list-of-courses"} showSearchBars={false} />
             </div>
 
         </div>

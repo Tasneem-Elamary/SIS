@@ -22,10 +22,22 @@ const MainNavBar = ({ activeItem }: any) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const rolev = useSelector((state) => state.user.user.role);
+
+  console.log(rolev)
+
+  const role = localStorage.getItem('role');
+  const id = localStorage.getItem('id');
+  const profileUrl =
+  role === 'student' ? '/student-profile' : role === 'teaching assistant' ? `/${id}/list-of-students` : role === 'professor' ? `/${id}/list-of-courses` : '/AllLecturer';
+
+
+  // Fetch Courses
   useEffect(() => {
     const fetchCourses = async () => {
       const fetchedCourses = await dispatch(courseAction.getCourseAction());
       setCourses(fetchedCourses);
+     
     };
 
     fetchCourses();
@@ -39,6 +51,7 @@ const MainNavBar = ({ activeItem }: any) => {
           regulationAction.viewAllRegulationsAction(),
         );
         setRegulations(fetchedRegulations);
+       
       } catch (error) {
         console.error('Error fetching regulations:', error);
       }
@@ -71,13 +84,17 @@ const MainNavBar = ({ activeItem }: any) => {
           >
             Dashboard
           </NavLink>
-        </NavItem>
-        <NavItem>
+          </NavItem>
 
-          <NavLink href="/all-lecturers" className={activeItem === 'Users' ? 'navlink-active' : "navlink-custom"}>
-            Users
+        <NavItem>
+          <NavLink
+            href={role === 'faculty admin' ? '/AllLecturer' : profileUrl}
+            className={activeItem === 'Users' ? 'navlink-active' : 'navlink-custom'}
+          >
+            {role === 'faculty admin' ? 'Users' : 'Profile'}
           </NavLink>
         </NavItem>
+    
         <NavItem>
 
           <NavLink href="/all-schedules" className={activeItem === 'Schedule' ? 'navlink-active' : 'navlink-custom'}>
@@ -91,21 +108,22 @@ const MainNavBar = ({ activeItem }: any) => {
         </NavItem>
 
         {/* Queries Dropdown */}
-        <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle
-            nav
-            caret
-            className={
-              activeItem === 'Queries' ? 'navlink-active' : 'navlink-custom'
-            }
-          >
-            Queries
-          </DropdownToggle>
-          <DropdownMenu end>
-            <DropdownItem href="/Oueries/Rank of Student">Rank of students</DropdownItem>
-            <DropdownItem href="/Queries/Students who failed">Students who failed</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
+        {role === 'faculty admin' && (
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle
+              nav
+              caret
+              className={activeItem === 'Queries' ? 'navlink-active' : 'navlink-custom'}
+            >
+              Queries
+            </DropdownToggle>
+            <DropdownMenu end>
+              <DropdownItem href="/Oueries/RankOfStudent">Rank of students</DropdownItem>
+              <DropdownItem href="#">Student who failed</DropdownItem>
+              <DropdownItem href="#">Number of students</DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        )}
 
         <NavItem>
           <NavLink

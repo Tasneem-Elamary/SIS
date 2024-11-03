@@ -22,6 +22,8 @@ import user from './user.model';
 import studentSchedule from './studentSchedule.model';
 import coursePrerequisites from './coursePrerequisites.model';
 import departmentCourse from './departmentCourse.model';
+import audit from './audit.model';
+import bylawDepartment from './bylawDepartment.mode';
 
 const User = user(db);
 const Student = student(db);
@@ -114,7 +116,7 @@ Course.belongsToMany(Department, {
   foreignKey: 'CourseId',
   otherKey: 'DepartmentId',
 
-});
+// });
 
 Department.belongsToMany(Course, {
   through: 'DepartmentCourses',
@@ -255,7 +257,7 @@ export {
   Slot, Room, BylawRule, CourseEnrollment, StudentSchedule, BylawCourse,
   Result,
   CoursePrerequisite,
-  DepartmentCourse,
+  DepartmentCourse, Audit, BylawDepartment,
 };
 
 const models = {

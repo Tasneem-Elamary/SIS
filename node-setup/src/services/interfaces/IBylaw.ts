@@ -1,6 +1,7 @@
 import {
   BylawRuleType, BylawType, GradeType, BylawCourseType,
   CourseType,
+  BylawDepartmentType,
 } from '../../types';
 
 interface IBylaw {
@@ -19,6 +20,10 @@ interface IBylaw {
   getBylawCourses(bylawId: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined>;
   // methods for bylaw grades
   createBylawGrades(BylawId: string, grades: Partial<GradeType>[]): Promise<GradeType[] | undefined>
+
+  addDepartmentToBylaw (bylawId: string, departmentId: string): Promise<BylawDepartmentType | undefined>
+
+  getBylawDepartments (bylawId:string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined>
 }
 
 export default IBylaw;

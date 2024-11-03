@@ -1,9 +1,24 @@
 import { Dispatch } from 'redux';
 import { courseApi } from '../../api';
 import { statusAction, fetchAction } from '.';
-import { InstructorType } from '../../interfaces/domain';
+import { CourseType } from '../../interfaces/domain';
 
 class Course {
+
+    addCourseAction = (Course:CourseType) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, newCourse } } = await courseApi.addCourse(Course);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return newCourse;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
     getCourseAction = () => async (dispatch: Dispatch) => {
         try {
             dispatch(statusAction.clearStatus());
@@ -82,7 +97,34 @@ class Course {
             const { data: { message, data:{Mapped} } } = await courseApi.getCourseMappedToCourse(CourseId);
             dispatch(statusAction.addSuccessStatus(message));
             dispatch(fetchAction.fetchingFailed());
-            return Mapped;
+            return Mapped;        } catch (e) {
+                dispatch(fetchAction.fetchingFailed());
+                dispatch(statusAction.addErrorStatus(e as Error));
+                return [];
+            }}
+    deletecourseWithBylawAndDpartmentAction = (CourseId: string, bylawId: string, departmentId: string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message} } = await courseApi.deletecourseWithBylawAndDpartment(CourseId,bylawId,departmentId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return 
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
+
+    getcourseInstrucrors = (CourseId:string) => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, course } } = await courseApi.getcourseInstrucrors(CourseId);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return course;
         } catch (e) {
             dispatch(fetchAction.fetchingFailed());
             dispatch(statusAction.addErrorStatus(e as Error));

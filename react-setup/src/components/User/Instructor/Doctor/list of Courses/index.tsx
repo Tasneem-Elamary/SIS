@@ -19,6 +19,8 @@ function ListOfCourse() {
     const [rowValues, setrowValues] = useState<StudentType[]>([]);
     const [instructor, setInstructor] = useState<InstructorType>();
 
+    const role = localStorage.getItem('role');
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,7 +37,7 @@ function ListOfCourse() {
         <div className="student-list-page">
             <RegisterationNavbar />
             <MainNavBar activeItem="Users" />
-            <UsersNavBar activeItem="Doctor" />
+            {role === 'faculty admin' && (<UsersNavBar activeItem="Doctor" />)}
             <div className="content-section">
 
                 <div className="user-header">
@@ -54,7 +56,7 @@ function ListOfCourse() {
                 <div className="table-section">
                     <ViewTable
                         headers={["", "CourseCode", "Name","Level"]}
-                        features={["id","code" ,"name","level"]}
+                        features={["code" ,"name","level"]}
                         rowValues={rowValues}
                         showSearchBars={false}// Replace with actual data
                     />

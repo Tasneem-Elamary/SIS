@@ -14,6 +14,7 @@ import departmentRoute from './api/department.route';
 import gradeRoute from './api/grade.route';
 import semsterRoute from './api/semster.route';
 import resultRoute from './api/result.route';
+import auditRoute from './api/audit.route';
 
 const routes = Router();
 
@@ -32,5 +33,6 @@ routes.use('/department', departmentRoute);
 routes.use('/grade', gradeRoute);
 routes.use('/semster', semsterRoute);
 routes.use('/result', resultRoute);
+routes.use('/audit', auditRoute);
 
 export default routes;

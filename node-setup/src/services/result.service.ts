@@ -122,6 +122,15 @@ private gradeData:GradesRepo,
       return [];
     }
   };
+
+  deleteResultById = async (id:string) : Promise<boolean> => {
+    try {
+      const result = await this.resultData.deleteResultById(id);
+      return result;
+    } catch (error) {
+      throw new Error('Error fetching results for ');
+    }
+  };
 }
 
 export default Result;

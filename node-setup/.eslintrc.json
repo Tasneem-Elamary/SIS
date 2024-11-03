@@ -43,6 +43,8 @@
         "no-restricted-syntax":"off",
         "no-await-in-loop":"off",
         "import/no-duplicates":"off",
+       "no-unused-expressions":"off"
+        "import/no-duplicates":"off",
         "@typescript-eslint/no-unused-expressions":"off"
         
     }
