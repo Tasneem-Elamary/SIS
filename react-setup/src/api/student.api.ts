@@ -18,9 +18,11 @@ class Student {
   addStudent = (student: StudentType) => axios.post(`${backendUrl}/student/createStudent`, student);
   addStudents = (formData: FormData) => axios.post(`${backendUrl}/student/uploadCSVStudents`, formData);
   getAllStudents = () => axios.get(`${backendUrl}/student/getAllStudents`);
+  deleteStudents = (studentIds:string[]) => axios.delete(`${backendUrl}/student/deleteStudents`,{data:{studentIds}});
+  
   getTopStudentsByGPA = (prefix: string, limit: number) => axios.get(`${backendUrl}/student/${prefix}/topStudents/${limit}`);
   getStudentRank = (studentCode: string) => axios.get(`${backendUrl}/student/${studentCode}/rank`);
-  requestEnrollmentByStudentCode=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl}/enrollment/requestByStudentCode`,enrollmentData);
+  requestEnrollmentByStudentCode=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl}/enrollment/requestByStudentCode`,enrollmentData,config);
   requestEnrollment=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl} /enrollemnt/request`,enrollmentData);
   
   registerSchedule = (registeringData: { StudentId: string; ScheduleId: string }) => 

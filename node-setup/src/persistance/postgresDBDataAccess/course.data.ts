@@ -2,9 +2,8 @@ import { Sequelize } from 'sequelize';
 import models, { Bylaw, BylawCourse, Course } from '../../models';
 import { CourseRepo } from '../Repositories';
 import {
-  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, InstructorType, MappedCourseType,
+  BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, InstructorType,
 } from '../../types';
-
 
 class CourseData implements CourseRepo {
   create = async (course: CourseType): Promise<CourseType | undefined> => {
@@ -292,7 +291,7 @@ class CourseData implements CourseRepo {
         { SourceCourseId: BylawCourseId },
         { where: { id: MappedBylawCourseId } },
       );
-      return sourceCourse ? (sourceCourse.get() as MappedCourseType) : undefined;
+      return sourceCourse ? (sourceCourse.get({ plain: true })) : undefined;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to create the mapped course entry, please try again!');
@@ -305,11 +304,11 @@ class CourseData implements CourseRepo {
         where: { SourceCourseId: BylawCourseId },
 
         include: [{ model: Course, attributes: ['id', 'code', 'name'] },
-        { model: Bylaw, attributes: ['id', 'code'] }],
+          { model: Bylaw, attributes: ['id', 'code'] }],
 
         attributes: [],
       });
-      return mappedCourses.map((mappedCourse) => mappedCourse as MappedCourseType);
+      return mappedCourses.map((mappedCourse) => mappedCourse.get({ plain: true }));
     } catch (error) {
       console.error(error);
       throw new Error('Failed to get mapped courses, please try again!');
@@ -323,7 +322,7 @@ class CourseData implements CourseRepo {
         where: { id: mappedCourse?.getDataValue('SourceCourseId') },
 
         include: [{ model: Course, attributes: ['id', 'code', 'name'] },
-        { model: Bylaw, attributes: ['id', 'code'] }],
+          { model: Bylaw, attributes: ['id', 'code'] }],
 
       });
       return bylawCourse ? (bylawCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType }) : undefined;
@@ -360,8 +359,9 @@ class CourseData implements CourseRepo {
                 model: models.Bylaw,
                 attributes: ['id', 'code'],
 
-              }]
-          }]})
+              }],
+          }],
+      });
       return bylawMappedCourses
         ? bylawMappedCourses.map((bylawMappedCourse) => bylawMappedCourse.get() as BylawCourseType & { MappedCourses: BylawCourseType[] })
         : undefined;
@@ -369,7 +369,8 @@ class CourseData implements CourseRepo {
       console.error(error);
       throw new Error('Failed to get courses mapped to this bylaw, please try again!');
     }
-  }
+  };
+
   getDistinctProfessorsByCourse = async (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined> => {
     try {
       // Find the course and include the associated schedules and professors

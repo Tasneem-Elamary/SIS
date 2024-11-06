@@ -112,6 +112,17 @@ class StudentController {
     }
   };
 
+  public deleteStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { studentIds } = req.body;
+console.log(studentIds)
+    try {
+      const numOfDeletedRecords = await this.student.deleteStudents(studentIds);
+      res.status(200).send({ msg: `${numOfDeletedRecords} records deleted successfully` });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public registerSchedule = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { StudentId, ScheduleId } = req.body;
     console.log('Debugging from controller', StudentId, ScheduleId);

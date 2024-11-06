@@ -9,6 +9,7 @@ const config = {
 };
 class Schedule {
   uploadSchedules=(formData: FormData)=>axios.post(`${backendUrl}/schedule/uploadCSVSchedule`,formData)
+  deleteSchedules=(scheduleIds: string[])=>axios.delete(`${backendUrl}/schedule/deleteSchedules`,{data:{scheduleIds}})
   studentSchedule = (studentId: string) => axios.get(`${backendUrl}/schedule/student/${studentId}`,config);
   getStudentSchedulesToRegister= (studentId: string) => axios.get(`${backendUrl}/schedule/student/register/${studentId}`,config);
   getStudentPendingSchedules= (studentId: string) => axios.get(`${backendUrl}/schedule/student/pending/${studentId}`,config);

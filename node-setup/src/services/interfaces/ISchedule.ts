@@ -18,6 +18,7 @@ export interface ISchedule {
     getAllSchedules(): Promise<ScheduleType[]>;
     updateSchedule(id: string, schedule: Partial<ScheduleType>): Promise<boolean>;
     deleteSchedule(id: string): Promise<void>;
+    deleteSchedules (scheduleIds: string[]): Promise<number>;
     getStudentsInASpecificSection(CourseId: string, SectionId: string): Promise<StudentType[]>
     getStudentsInASpecificGroup(CourseId: string, SectionId:string): Promise<StudentType[]>;
     getSectionsInASpecificGroup(CourseId: string, GroupId: string):Promise<Partial<SectionType>[]>;

@@ -56,8 +56,13 @@ function AllLecturer({ userType, path }) {
                     </div>
                     <hr />
                 </div>
-                <ViewTable headers={["","Code", "Name", "Email"]} features={["code", "name", "email"]} rowValues={rowValues}  pathKey={userType === "Lecturer" ? "/:taId/list-of-students" : "/:doctorId/list-of-courses"} showSearchBars={false} />
-            </div>
+                <ViewTable 
+                    headers={["", "Code", "Name", "Email"]}  // Table headers
+                    features={["code", "name", "email"]}    // Data features to display
+                    rowValues={rowValues}                   // Row data values from API
+                    pathKey={userType === "Lecturer" ? "/:taId/list-of-students" : "/:doctorId/list-of-courses"} // Dynamic path based on userType
+                    showSearchBars={false}                  // Option to show/hide search bars
+                />           </div>
 
         </div>
     );

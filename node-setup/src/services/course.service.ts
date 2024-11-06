@@ -174,15 +174,13 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
   // Managing Mapped courses
   addBylawMappedCourse = async (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }> | undefined> => {
     try {
-
-      const mappedToCourse=await this.courseData.addBylawMappedCourse(BylawCourseId,MappedBylawCourseId);
+      const mappedToCourse = await this.courseData.addBylawMappedCourse(BylawCourseId, MappedBylawCourseId);
       return mappedToCourse;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to create the mapped course entry, please try again!');
     }
   };
-
 
   getMappedCoursesForBylawCourseId = async (BylawCourseId: string): Promise<Partial<BylawCourseType & { Course: Partial<CourseType> } & { Bylaw: Partial<BylawType> }>[]> => {
     try {
@@ -210,7 +208,10 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
       return bylawCourses || [];
     } catch (error) {
       console.error(error);
-      throw new Error('Failed to get courses mapped to this bylaw, please try again!');}}
+      throw new Error('Failed to get courses mapped to this bylaw, please try again!');
+    }
+  };
+
   deleteCourseOfBylawAndDepartment = async (departmentId:string | null, courseId: string, BylawId: string): Promise<boolean> => {
     try {
       const result = await this.bylawDepartmentCourseData.delete(

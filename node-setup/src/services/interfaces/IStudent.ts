@@ -14,7 +14,8 @@ registerSchedules(studentId: string, scheduleId: string[]): Promise<void>
   getStudentByCode (studentCode: string): Promise<StudentType | undefined>,
 
   hasCompletedPrerequisitesAndEarnedHours (studentId: string, courseId: string): Promise<boolean>
-
+  deleteStudent (studentIds: string): Promise<boolean>
+  deleteStudents (studentIds: string[]): Promise<number>
   ApproveRegularRequest (studentId: string, schedulecell: number): Promise<StudentType|undefined>
   ApproveSelfstudyOROverloadRequest (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>
     RejectSelfstudyRequestOROverload (studentId: string, courseCode: string, courseType:string): Promise<StudentType|undefined>

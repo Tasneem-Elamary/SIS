@@ -23,6 +23,24 @@ console.log (response)
       return [];
     }
   };
+  deleteSchedulesAction = (scheduleIds: string[]) => async (dispatch: Dispatch) => {
+    try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+  
+      const { data: { message } } = await scheduleApi.deleteSchedules( scheduleIds ); 
+  
+      console.log('Delete schedules message:', message);
+      dispatch(statusAction.addSuccessStatus(message));
+      dispatch(fetchAction.fetchingFailed());
+      return message
+    } catch (e) {
+      console.error('Error deleting students:', e);
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+    }
+  };
+  
   getRoomSchedule = (roomId: string) => async (dispatch: Dispatch) => {
     try {
       dispatch(statusAction.clearStatus());

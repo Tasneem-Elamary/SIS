@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
-function ModalExample(props) {
+interface modalPropsType{ 
+  title?: string,
+   content?: string, 
+   isOpen?: boolean; 
+  onConfirm?: React.MouseEventHandler<HTMLButtonElement>,
+  onCancel?:React.MouseEventHandler<HTMLButtonElement>,
+  confirmBTNColor?:string 
+  confirmBTNText?:string
+  cancelBTNColor?:string 
+  cancelBTNText?:string
+}
+function ModalExample({ title, content, onConfirm,isOpen ,onCancel,confirmBTNColor,confirmBTNText,cancelBTNColor,cancelBTNText}: modalPropsType) {
   const [modal, setModal] = useState(true);
 
   const toggle = () => setModal(!modal);
@@ -17,31 +27,27 @@ function ModalExample(props) {
     </button>
   );
   return (
- 
 
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader>Unauthorized Access</ModalHeader>
-        <ModalBody>
-          <b>Look at the top right of the page/viewport!</b>
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>{' '}
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
- 
+
+    <Modal isOpen={isOpen} toggle={toggle}>
+      {title ? (<ModalHeader>{title}</ModalHeader>) : ''}
+
+
+      <ModalBody>
+
+        {content ? <b>{content}
+        </b> : ''}
+      </ModalBody>
+      <ModalFooter>
+{     onConfirm&&   <Button color={confirmBTNColor?confirmBTNColor:"primary"} onClick={onConfirm||toggle}>
+         {confirmBTNText?confirmBTNText:'Confirm'}
+        </Button>}
+{    onCancel&&    <Button color={cancelBTNColor?cancelBTNColor:"secondary"} onClick={onCancel||toggle}>
+         {cancelBTNText?cancelBTNText: "Cancel"}
+        </Button>}
+      </ModalFooter>
+    </Modal>
+
   );
 }
 

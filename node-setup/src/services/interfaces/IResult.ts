@@ -8,7 +8,7 @@ interface resultRepo {
 
     getStudentCourseResult(studentId: string, courseId: string, semesterId: string): Promise<ResultType | undefined>;
     getStudentSemesterResult(studentId: string, semesterId: string): Promise<ResultType[] | undefined[]>;
-
+    deleteResults (ids:string[]) : Promise<number>
     getAllResults(): Promise<ResultType[]| undefined[]>;
     deleteResultById(id: string): Promise<boolean>;
 }

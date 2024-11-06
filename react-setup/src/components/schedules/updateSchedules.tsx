@@ -125,7 +125,7 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
                     features={["day", "startTime", "endTime", "courseCode", "roomCode", "scheduleType", "capacity"]}
                     rowValues={getScheduleDetails(schedules)}
                     showSearchBars={true}
-                    arraycolumn={''}
+                    handleOnDeleteAction={scheduleAction.deleteSchedulesAction}
                 />
             </div>
         </div>

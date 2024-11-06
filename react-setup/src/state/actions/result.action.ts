@@ -33,11 +33,26 @@ class Result {
             return [];
         }
     };
-    deleteResultsAction = (Id:string) => async (dispatch: Dispatch) => {
+    deleteResultAction = (id:string) => async (dispatch: Dispatch) => {
         try {
             dispatch(statusAction.clearStatus());
             dispatch(fetchAction.fetchingTime());
-            const { data: { message } } = await resultApi.deletResult(Id);
+            const { data: { message } } = await resultApi.deletResult(id);
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
+    deleteResultsAction = (ids:string[]) => async (dispatch: Dispatch) => {
+        try {
+            console.log("action accessed")
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message } } = await resultApi.deleteResults(ids);
             dispatch(statusAction.addSuccessStatus(message));
             dispatch(fetchAction.fetchingFailed());
             return

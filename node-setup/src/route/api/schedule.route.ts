@@ -2,23 +2,24 @@ import { Router } from 'express';
 import ScheduleController from '../../controller/schedule.controller';
 import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
 import {
-    validateScheduleCreation,
-    validateScheduleId,
-    validateInstructorId,
-    validateStudentId,
-    validateRoomId,
-    validateCourseId,
-    validateSectionParams
-  } from '../../middleware/validation/scheduleValidation.middleware'
+  validateScheduleCreation,
+  validateScheduleId,
+  validateInstructorId,
+  validateStudentId,
+  validateRoomId,
+  validateCourseId,
+  validateSectionParams,
+} from '../../middleware/validation/scheduleValidation.middleware';
 import { uploadCSV } from '../../middleware/fileUpload';
 
 const router = Router();
 
-router.post('/createSchedule', validateScheduleCreation,ScheduleController.createSchedule);
-router.post('/uploadCSVSchedule', uploadCSV,ScheduleController.uploadCSVSchedules);
+router.post('/createSchedule', validateScheduleCreation, ScheduleController.createSchedule);
+router.post('/uploadCSVSchedule', uploadCSV, ScheduleController.uploadCSVSchedules);
 router.get('/:id', ScheduleController.getSchedule);
 router.put('/:id', ScheduleController.updateSchedule);
-router.delete('/:id', ScheduleController.deleteSchedule);
+router.delete('/deleteSchedule/:id', ScheduleController.deleteSchedule);
+router.delete('/deleteSchedules', ScheduleController.deleteSchedules);
 router.get('/instructor/:id', ScheduleController.getInstructorSchedules);
 router.get('/student/:id', ScheduleController.getStudentSchedules);
 router.get('/student/pending/:id', ScheduleController.getStudentPendingSchedules);

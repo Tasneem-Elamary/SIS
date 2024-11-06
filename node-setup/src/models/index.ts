@@ -117,14 +117,17 @@ BylawCourse.belongsTo(BylawCourse, {
 Course.belongsToMany(Department, {
   through: 'DepartmentCourses',
   foreignKey: 'CourseId',
-  otherKey: 'DepartmentId',})
-Course.hasMany(DepartmentCourse, { foreignKey: 'CourseId' });
-Department.hasMany(DepartmentCourse, { foreignKey: 'DepartmentId' });
-Bylaw.hasMany(DepartmentCourse, { foreignKey: 'BylawId' });
+  otherKey: 'DepartmentId',
+});
+// Define associations with unique aliases
+Course.hasMany(DepartmentCourse, { foreignKey: 'CourseId', as: 'CourseDepartmentCourses' });
+Department.hasMany(DepartmentCourse, { foreignKey: 'DepartmentId', as: 'DepartmentDepartmentCourses' });
+Bylaw.hasMany(DepartmentCourse, { foreignKey: 'BylawId', as: 'BylawDepartmentCourses' });
 
-DepartmentCourse.belongsTo(Course, { foreignKey: 'CourseId' });
-DepartmentCourse.belongsTo(Department, { foreignKey: 'DepartmentId' });
-DepartmentCourse.belongsTo(Bylaw, { foreignKey: 'BylawId' });
+// Define reverse associations with unique aliases
+DepartmentCourse.belongsTo(Course, { foreignKey: 'CourseId', as: 'RelatedCourse' });
+DepartmentCourse.belongsTo(Department, { foreignKey: 'DepartmentId', as: 'RelatedDepartment' });
+DepartmentCourse.belongsTo(Bylaw, { foreignKey: 'BylawId', as: 'RelatedBylaw' });
 
 Department.belongsToMany(Course, {
   through: 'DepartmentCourses',

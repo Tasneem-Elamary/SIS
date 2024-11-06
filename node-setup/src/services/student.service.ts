@@ -63,6 +63,24 @@ class StudentService implements IStudent {
     }
   };
 
+  public deleteStudents = async (studentIds: string[]): Promise<number> => {
+    try {
+      let numOfDeleted = 0;
+
+      for (const studentId of studentIds) {
+        console.log('service logging', studentId);
+
+        const deletionSuccess = await this.deleteStudent(studentId);
+        if (deletionSuccess) numOfDeleted += 1;
+      }
+
+      return numOfDeleted;
+    } catch (error) {
+      console.error('Error deleting students:', error);
+      throw new Error('Failed to delete the students, Please try again!');
+    }
+  };
+
   getById = (id: string) => {
     try {
       return this.StudentData.getById(id);

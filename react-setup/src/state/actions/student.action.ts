@@ -49,6 +49,24 @@ class Student {
         return [];
     }
 };
+deleteStudentsAction = (studentIds: string[]) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(statusAction.clearStatus());
+    dispatch(fetchAction.fetchingTime());
+
+    const { data: { msg } } = await studentApi.deleteStudents( studentIds ); 
+
+    console.log('Delete students message:', msg);
+    dispatch(statusAction.addSuccessStatus(msg));
+    dispatch(fetchAction.fetchingFailed());
+    return msg
+  } catch (e) {
+    console.error('Error deleting students:', e);
+    dispatch(fetchAction.fetchingFailed());
+    dispatch(statusAction.addErrorStatus(e as Error));
+  }
+};
+
 getAllowedCoursesAction = (studentId: string) => async (dispatch: Dispatch) => {
   try {
     dispatch(statusAction.clearStatus());

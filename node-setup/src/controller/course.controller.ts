@@ -211,8 +211,6 @@ class CourseController {
     }
   };
 
-
-  
   // mapped courses
 
   addBylawMappedCourse = async (req: Request, res: Response, next: NextFunction) => {

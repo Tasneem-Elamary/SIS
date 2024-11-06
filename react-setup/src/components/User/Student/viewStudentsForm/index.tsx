@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
 import studentAction from '../../../../state/actions/student.action';
 import './style.scss';
@@ -10,7 +10,7 @@ import SubNavBar from '../../UsersNavbar';
 import { useNavigate } from 'react-router-dom';
 import RegisterationNavbar from '../../../shared/registerationNavbar';
 
-function AllStudents() {
+function AllStudents({getAllStudentsAction}:any) {
   const [rowValues, setRowValues] = useState<(StudentType & { User: UserType })[]>([]);
 
   const role = localStorage.getItem('role');
@@ -20,7 +20,7 @@ function AllStudents() {
 
   useEffect(() => {
     const fetchStudents = async () => {
-      const data = await dispatch(studentAction.getAllStudentsAction());
+      const data = await dispatch(getAllStudentsAction);
       setRowValues(data);
     };
 
@@ -28,7 +28,7 @@ function AllStudents() {
   }, [dispatch]);
 
   const handleAddStudentClick = () => {
-    navigate('/add-student'); // Use the navigate function to go to the "Add Student" page
+    navigate('/add-student'); 
   };
 
   return (
@@ -46,6 +46,8 @@ function AllStudents() {
             <hr />
           </div>
           <div className="inside-container">
+{console.log('results', rowValues)}
+
           <ViewTable 
             headers={["", "Student Code", "Name", "Email"]} 
             features={["studentCode", "name", "email"]} 
@@ -54,6 +56,7 @@ function AllStudents() {
               email: student.User.email,
             }))}
             showSearchBars={false}
+            handleOnDeleteAction={studentAction.deleteStudentsAction}
           />
         </div>
       </div>
@@ -61,4 +64,9 @@ function AllStudents() {
   );
 }
 
-export default AllStudents;
+const mapDispatchToProps = {
+  getAllStudentsAction: studentAction.getAllStudentsAction,
+ 
+};
+
+export default connect(null, mapDispatchToProps) (AllStudents); 

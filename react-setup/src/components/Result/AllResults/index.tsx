@@ -1,6 +1,5 @@
 import RegisterationNavbar from '../../shared/registerationNavbar';
 import MainNavBar from '../../shared/mainNavbar';
-import CoursesNavBar from '../CoursesLevelNavbar';
 import { Button } from 'reactstrap';
 import ViewTable from '../../shared/viewTable/ViewTable';
 import './style.scss'
@@ -13,16 +12,14 @@ import resultAction from '../../../state/actions/result.action';
 
 
 
-function AllResults({ }) {
-    const [role, setRole] = useState<string>(localStorage.getItem('role') as string); 
+function AllResults() {
+    const [role, setRole] = useState<string>(localStorage.getItem('role') as string);
     const [rowValues, setrowValues] = useState<ResultType[]>([]);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [checkedRows, setCheckedRows] = useState<number[]>([]);
-
     const dispatch = useDispatch();
-    const navigate = useNavigate(); 
-
-
+    const navigate = useNavigate();
+  
     useEffect(() => {
         const fetchResults = async () => {
             if (role === "student") {
@@ -36,40 +33,33 @@ function AllResults({ }) {
 
         fetchResults();
     }, [dispatch]);
+    // const onCheckedRowsChange = (selectedRowIds: string[]) => {
+    //     setCheckedRows(selectedRowIds);
+    // };
+    // // Function to delete selected rows
+    // const handleDeleteSelectedRows =async () => {
+    //     // Here you can dispatch an action to delete rows from the backend
+    //     // Filter out the selected rows from `rowValues`
+    //     const remainingRows = rowValues.filter((_, index) => !checkedRows.includes(index));
+    //     const deletedRows = rowValues.filter((_, index) => checkedRows.includes(index));
+    //     await Promise.all(
+    //         deletedRows.map(async (row) => {
+    //             await dispatch(resultAction.deleteResultsAction(row.id));
+    //         })
+    //     );
+    //     setrowValues(remainingRows);
 
-    const onCheckedRowsChange = (selectedRowIds: string[]) => {
-        setCheckedRows(selectedRowIds);
-    };
-
-    // Function to delete selected rows
-    const handleDeleteSelectedRows =async () => {
-        // Here you can dispatch an action to delete rows from the backend
-        // Filter out the selected rows from `rowValues`
-        const remainingRows = rowValues.filter((_, index) => !checkedRows.includes(index));
-        const deletedRows = rowValues.filter((_, index) => checkedRows.includes(index));
-        await Promise.all(
-            deletedRows.map(async (row) => {
-                await dispatch(resultAction.deleteResultsAction(row.id));
-            })
-        );
-        setrowValues(remainingRows);
-       
-        setCheckedRows([]);
-    };
-
+    //     setCheckedRows([]);
+    // };
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-       
         const file = e.target.files?.[0] || null;
         console.log(file);
-        
         setSelectedFile(file);
-
         if (file) {
             // Automatically trigger the upload after selecting a file
             await handleUploadClick(file);
         }
     };
-
     const handleUploadClick = async (file: File) => {
         if (!file) {
             alert("Please select a file before uploading");
@@ -77,7 +67,6 @@ function AllResults({ }) {
         }
         const formData = new FormData();
         formData.append('file', file);
-
         try {
             const uploadedResults = await dispatch(resultAction.uploadResults(formData));
             console.log(uploadedResults)
@@ -85,31 +74,21 @@ function AllResults({ }) {
                 // Merge with existing rows (rowValues)
                 setrowValues((prevRows) => {
                     const newRows = uploadedResults.map((newResult: ResultType) => {
-                       
+
                         const existingRow = prevRows.find(row => row.id === newResult.id);
                         return existingRow ? { ...existingRow, ...newResult } : newResult;
                     });
-                    
-
                     // Return merged array: keep previous rows that are not updated + new/updated rows
                     return [
                         ...prevRows.filter(row => !uploadedResults.some(newResult => newResult.id === row.id)),
                         ...newRows
                     ];
                 });
-
-                
             }
-
-
-
         } catch (error) {
             throw new Error('Failed to upload the file.');
         }
-
     }
-
-
     return (
         <div className="CreateLecturer">
             <RegisterationNavbar />
@@ -117,8 +96,8 @@ function AllResults({ }) {
             <div className='container-table'>
                 <div className="fixed-header">
                     <div style={{ marginLeft: "10px" }} className='header-content'>
-                    <h3>{role === "student" ? "Transcript" : "Results"}</h3>
-                    {role !== "student" && (
+                        <h3>{role === "student" ? "Transcript" : "Results"}</h3>
+                        {role !== "student" && (
                             <>
                                 <input
                                     id="fileInput"
@@ -139,18 +118,15 @@ function AllResults({ }) {
                     </div>
                     <hr />
                 </div>
-                {checkedRows.length > 0 && (
-                    <div className="selection-message">
-                        <span>{checkedRows.length} row(s) selected.</span>
-                        <Button color="danger" onClick={handleDeleteSelectedRows} style={{ marginLeft: '10px' }}>
-                            Delete Selected
-                        </Button>
-                    </div>
-                )}
 
-                <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade", "Grade Letter"]}
-                    features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues} pathKey="/Course/:id/bylaw/:bylawId" 
-                    showSearchBars={true} arraycolumn='code' onCheckedRowsChange={onCheckedRowsChange}/>
+                {console.log('results', rowValues)}
+                <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade"]}
+                    features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues}
+                    pathKey="/Course/:id/bylaw/:bylawId"
+                    showSearchBars={true} handleOnDeleteAction={resultAction.deleteResultsAction} />
+
+
+
             </div>
 
         </div>

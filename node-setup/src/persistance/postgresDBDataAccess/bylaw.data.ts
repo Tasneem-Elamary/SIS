@@ -9,6 +9,7 @@ import models, {
 import { db } from '../../../config/postgresDB.config';
 import {
   BylawCourseType, DepartmentType, BylawRuleType, BylawType, CourseType, GradeType,
+  BylawDepartmentType,
 } from '../../types';
 import { BylawRepo } from '../Repositories';
 

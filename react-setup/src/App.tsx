@@ -46,7 +46,6 @@ import UpdateSchedules from './components/schedules/updateSchedules';
 import InstructorSchedule from './components/schedules/instructorSchedule';
 import CourseSchedule from './components/schedules/courseSchedule';
 import PrivateRoute from './components/helpers/privateRoute';
-import Unauthorized from './components/helpers/unAuthorized';
 import RegisterSchedule from '../src/components/User/Student/studentHomePages/studentRegisterSchedule'
 import PendingSchedule from '../src/components/User/Student/studentHomePages/studentPendningSchedule'
 import StudentSchedule from './components/User/Student/studentHomePages/studentSchedule';
@@ -55,7 +54,7 @@ function App() {
     <Router>
       <div className="app">
         <Routes>
-        <Route path="/unauthorized" element={<Unauthorized />} />s
+        
           {/* Default Route */}
 
           <Route path="/" element={<Navigate to="/login" />} />

@@ -42,7 +42,7 @@ export class ScheduleDataAccess implements ScheduleRepo {
           { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
           { model: Room, attributes: ['id', 'code', 'capacity'] },
         ],
-        attributes: ['scheduleType', 'cell', 'level'],
+        attributes: ['id','scheduleType', 'cell', 'level'],
 
       });
 
@@ -67,7 +67,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
         { model: Room, attributes: ['id', 'code', 'capacity'] },
       ],
-      attributes: ['scheduleType', 'cell', 'level'],
+      attributes: ['id','scheduleType', 'cell', 'level'],
+
 
     });
     return schedules.map((schedule) => schedule.toJSON());
@@ -90,7 +91,7 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
         { model: Room, attributes: ['id', 'code', 'capacity'] },
       ],
-      attributes: ['scheduleType', 'cell', 'level'],
+      attributes: ['id','scheduleType', 'cell', 'level'],
 
     });
 
@@ -115,7 +116,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['sectionCode', 'capacity'] },
 
       ],
-      attributes: ['scheduleType', 'cell', 'level'],
+      attributes: ['id','scheduleType', 'cell', 'level'],
+
 
     });
     return { schedules: schedules.map((schedule) => schedule.toJSON()), roomData };
@@ -133,7 +135,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['sectionCode', 'capacity'] },
         { model: Room, attributes: ['code', 'capacity'] },
       ],
-      attributes: ['scheduleType', 'cell', 'level'],
+      attributes: ['id','scheduleType', 'cell', 'level'],
+
 
     });
     return { schedules: schedules.map((schedule) => schedule.toJSON()), courseData: courseData?.get() };
@@ -149,7 +152,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
         { model: Room, attributes: ['id', 'code', 'capacity'] },
       ],
-      attributes: ['scheduleType', 'cell', 'level'],
+      attributes: ['id','scheduleType', 'cell', 'level'],
+
     });
     if (!schedules) {
       throw new Error('No schedules found');
@@ -278,7 +282,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
             { model: Room, attributes: ['id', 'code', 'capacity'] },
             { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
           ],
-          attributes: ['scheduleType', 'cell', 'level'],
+          attributes: ['id','scheduleType', 'cell', 'level'],
+
 
         },
 
@@ -310,7 +315,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
             { model: Room, attributes: ['id', 'code', 'capacity'] },
             { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
           ],
-          attributes: ['scheduleType', 'cell', 'level'],
+          attributes: ['id','scheduleType', 'cell', 'level'],
+
 
         },
 

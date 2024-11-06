@@ -24,3 +24,18 @@
     color: black;
     border: 2px;
 }
+.view-table-selected{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  gap: 2%;
+}
+.view-table-selected span{
+    font-size: x-large;
+}
+.delete-icon{
+    color: rgb(190, 22, 22) !important;
+}
+.cancel-icon{
+    color: rgb(16, 94, 16) !important;
+}

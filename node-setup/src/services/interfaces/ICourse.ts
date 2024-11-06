@@ -1,6 +1,6 @@
 import {
   CourseType, CoursePrerequisitesType, CoursewithRegistedStudentsType, BylawCourseType, BylawType,
- BylawDepartmentCourseType,
+  BylawDepartmentCourseType,
   InstructorType,
 } from '../../types';
 
@@ -25,7 +25,6 @@ addBylawMappedCourse (BylawCourseId: string, MappedBylawCourseId: string): Promi
 getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
 getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
 getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
-
 
     deleteCourseOfBylawAndDepartment (departmentId:string | null, courseId: string, BylawId: string): Promise<boolean>
     getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>

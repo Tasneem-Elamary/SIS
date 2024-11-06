@@ -197,6 +197,18 @@ class ScheduleController {
       next(error);
     }
   };
+
+  public deleteSchedules = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { scheduleIds } = req.body;
+    console.log('controller logging', scheduleIds);
+
+    try {
+      const numOfDeletedRecords = await this.scheduleService.deleteSchedules(scheduleIds);
+      res.status(200).send({ message: `${numOfDeletedRecords} Records deleted successfully` });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default new ScheduleController();

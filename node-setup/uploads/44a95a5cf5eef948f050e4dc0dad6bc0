@@ -1,0 +1,5 @@
+studentCode,courseCode,Semster,GradeLetter,finalGrade,midtermGrade,courseWork
+STU12345,ENG104,Winter 2024,,100,20,50
+STU12345,CS101,Winter 2024,,40,20,20
+STU12345,PHY103,Winter 2024,,40,20,20
+STU12345,MATH102,Winter 2024,,40,20,20

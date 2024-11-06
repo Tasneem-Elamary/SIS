@@ -20,7 +20,7 @@ export {
   IStudent,
   IInstuctor,
   ICourse, ICourseEnrollment,
-   
+
   IDepartment,
   IGrade,
   ISemster,

@@ -229,6 +229,23 @@ class Schedule {
     }
   };
 
+  public deleteSchedules = async (scheduleIds: string[]): Promise<number> => {
+    try {
+      let numOfDeleted = 0;
+
+      for (const scheduleId of scheduleIds) {
+        console.log('service logging', scheduleId);
+        const deletionSuccess = await this.deleteSchedule(scheduleId);
+        if (deletionSuccess) numOfDeleted += 1;
+      }
+
+      return numOfDeleted;
+    } catch (error) {
+      console.error('Error deleting schedules:', error);
+      throw new Error('Failed to delete schedules, Please try again!');
+    }
+  };
+
   public getStudentsInASpecificSection = async (CourseId: string, SectionId: string): Promise<StudentType[]> => {
     try {
       const students = this.section.getStudentsInASpecificSection(CourseId, SectionId);

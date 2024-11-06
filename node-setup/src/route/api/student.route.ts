@@ -33,6 +33,8 @@ router.route('/updateStudent/:studentId')
   .put(studentController.updateStudent);
 router.route('/deleteStudent/:studentId')
   .delete(studentController.deleteStudent);
+router.route('/deleteStudents')
+  .delete(studentController.deleteStudents);
 router.route('/registerSchedule')
   .post(studentController.registerSchedule);
 router.route('/registerSchedules/:StudentId')

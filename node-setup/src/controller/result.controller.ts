@@ -129,6 +129,21 @@ class ResultController {
       next(e);
     }
   };
+  deleteResults = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { ids } = req.body;
+
+      const numOfDeletedRecords = await this.result.deleteResults(ids);
+
+      if (!numOfDeletedRecords) {
+        return res.status(404).json({ message: 'Failed delete results' });
+      }
+
+      res.status(200).json({ message: `${numOfDeletedRecords} records deleted successfully `});
+    } catch (e) {
+      next(e);
+    }
+  };
 }
 
 export default new ResultController();

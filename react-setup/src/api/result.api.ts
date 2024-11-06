@@ -18,6 +18,7 @@ class Result {
   getStudentResults = (studentId:string) => axios.get(`http://localhost:5000/result/${studentId}`,config);
   uploadResults = (formData: FormData) =>  axios.post(`http://localhost:5000/result`,formData,config);
   deletResult= (id:string) => axios.delete(`http://localhost:5000/result/${id}`,config);
+  deleteResults= (ids:string[]) => axios.delete(`http://localhost:5000/result/delete`,{...config,data:{ids},});
     
 }
 

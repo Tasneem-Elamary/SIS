@@ -20,7 +20,7 @@ import AuditRepo from './audit.repo';
 export {
   UserRepo,
   StudentRepo,
- 
+
   BylawRepo, ScheduleRepo,
   InstructorRepo, CourseRepo, DepartmentRepo, FacultyRepo, GradesRepo, CourseEnrollmentRepo, BylawRuleRepo,
 
