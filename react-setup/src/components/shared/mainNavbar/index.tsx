@@ -22,9 +22,9 @@ const MainNavBar = ({ activeItem }: any) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const rolev = useSelector((state) => state.user.user.role);
+  // const rolev = useSelector((state) => state.user.user.role);
 
-  console.log(rolev)
+  // console.log(rolev)
 
   const role = localStorage.getItem('role');
   const id = localStorage.getItem('id');

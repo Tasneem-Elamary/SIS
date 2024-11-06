@@ -37,7 +37,7 @@ function AllResults({ }) {
         fetchResults();
     }, [dispatch]);
 
-    const onCheckedRowsChange = (selectedRowIds: string[]) => {
+    const onCheckedRowsChange = (selectedRowIds: number[]) => {
         setCheckedRows(selectedRowIds);
     };
 
@@ -150,7 +150,7 @@ function AllResults({ }) {
 
                 <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade", "Grade Letter"]}
                     features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues} pathKey="/Course/:id/bylaw/:bylawId" 
-                    showSearchBars={true} arraycolumn='code' onCheckedRowsChange={onCheckedRowsChange}/>
+                    showSearchBars={true}  onCheckedRowsChange={onCheckedRowsChange}/>
             </div>
 
         </div>

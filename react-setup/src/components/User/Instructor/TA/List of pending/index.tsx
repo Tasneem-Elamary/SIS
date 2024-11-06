@@ -26,47 +26,40 @@ function ListOfPendingStudents() {
         const fetchStudents = async () => {
             const fetchedInstructor = await dispatch(instructorAction.getPendingStudentsAction(id));
             setInstructor(fetchedInstructor)
-            setrowValues(fetchedInstructor.Students);
+
+           const transformedStudents = fetchedInstructor.Students.flatMap(student =>
+            student.Schedules.map(schedule => ({
+                ...student,
+                cell: schedule.cell 
+            }))
+        );
+
+        setrowValues(transformedStudents);
         };
 
         fetchStudents();
     }, [dispatch]);
 
 
-     const handleAcceptClick = async(Row,arrayIndex) => {
-    console.log(`Accepted:${Row.id} ${Row.Schedules[arrayIndex].cell}`);
-    const cellToMatch = Row.Schedules[arrayIndex].cell;
+     const handleAcceptClick = async(Row) => {
+  
     setrowValues((prevRows) => {
-        return prevRows.map((row) => {
-        
-          if (row.id === Row.id) {
-            
-            return {
-              ...row, // Spread the row to keep all other properties intact
-              Schedules: row.Schedules.filter((schedule) => schedule.cell !== cellToMatch)
-            };
-          }
-          return row; // Return the row as-is if it doesn't match
+        return prevRows.filter((row) => {
+          
+          return !(row.id === Row.id && row.cell===Row.cell);
         });
       });
-    const fetchedStudent = await dispatch(instructorAction.approveRegularRequest(Row.id,Row.Schedules[arrayIndex].cell));
+    const fetchedStudent = await dispatch(instructorAction.approveRegularRequest(Row.id,Row.cell));
   };
 
-  const handleDeclineClick =async (Row,arrayIndex) => {
-    const cellToMatch = Row.Schedules[arrayIndex].cell;
+  const handleDeclineClick =async (Row) => {
+  
     setrowValues((prevRows) => {
-        return prevRows.map((row) => {
+      return prevRows.filter((row) => {
         
-          if (row.id === Row.id) {
-            
-            return {
-              ...row, // Spread the row to keep all other properties intact
-              Schedules: row.Schedules.filter((schedule) => schedule.cell !== cellToMatch)
-            };
-          }
-          return row; // Return the row as-is if it doesn't match
-        });
+        return !(row.id === Row.id && row.cell===Row.cell);
       });
+    });
     const fetchedStudent = await dispatch(instructorAction.rejectRegularRequest(Row.id,Row.Schedules[arrayIndex].cell));
  
   };
@@ -93,7 +86,7 @@ function ListOfPendingStudents() {
                 <div className="table-section">
                     <ViewTable
                         headers={["", "student Code","Name" ,"Schedule Cell","Decision"]}
-                        features={["studentCode", "name", "Schedules"]}
+                        features={["studentCode", "name", "cell"]}
                         rowValues={rowValues}
                         showSearchBars={false}// Replace with actual data
                         arraycolumn='cell'

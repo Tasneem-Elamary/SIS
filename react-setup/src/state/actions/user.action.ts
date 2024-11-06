@@ -32,7 +32,7 @@ class User {
       const { token, user } = userData;
       if (userData) {
         console.log('Token and role received:', token, user.role);
-        dispatch({ type: LOGGED_USER, payload: { token, user } })
+        // dispatch({ type: LOGGED_USER, payload: { token, user } })
        
 
 
