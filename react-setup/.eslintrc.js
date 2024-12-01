@@ -35,5 +35,6 @@ module.exports = {
     "no-restricted-syntax":'off',
     "consistent-return":'off',
     "no-restricted-syntax":'off',
+
   },
 };

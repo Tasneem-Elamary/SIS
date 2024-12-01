@@ -1,0 +1,7 @@
+instructor1Code,instructor2Code,scheduleType,roomCode,groupCode,groupCapacity,sectionCode,sectionCapacity,courseCode,startTime,endTime,day
+TA003,TA001,TT,RM105,SGRP1,30,SEC1,25,MATH102,9:00:00,11:00:00,Monday
+TA003,TA001,lab,RM105,GRP1,30,SEC1,25,MATH102,12:00:00,14:00:00,Tuesday
+TA003,TA001,lecture,RM105,GRP2,35,SEC2,30,PHY103,10:00:00,12:00:00,Wednesday
+TA003,TA001,lab,RM105,GRP2,35,SEC2,30,PHY103,14:00:00,16:00:00,Thursday
+TA003,TA001,lecture,RM105,GRP3,40,SEC3,35,CS401,9:00:00,11:00:00,Friday
+TA003,TA001,lab,RM105,GRP3,40,SEC3,35,CS401,13:00:00,15:00:00,Saturday

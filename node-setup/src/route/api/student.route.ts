@@ -3,6 +3,7 @@ import { userController } from '../../controller';
 import studentController from '../../controller/student.controller';
 import { uploadCSV } from '../../middleware/fileUpload';
 import { authorizeRoles, isAuth } from '../../middleware/auth.middleware';
+import { parseCSVFile } from '../../middleware/parseCSV';
 
 const router = express.Router();
 
@@ -11,11 +12,15 @@ router.route('/createStudent')
   .post(studentController.create);
 router.route('/uploadCSVStudents')
   // .all(isStudentValid)
-  .post(uploadCSV, studentController.uploadCSVStudents);
+  .post(uploadCSV, parseCSVFile, studentController.uploadCSVStudents);
 
 router.route('/getAllStudents')
   // .all(isStudentValid)
   .get(studentController.getAllStudents);
+
+router.route('/BylawStudents/:BylawId')
+  // .all(isStudentValid)
+  .get(studentController.getStudentsInASpecificBylaw);
 
 router.route('/:prefix/topStudents/:limit')
   .get(isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant'), studentController.getTopStudentsByGPA);

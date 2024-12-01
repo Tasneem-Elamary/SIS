@@ -1,10 +1,12 @@
 import {
   Group, Schedule, Section, Student, StudentSchedule,
+  User,
 } from '../../models';
 import { db } from '../../../config/postgresDB.config';
 import { GroupType, SectionType, StudentType } from '../../types';
+import GroupRepo from '../Repositories/group.repo';
 
-class GroupDataAccess {
+class GroupDataAccess implements GroupRepo {
   create = async (group: GroupType, transaction?: any): Promise<GroupType | undefined> => {
     try {
       const newGroup = await Group.create(group, { transaction });
@@ -98,15 +100,19 @@ class GroupDataAccess {
     }
   };
 
-  async getStudentsInASpecificGroup(CourseId: string, SectionId:string): Promise<StudentType[]> {
-    const students = await StudentSchedule.findAll({
-      where: { CourseId, SectionId },
-      include: [{ model: Student }],
+  async getStudentsInASpecificGroup(GroupId:string, CourseId: string): Promise<StudentType[]> {
+    const schedules = await Schedule.findAll({
+      where: { CourseId, GroupId },
+      include: [{ model: Student, attributes: ['id', 'studentCode', 'name', 'level'], include: [{ model: User, attributes: ['email'] }] }],
     });
-    return students.map((student) => student.get({ plain: true }));
+    const students = schedules
+      .map((schedule) => schedule.get({ plain: true }).Students)
+      .filter((student): student is StudentType => student !== undefined);
+
+    return students;
   }
 
-  async getSectionsInASpecificGroup(CourseId: string, GroupId: string):Promise<Partial<SectionType>[]> {
+  async getSectionsInASpecificGroup(GroupId:string, CourseId: string):Promise<Partial<SectionType>[]> {
     const sections = await Schedule.findAll({
       where: { CourseId, GroupId },
       include: [{ model: Section }],
@@ -114,5 +120,4 @@ class GroupDataAccess {
     return sections.map((section) => section.get({ plain: true }));
   }
 }
-
 export default GroupDataAccess;

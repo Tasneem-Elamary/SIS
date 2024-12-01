@@ -80,6 +80,26 @@ class Regulation {
       return null;
     }
   };
+  //action to get regulation students 
+  viewRegulationStudentsAction = (regulationId: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const response= await regulationApi.viewRegulationStudents(regulationId); 
+    const {data}=response.data 
+    console.log("Action Data",data)
+
+    if(response)
+    console.log(data)
+      dispatch(statusAction.addSuccessStatus(response.data.msg));
+      dispatch(fetchAction.fetchingFailed());
+      return data;
+    } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return null;
+    }
+  };
     // Action to add regulation details
     addRegulationDetailsAction = (FacultyId: string, regulationDetail: RegulationType) => async (dispatch: Dispatch) => {
       try {

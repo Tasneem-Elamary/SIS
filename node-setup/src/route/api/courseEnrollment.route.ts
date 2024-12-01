@@ -13,6 +13,7 @@ router.post('/overload', courseEnrollmentController.requestOverload);
 router.post('/request', courseEnrollmentController.request);
 router.post('/requestByStudentCode', courseEnrollmentController.requestByStudentCode);
 router.post('/regular', courseEnrollmentController.requestRegular);
+router.get('/requests/getPending', courseEnrollmentController.getPendingEnrollments);
 router.get('/:studentId/allowed-courses', courseEnrollmentController.getCoursesStudentAllowedToEnroll);
 
 export default router;

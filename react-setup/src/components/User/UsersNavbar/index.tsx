@@ -14,7 +14,7 @@ const SubNavBar = ({ activeItem }) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/all-lecturers" className={activeItem === 'Lecturer' ? "nav-link-active" : "nav-link-custom "}>
+            <NavLink href="/AllLecturer" className={activeItem === 'Lecturer' ? "nav-link-active" : "nav-link-custom "}>
               TA
             </NavLink>
           </NavItem>

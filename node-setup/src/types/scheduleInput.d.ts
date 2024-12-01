@@ -1,5 +1,6 @@
 type ScheduleInputType = {
-  instructorCode: string,
+  instructor1Code:string,
+  instructor2Code?:string,
     scheduleType: 'lecture' | 'lab',
     roomCode: string,
     groupCode: string,

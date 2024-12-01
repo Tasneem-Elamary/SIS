@@ -12,10 +12,8 @@ interface ViewTableProps {
   rowValues: { [key: string]: any }[]; // Array of row data
   pathKey?: string; // For dynamic navigation path
   showSearchBars: boolean;
-
   onAccept?: (row: any, arrayIndex?: number) => void;
   onDecline?: (row: any, arrayIndex?: number) => void;
-  onCheckedRowsChange?: (checkedRows: string[]) => void;
   handleOnDeleteAction?: any;
 }
 
@@ -27,7 +25,7 @@ const ViewTable: React.FC<ViewTableProps> = ({
   showSearchBars = false,
   onAccept,
   onDecline,
-  onCheckedRowsChange,
+
   handleOnDeleteAction
 }) => {
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
@@ -54,12 +52,6 @@ const ViewTable: React.FC<ViewTableProps> = ({
   }, [rowValues]);
 
 
-  // Pass checked row IDs to parent when changed
-  useEffect(() => {
-    if (onCheckedRowsChange) {
-      onCheckedRowsChange(checkedRows);
-    }
-  }, [checkedRows, onCheckedRowsChange]);
 
   // Handle row navigation based on pathKey and row data
   const handleRowClick = (row: any, arrayIndex: number) => {
@@ -210,11 +202,11 @@ const ViewTable: React.FC<ViewTableProps> = ({
               return (
                 <tr key={rowIndex} style={{ cursor: 'pointer' }}>
                   <td>
-                    <Input
+                    {handleOnDeleteAction && <Input
                       type="checkbox"
                       checked={checkedRows.includes(`${rowIndex}`)}
                       onChange={() => handleRowCheck(rowIndex)}
-                    />
+                    />}
                   </td>
                   {features.map((feature, featureIndex) => (
                     <td key={featureIndex} onClick={() => handleRowClick(row, rowIndex)}>
@@ -235,29 +227,7 @@ const ViewTable: React.FC<ViewTableProps> = ({
               );
             }
 
-            const maxArrayLength = Math.max(...arrayFeatures.map((feature) => row[feature].length));
-            return Array.from({ length: maxArrayLength }).map((_, arrayIndex) => (
-              <tr key={`${rowIndex}-${arrayIndex}`} style={{ cursor: 'pointer' }}>
-                <td>
-                  <Input
-                    type="checkbox"
-                    checked={checkedRows.includes(`${rowIndex}-${arrayIndex}`)}
-                    onChange={() => handleRowCheck(rowIndex, arrayIndex)}
-                  />
-                </td>
-
-                {headers.includes('Decision') && (
-                  <td>
-                    <Button onClick={(e) => { e.stopPropagation(); onAccept && onAccept(row, arrayIndex); }} color="success">
-                      Accept
-                    </Button>
-                    <Button onClick={(e) => { e.stopPropagation(); onDecline && onDecline(row, arrayIndex); }} color="danger">
-                      Decline
-                    </Button>
-                  </td>
-                )}
-              </tr>
-            ));
+;
           })}
         </tbody>
       </Table>

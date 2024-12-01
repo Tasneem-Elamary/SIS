@@ -119,8 +119,11 @@ const MainNavBar = ({ activeItem }: any) => {
             </DropdownToggle>
             <DropdownMenu end>
               <DropdownItem href="/Oueries/RankOfStudent">Rank of students</DropdownItem>
-              <DropdownItem href="#">Student who failed</DropdownItem>
+              <DropdownItem href="/Queries/Students who failed">Student who failed</DropdownItem>
               <DropdownItem href="#">Number of students</DropdownItem>
+              <DropdownItem href="/Queries/CellsCount">Count</DropdownItem>
+              <DropdownItem href="/Queries/pendingStudents">Pending students</DropdownItem>
+              <DropdownItem href="/Queries/courses-instructors">Courses instructors</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         )}

@@ -9,7 +9,7 @@ router.post('/createBylaw', bylawController.create);
 router.get('/:id', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), bylawController.getById);
 router.get('/limits/:id', bylawController.getBylawLimits);
 router.get('/code/:code', bylawController.getByCode);
-router.get('/', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), bylawController.getAll);
+router.get('/', isAuth, bylawController.getAll);
 router.put('/:id', bylawController.update);
 router.delete('/:id', bylawController.delete);
 

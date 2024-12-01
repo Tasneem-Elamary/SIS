@@ -211,6 +211,21 @@ class CourseController {
     }
   };
 
+  @Get('/courses/instructors')
+    getCoursesWithInstructorName = async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const course = await this.course.getAllCoursesInstructors();
+
+        if (!course) {
+          return res.status(404).json({ message: 'failed to get courses instructors' });
+        }
+
+        res.status(200).json({ message: 'done', course });
+      } catch (e) {
+        next(e);
+      }
+    };
+
   // mapped courses
 
   addBylawMappedCourse = async (req: Request, res: Response, next: NextFunction) => {

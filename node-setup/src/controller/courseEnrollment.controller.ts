@@ -8,7 +8,7 @@ import { DataAccess } from '../persistance';
 import ICourseEnrollment from '../services/interfaces/ICourseEnrollment';
 import { IStudent } from '../services/interfaces';
 
-const { CourseEnrollmentDataAccess, StudentDataAccess } = DataAccess;
+const { CourseEnrollmentDataAccess, StudentDataAccess, CourseDataAcces } = DataAccess;
 
 @Route('CourseEnrollment')
 class CourseEnrollmentController {
@@ -17,7 +17,8 @@ class CourseEnrollmentController {
   constructor() {
     const courseEnrollmentDataAccess = new CourseEnrollmentDataAccess();
     const studentDataAccess = new StudentDataAccess();
-    this.courseEnrollmentService = new CourseEnrollmentService(courseEnrollmentDataAccess, studentDataAccess);
+    const courseDataAccess = new CourseDataAcces();
+    this.courseEnrollmentService = new CourseEnrollmentService(courseEnrollmentDataAccess, studentDataAccess, courseDataAccess);
   }
 
   @Post()
@@ -166,6 +167,16 @@ class CourseEnrollmentController {
         res.status(500).json({ message: error });
       }
     };
+
+    @Get('/requests/getPending')
+  public getPendingEnrollments = async (req: Request, res: Response) => {
+        try {
+          const courses = await this.courseEnrollmentService.getEnrollmentRequests();
+          res.status(200).json({ message: 'Courses student enrollments in retrieved successfully', data: courses });
+        } catch (error) {
+          res.status(500).json({ message: error });
+        }
+      };
 }
 
 export default new CourseEnrollmentController();

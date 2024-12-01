@@ -1,4 +1,4 @@
-import { Transaction } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import models, { Instructor, User } from '../../models';
 import { InstructorRepo } from '../Repositories';
 import {
@@ -215,7 +215,7 @@ class InstructorData implements InstructorRepo {
     try {
       // Find the instructor and include the associated schedules and courses
       const instructor = await models.Instructor.findOne({
-        where: { id: instructorId, type: 'Professor' },
+        where: { id: instructorId },
         include: [
           {
             model: models.Schedule,
@@ -226,6 +226,12 @@ class InstructorData implements InstructorRepo {
                 attributes: ['id', 'name', 'code', 'level'], // Select relevant course attributes
               },
             ],
+            where: {
+              [Op.or]: [
+                { InstructorId1: instructorId },
+                { InstructorId2: instructorId },
+              ],
+            },
           },
         ],
       });

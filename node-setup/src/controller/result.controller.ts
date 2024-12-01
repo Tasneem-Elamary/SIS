@@ -129,6 +129,7 @@ class ResultController {
       next(e);
     }
   };
+
   deleteResults = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { ids } = req.body;
@@ -139,7 +140,7 @@ class ResultController {
         return res.status(404).json({ message: 'Failed delete results' });
       }
 
-      res.status(200).json({ message: `${numOfDeletedRecords} records deleted successfully `});
+      res.status(200).json({ message: `${numOfDeletedRecords} records deleted successfully ` });
     } catch (e) {
       next(e);
     }

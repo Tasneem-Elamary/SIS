@@ -141,7 +141,7 @@ const RegulationDetails = ({ getRegulationDetails, getRegulationlimits, getCours
                                 </tr>
                                 <tr>
                                     <td className='black-bold'>Students</td>
-                                    <td className='blue-bold'><a href="/students/132">{regulation?.studentsCount}</a></td>
+                                    <td className='blue-bold'><a href={`/regulation/students/${regulationId}`}>{regulation?.studentsCount}</a></td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -163,7 +163,7 @@ const RegulationDetails = ({ getRegulationDetails, getRegulationlimits, getCours
                                 </tr>
                             </thead>
                             <tbody>
-                                {limits && limits.length > 0 ? (limits.map((limit) => (
+                                {limits && limits.length > 0 ? (limits.map((limit:{min_GPA:number,hoursAllowed:number}) => (
                                     <tr key={limit.min_GPA}>
                                         <td><span className='black-bold'>{limit?.min_GPA}</span></td>
                                         <td>{limit?.hoursAllowed}</td>
@@ -180,13 +180,13 @@ const RegulationDetails = ({ getRegulationDetails, getRegulationlimits, getCours
                             <tbody>
                                 <tr>
                                     <td style={{ width: '50px' }}><strong>Grade</strong></td>
-                                    {grades.map((grade, index) => (
+                                    {grades.map((grade:{letter:string,point:number}, index:number) => (
                                         <td key={index} style={{ width: '50px', textAlign: 'center' }}>{grade.letter}</td>
                                     ))}
                                 </tr>
                                 <tr>
                                     <td><strong>point</strong></td>
-                                    {grades.map((grade, index) => (
+                                    {grades.map((grade:{letter:string,point:number}, index:number) => (
                                         <td key={index} style={{ width: '50px', textAlign: 'center' }} >{grade.point}</td>
                                     ))}
                                 </tr>

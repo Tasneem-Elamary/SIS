@@ -2,9 +2,12 @@ import { param, body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 export const validateScheduleCreation = [
-  body('instructorCode')
+  body('instructor1Code')
     .isString()
-    .withMessage('Instructor code must be a string'),
+    .withMessage('Instructor 1 code must be a string'),
+  body('instructor2Code')
+    .isString()
+    .withMessage('Instructor 2 code must be a string'),
   body('scheduleType')
     .isIn(['lecture', 'lab'])
     .withMessage("Schedule type must be either 'lecture' or 'lab'"),
@@ -26,14 +29,13 @@ export const validateScheduleCreation = [
   body('courseCode')
     .isString()
     .withMessage('Course code must be a string'),
-  body('startTime')
-    .isISO8601()
-    .toDate()
-    .withMessage('Start time must be a valid date in ISO8601 format'),
-  body('endTime')
-    .isISO8601()
-    .toDate()
-    .withMessage('End time must be a valid date in ISO8601 format'),
+  body('*.startTime')
+    .matches(/^([0-9]|[01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
+    .withMessage("Start time must be in 'HH:MM:SS' format"),
+
+  body('*.endTime')
+    .matches(/^([0-9]|[01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
+    .withMessage("End time must be in 'HH:MM:SS' format"),
   body('day')
     .isIn(['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
     .withMessage('Day must be a valid day of the week'),
@@ -47,8 +49,11 @@ export const validateScheduleCreation = [
 ];
 // Middleware to validate each row in the CSV upload
 export const validateCSVScheduleUpload = [
-  body().isArray().withMessage('Request body must be an array of schedule entries'),
-  body('*.instructorCode')
+  body().isArray({ min: 1 }).withMessage('Request body must be a non-empty array of schedule entries'),
+  body('*.instructor1Code')
+    .isString()
+    .withMessage('Instructor code must be a string'),
+  body('*.instructor2Code')
     .isString()
     .withMessage('Instructor code must be a string'),
   body('*.scheduleType')
@@ -73,14 +78,12 @@ export const validateCSVScheduleUpload = [
     .isString()
     .withMessage('Course code must be a string'),
   body('*.startTime')
-    .isISO8601()
-    .toDate()
-    .withMessage('Start time must be a valid date in ISO8601 format'),
+    .matches(/^([0-9]|[01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
+    .withMessage("Start time must be in 'HH:MM:SS' format"),
+
   body('*.endTime')
-    .isISO8601()
-    .toDate()
-    .withMessage('End time must be a valid date in ISO8601 format'),
-  body('*.day')
+    .matches(/^([0-9]|[01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
+    .withMessage("End time must be in 'HH:MM:SS' format"), body('*.day')
     .isIn(['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
     .withMessage('Day must be a valid day of the week'),
   (req: Request, res: Response, next: NextFunction) => {

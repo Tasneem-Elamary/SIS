@@ -20,11 +20,19 @@ interface courseRepo {
     addcourseToDepartment (departmentId: string | null, courseId: string, BylawId: string): Promise<BylawDepartmentCourseType | undefined>
     getCoursesBylevel (level:number): Promise<BylawDepartmentCourseType[] | undefined[]>
     getCourseWithRegisteredStudentCounts (courseId: string, bylawId: string): Promise<CoursewithRegistedStudentsType | undefined>
-// managing mapped courses
-addBylawMappedCourse (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
-getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
-getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
-getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
+    getAllCoursesInstructors() : Promise<
+    Array<{
+      courseName: string;
+      courseCode: string;
+      instructorId: string;
+      instructorFirstName: string;
+      instructorLastName: string;
+    }>>
+    // managing mapped courses
+    addBylawMappedCourse (BylawCourseId: string, MappedBylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
+    getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
+    getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
+    getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
 
     deleteCourseOfBylawAndDepartment (departmentId:string | null, courseId: string, BylawId: string): Promise<boolean>
     getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>

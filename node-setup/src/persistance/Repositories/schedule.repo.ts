@@ -12,6 +12,15 @@ import {
         section?: Partial<SectionType>,
         room?: Partial<RoomType>
       }>
+      getByCell(cell: number): Promise<Partial<ScheduleType>
+      & {
+        instructor?: Partial<InstructorType>,
+        course?: Partial<CourseType>,
+        slot?: Partial<SlotType>,
+        group?: Partial<GroupType>,
+        section?: Partial<SectionType>,
+        room?: Partial<RoomType>
+      }>
     getAll(): Promise<ScheduleType[]>;
     getInstructorSchedules(InstructorId: string): Promise<{ schedules: ScheduleType[], instructorData: InstructorType|undefined }>;
     getStudentSchedules(studentId:string): Promise<{schedules:ScheduleType[]}>

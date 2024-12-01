@@ -1,10 +1,13 @@
-import { CourseEnrollmentRepo, StudentRepo } from '../persistance/Repositories';
-import { CourseEnrollmentType, CourseType } from '../types';
+import { CourseEnrollmentRepo, CourseRepo, StudentRepo } from '../persistance/Repositories';
+import { CourseEnrollmentType, CourseType, StudentType } from '../types';
 import { ICourseEnrollment } from './interfaces';
 import { DataAccess } from '../persistance';
+import { ScheduleDataAccess } from '../persistance/postgresDBDataAccess/schedule.data';
 
 class CourseEnrollmentService implements ICourseEnrollment {
-  constructor(private courseEnrollmentData: CourseEnrollmentRepo, private studentDataAccess:StudentRepo) {}
+  constructor(private courseEnrollmentData: CourseEnrollmentRepo, private studentDataAccess:StudentRepo, private courseDataAccess:CourseRepo) {}
+
+  private scheduleData = new ScheduleDataAccess();
 
   public async create(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
     try {
@@ -15,13 +18,16 @@ class CourseEnrollmentService implements ICourseEnrollment {
     }
   }
 
-  public async request(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined> {
+  public async request(enrollmentData: CourseEnrollmentType, cell?:number): Promise<CourseEnrollmentType | undefined> {
     try {
       const enrollment = await this.courseEnrollmentData.create({
         ...enrollmentData,
         hasPaidFees: false,
         approvalStatus: 'pending',
       });
+      if (cell) {
+
+      }
       return enrollment;
     } catch (error) {
       throw new Error('Failed to create course enrollment, Please try again!');
@@ -154,6 +160,32 @@ class CourseEnrollmentService implements ICourseEnrollment {
     } catch (error) {
       throw new Error('Failed to find allowed courses to enroll in, Please try again!');
     }
+  }
+
+  public async getEnrollmentRequests(): Promise<Partial<StudentType & CourseType>[]> {
+    const courseEnrollments = await this.courseEnrollmentData.getPendingEnrollmentRequests();
+
+    const data = await Promise.all(
+      courseEnrollments.map(async (item) => {
+        const course = await this.courseDataAccess.getById(item.CourseId);
+        const student = await this.studentDataAccess.getById(item.StudentId);
+        const studentData = {
+          studentCode: student?.studentCode,
+          studentName: student?.name,
+        };
+
+        const courseData = {
+          courseName: course?.name,
+        };
+        return {
+          ...item,
+          ...studentData,
+          ...courseData,
+        };
+      }),
+    );
+
+    return data;
   }
 }
 

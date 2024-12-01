@@ -2,23 +2,23 @@ import { param, body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 export const validateCreateDepartment = [
-  body('departmentCode')
-    .isString()
-    .isLength({ min: 2, max: 10 })
-    .withMessage('Department code must be a string with 2 to 10 characters'),
-  body('name')
-    .isString()
-    .isLength({ min: 3 })
-    .withMessage('Department name must be at least 3 characters long'),
-  body('HeadId')
-    .isUUID()
-    .withMessage('HeadId must be a valid UUID'),
-  body('FacultyId')
-    .isUUID()
-    .withMessage('FacultyId must be a valid UUID'),
-  body('BylawId')
-    .isUUID()
-    .withMessage('BylawId must be a valid UUID'),
+  // body('departmentCode')
+  //   .isString()
+  //   .isLength({ min: 2, max: 10 })
+  //   .withMessage('Department code must be a string with 2 to 10 characters'),
+  // body('name')
+  //   .isString()
+  //   .isLength({ min: 3 })
+  //   .withMessage('Department name must be at least 3 characters long'),
+  // body('HeadId')
+  //   .isUUID()
+  //   .withMessage('HeadId must be a valid UUID'),
+  // body('FacultyId')
+  //   .isUUID()
+  //   .withMessage('FacultyId must be a valid UUID'),
+  // body('BylawId')
+  //   .isUUID()
+  //   .withMessage('BylawId must be a valid UUID'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

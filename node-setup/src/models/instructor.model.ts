@@ -65,7 +65,7 @@ const InstructorModel = (sequelize: Sequelize) => {
       },
       DepartmentId: {
         type: DataTypes.UUID,
-        // allowNull: true,
+        allowNull: true,
         references: {
           model: 'Departments',
           key: 'id',

@@ -25,7 +25,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
 
   public getById = async (id: string): Promise<Partial<ScheduleType>
     & {
-      instructor?: Partial<InstructorType>,
+      instructor1?: Partial<InstructorType>,
+      instructor2?: Partial<InstructorType>,
       course?: Partial<CourseType>,
       slot?: Partial<SlotType>,
       group?: Partial<GroupType>,
@@ -35,14 +36,52 @@ export class ScheduleDataAccess implements ScheduleRepo {
     try {
       const schedule = await Schedule.findByPk(id, {
         include: [
-          { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
           { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
           { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
           { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
           { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
           { model: Room, attributes: ['id', 'code', 'capacity'] },
         ],
-        attributes: ['id','scheduleType', 'cell', 'level'],
+        attributes: ['id', 'scheduleType', 'cell', 'level'],
+
+      });
+
+      if (!schedule) {
+        throw new Error('Schedule not found!');
+      }
+
+      return schedule.get({ plain: true });
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to get the schedule, Please try again!');
+    }
+  };
+
+  public getByCell = async (cell: number): Promise<Partial<ScheduleType>
+  & {
+    instructor1?: Partial<InstructorType>,
+    instructor2?: Partial<InstructorType>,
+    course?: Partial<CourseType>,
+    slot?: Partial<SlotType>,
+    group?: Partial<GroupType>,
+    section?: Partial<SectionType>,
+    room?: Partial<RoomType>
+  }> => {
+    try {
+      const schedule = await Schedule.findOne({
+        where: { cell },
+        include: [
+          { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
+          { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
+          { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
+          { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
+          { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
+          { model: Room, attributes: ['id', 'code', 'capacity'] },
+        ],
+        attributes: ['id', 'scheduleType', 'cell', 'level'],
 
       });
 
@@ -58,20 +97,28 @@ export class ScheduleDataAccess implements ScheduleRepo {
   };
 
   public async getAll(): Promise<ScheduleType[]> {
-    const schedules = await Schedule.findAll({
-      include: [
-        { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
-        { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
-        { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
-        { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
-        { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
-        { model: Room, attributes: ['id', 'code', 'capacity'] },
-      ],
-      attributes: ['id','scheduleType', 'cell', 'level'],
+    console.log('get all schedule data');
+    try {
+      const schedules = await Schedule.findAll({
+        include: [
+          { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
 
+          { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
+          { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
+          { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
+          { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
+          { model: Room, attributes: ['id', 'code', 'capacity'] },
+        ],
+        attributes: ['id', 'scheduleType', 'cell', 'level'],
 
-    });
-    return schedules.map((schedule) => schedule.toJSON());
+      });
+      console.log(schedules);
+      return schedules.map((schedule) => schedule.toJSON());
+    } catch (error) {
+      console.log(error);
+      throw Error('Error encountered while getting all schedules');
+    }
   }
 
   public async getInstructorSchedules(InstructorId: string): Promise<{ schedules: ScheduleType[], instructorData: (InstructorType | undefined) }> {
@@ -83,7 +130,12 @@ export class ScheduleDataAccess implements ScheduleRepo {
     }
 
     const schedules = await Schedule.findAll({
-      where: { InstructorId },
+      where: {
+        [Op.or]: [
+          { InstructorId1: InstructorId },
+          { InstructorId2: InstructorId },
+        ],
+      },
       include: [
         { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
         { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
@@ -91,7 +143,7 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
         { model: Room, attributes: ['id', 'code', 'capacity'] },
       ],
-      attributes: ['id','scheduleType', 'cell', 'level'],
+      attributes: ['id', 'scheduleType', 'cell', 'level'],
 
     });
 
@@ -109,15 +161,15 @@ export class ScheduleDataAccess implements ScheduleRepo {
     const schedules = await Schedule.findAll({
       where: { RoomId },
       include: [
-        { model: Instructor, attributes: ['firstName', 'lastName'] },
+        { model: Instructor, as: 'Instructor1', attributes: ['firstName', 'lastName'] },
+        { model: Instructor, as: 'Instructor2', attributes: ['firstName', 'lastName'] },
         { model: Course, attributes: ['code', 'name', 'creditHours'] },
         { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
         { model: Group, attributes: ['groupCode', 'capacity'] },
         { model: Section, attributes: ['sectionCode', 'capacity'] },
 
       ],
-      attributes: ['id','scheduleType', 'cell', 'level'],
-
+      attributes: ['id', 'scheduleType', 'cell', 'level'],
 
     });
     return { schedules: schedules.map((schedule) => schedule.toJSON()), roomData };
@@ -129,14 +181,14 @@ export class ScheduleDataAccess implements ScheduleRepo {
 
       where: { CourseId },
       include: [
-        { model: Instructor, attributes: ['firstName', 'lastName'] },
+        { model: Instructor, as: 'Instructor1', attributes: ['firstName', 'lastName'] },
+        { model: Instructor, as: 'Instructor2', attributes: ['firstName', 'lastName'] },
         { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
         { model: Group, attributes: ['groupCode', 'capacity'] },
         { model: Section, attributes: ['sectionCode', 'capacity'] },
         { model: Room, attributes: ['code', 'capacity'] },
       ],
-      attributes: ['id','scheduleType', 'cell', 'level'],
-
+      attributes: ['id', 'scheduleType', 'cell', 'level'],
 
     });
     return { schedules: schedules.map((schedule) => schedule.toJSON()), courseData: courseData?.get() };
@@ -152,7 +204,7 @@ export class ScheduleDataAccess implements ScheduleRepo {
         { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
         { model: Room, attributes: ['id', 'code', 'capacity'] },
       ],
-      attributes: ['id','scheduleType', 'cell', 'level'],
+      attributes: ['id', 'scheduleType', 'cell', 'level'],
 
     });
     if (!schedules) {
@@ -165,6 +217,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
     const schedules = await Schedule.findAll({
       where: { DepartmentId },
       include: [
+        { model: Instructor, as: 'Instructor1', attributes: ['firstName', 'lastName'] },
+        { model: Instructor, as: 'Instructor2', attributes: ['firstName', 'lastName'] },
         { model: Course, attributes: ['id', 'code', 'name', 'creditHours'] },
         { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
         { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
@@ -249,7 +303,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
           { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
           { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
           { model: Room, attributes: ['id', 'code', 'capacity'] },
-          { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+          { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
         ],
         attributes: ['id', 'scheduleType', 'cell', 'level'],
       });
@@ -280,15 +335,50 @@ export class ScheduleDataAccess implements ScheduleRepo {
             { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
             { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
             { model: Room, attributes: ['id', 'code', 'capacity'] },
-            { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
-          ],
-          attributes: ['id','scheduleType', 'cell', 'level'],
+            { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+            { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
 
+          ],
+          attributes: ['id', 'scheduleType', 'cell', 'level'],
 
         },
 
       ],
       attributes: [],
+    });
+    console.log(schedules);
+    if (!schedules) {
+      throw new Error('No schedules found');
+    }
+
+    return {
+      schedules: schedules.map((schedule) => schedule.get().Schedule),
+
+    };
+  }
+
+  public async getSCheduleStudents(StudentId: string): Promise<{ schedules: ScheduleType[] }> {
+    const schedules = await models.StudentSchedule.findAll({
+      where: { StudentId, approvalStatus: 'approved' },
+      include: [
+        {
+          model: models.Schedule,
+          include: [
+            { model: Course, attributes: ['id', 'code', 'name'] },
+            { model: Slot, attributes: ['startTime', 'endTime', 'day'] },
+            { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
+            { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
+            { model: Room, attributes: ['id', 'code', 'capacity'] },
+            { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+            { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
+
+          ],
+          attributes: ['id', 'scheduleType', 'cell', 'level'],
+
+        },
+
+      ],
+      attributes: ['approvalStatus'],
     });
     console.log(schedules);
     if (!schedules) {
@@ -313,10 +403,11 @@ export class ScheduleDataAccess implements ScheduleRepo {
             { model: Group, attributes: ['id', 'groupCode', 'capacity'] },
             { model: Section, attributes: ['id', 'sectionCode', 'capacity'] },
             { model: Room, attributes: ['id', 'code', 'capacity'] },
-            { model: Instructor, attributes: ['id', 'firstName', 'lastName'] },
-          ],
-          attributes: ['id','scheduleType', 'cell', 'level'],
+            { model: Instructor, as: 'Instructor1', attributes: ['id', 'firstName', 'lastName'] },
+            { model: Instructor, as: 'Instructor2', attributes: ['id', 'firstName', 'lastName'] },
 
+          ],
+          attributes: ['id', 'scheduleType', 'cell', 'level'],
 
         },
 
@@ -353,7 +444,8 @@ export class ScheduleDataAccess implements ScheduleRepo {
         SlotId: schedule.SlotId,
         RoomId: schedule.RoomId,
         CourseId: schedule.CourseId,
-        InstructorId: schedule.InstructorId,
+        InstructorId1: schedule.InstructorId1,
+        InstructorId2: schedule.InstructorId2,
         SemesterId: schedule.SemesterId,
       },
     });

@@ -1,4 +1,7 @@
-import { Section, Student, StudentSchedule } from '../../models';
+import {
+  Schedule, Section, Student, StudentSchedule,
+  User,
+} from '../../models';
 import { SectionType, StudentType } from '../../types';
 import { ISectionRepo } from '../Repositories/section.repo';
 
@@ -27,12 +30,17 @@ export class SectionDataAccess implements ISectionRepo {
     await Section.update(section, { where: { id } });
   }
 
-  async getStudentsInASpecificSection(CourseId: string, SectionId:string): Promise<StudentType[]> {
-    const students = await StudentSchedule.findAll({
+  async getStudentsInASpecificSection(SectionId:string, CourseId: string): Promise<StudentType[]> {
+    const schedules = await Schedule.findAll({
       where: { CourseId, SectionId },
-      include: [{ model: Student }],
+      include: [{ model: Student, attributes: ['id', 'studentCode', 'name', 'level'], include: [{ model: User, attributes: ['email'] }] }],
+
     });
-    return students.map((student) => student.get({ plain: true }));
+    const students = schedules
+      .map((schedule) => schedule.get({ plain: true }).Students)
+      .filter((student): student is StudentType => student !== undefined);
+
+    return students;
   }
 
   async delete(id: string): Promise<void> {

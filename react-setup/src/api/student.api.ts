@@ -24,16 +24,17 @@ class Student {
   getStudentRank = (studentCode: string) => axios.get(`${backendUrl}/student/${studentCode}/rank`);
   requestEnrollmentByStudentCode=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl}/enrollment/requestByStudentCode`,enrollmentData,config);
   requestEnrollment=(enrollmentData: CourseEnrollmentType) =>axios.post(`${backendUrl} /enrollemnt/request`,enrollmentData);
+  getPendingEnrollments=() =>axios.get(`${backendUrl}/enrollment/requests/getPending`);
   
   registerSchedule = (registeringData: { StudentId: string; ScheduleId: string }) => 
-    axios.post(`${ backendUrl } /student/registerSchedule`, registeringData);
+    axios.post(`${ backendUrl }/student/registerSchedule`, registeringData);
   registerSchedules = ( studentId:string,scheduleIds: string[] ) => 
    
 
-    axios.post(`${ backendUrl } /student/registerSchedules / ${ studentId } `, {scheduleIds});
+    axios.post(`${ backendUrl }/student/registerSchedules/ ${ studentId } `, {scheduleIds});
   
   unregisterSchedule = (unregisteringData: { StudentId: string; ScheduleId: string }) => 
-    axios.post(`${ backendUrl } /student/unregisterSchedule`, unregisteringData); 
+    axios.post(`${ backendUrl }/student/unregisterSchedule`, unregisteringData); 
    
   getFailedOrUnenrolledCourses = (courseId: string) => 
     axios.get(`${ backendUrl }/student/course/${ courseId }/failed-or-unenrolled`);

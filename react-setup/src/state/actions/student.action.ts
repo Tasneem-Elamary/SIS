@@ -49,6 +49,22 @@ class Student {
         return [];
     }
 };
+getPendingEnrollmentsAction = () => async (dispatch: Dispatch) => {
+  try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const {data} = await studentApi.getPendingEnrollments();
+      console.log("action accessed",data);
+
+      //dispatch(statusAction.addSuccessStatus(message));//need to update in back-end to send a message
+      dispatch(fetchAction.fetchingFailed());
+      return data;
+  } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return [];
+  }
+};
 deleteStudentsAction = (studentIds: string[]) => async (dispatch: Dispatch) => {
   try {
     dispatch(statusAction.clearStatus());

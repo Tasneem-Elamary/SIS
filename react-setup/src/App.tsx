@@ -8,10 +8,8 @@ import {
 import Signup from './components/userOne/userOneSignupCom';
 import RegisterationNavbar from './components/shared/registerationNavbar';
 import Login from './components/shared/login/Login';
-
 import Logistics from './components/logistics/logistics';
 import RoomSchedule from './components/logistics/roomSchedule';
- 
 import AddStudent from './components/User/Student/addSrudentForm';
 import ViewAllStudents from './components/User/Student/viewStudentsForm';
 import CreateLecturer from './components/User/Instructor/createLecturerPage';
@@ -25,8 +23,6 @@ import ListOfSelfStudyOROverloadStudents from './components/User/Instructor/TA/L
 import AddRegualtion from './components/regulation/addRegulation';
 import Systemlog from './components/User/Instructor/TA/system log'
 import Createcoursepage from './components/Course/createCoursePage'
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CoureInstructors from './components/Course/courseInstructors'
 import CourseRulesPage from './components/Course/courseRulePage';
@@ -34,13 +30,11 @@ import RegulationDetails from './components/regulation/regulationDetails';
 import AllResults from './components/Result/AllResults';
 import RankStudentForm from './components/Queries/Rank of student form';
 import StudentToEnrollInCourse from './components/Queries/StudentFailedOrNotEnrolled';
+import CourseInstructors from './components/Queries/coursesInstructors';
 import RankOfStudentPage from './components/Queries/Rank of student page';
-
 import MappedCourse from './components/requests/mappedCourse';
 import CreateAnOverload from './components/requests/CreateAnOverload';
 import CreateASelfStudy from './components/requests/CreateASelfStudy';
-
- 
 import AllSchedules from './components/schedules/schedule';
 import UpdateSchedules from './components/schedules/updateSchedules';
 import InstructorSchedule from './components/schedules/instructorSchedule';
@@ -49,6 +43,9 @@ import PrivateRoute from './components/helpers/privateRoute';
 import RegisterSchedule from '../src/components/User/Student/studentHomePages/studentRegisterSchedule'
 import PendingSchedule from '../src/components/User/Student/studentHomePages/studentPendningSchedule'
 import StudentSchedule from './components/User/Student/studentHomePages/studentSchedule';
+import CellsCount from './components/Queries/cellsCount';
+import PendingStudents from './components/Queries/pending students';
+import RegulationStudents from './components/regulation/regulationStudents';
 function App() {
   return (
     <Router>
@@ -81,23 +78,21 @@ function App() {
           <Route path="/room-schedule/:roomId" element={<RoomSchedule />} />
           {/* Route for regulation */}
           {/* {/*  <Route path="/regulation" element={<Regulations />} />} */}
+          {/* Regulation */}
           <Route
             path="/regulation/:regulationId"
             element={<RegulationDetails />}
           />
+<Route path='/regulation/students/:regulationId' element={<RegulationStudents/>}/>
 
-
-          <Route path="/All-lecturers" element={<CreateLecturer userType='Lecturer' />} />
+    
           {/* <Route path="/list-student-lecturer" element={<ListOfStudents />} />  */}
 {/* {          <Route path="/course-schedule/:courseId" element={<CourseSchedule />} />} */}
           <Route path="/regulation/:regulationId" element={<RegulationDetails />} />
           <Route path="/add-regulation" element={<AddRegualtion />} />
-          <Route path="/All-lecturers" element={<PrivateRoute allowedRoles={['faculty admin', 'professor', 'teaching assistant']}><CreateLecturer userType="Lecturer" /></PrivateRoute>} />
+          <Route path="/AllLecturer" element={<PrivateRoute allowedRoles={['faculty admin', 'professor', 'teaching assistant']}><AllLecturer userType="Lecturer" path={undefined} /></PrivateRoute>} />
           <Route path="/list-student-lecturer" element={<ListOfStudents />} /> 
           <Route path="/" element={<AllLecturer userType="Lecturer" path="/CreateLecturer" />} />
-
-
-          <Route path="/AllLecturer" element={<AllLecturer userType="Lecturer" path="/CreateLecturer" />} />
           <Route path="/CreateLecturer" element={<CreateLecturer userType="Lecturer" />} />
           <Route path="/:id/list-of-students" element={<ListOfStudents />} />
           <Route path="/:id/list-of-pendingStudents" element={<ListOfPendingStudents />} />
@@ -135,10 +130,14 @@ function App() {
           <Route path="/view-students" element={<ViewAllStudents />} />
 
           <Route path="/results" element={<AllResults />} />
-
-          <Route path="/Oueries/Rank of Student" element={<RankOfStudentPage activeItem="Rank of student"/>} />
+              {/* Queries */}
+          <Route path="/Oueries/RankOfStudent" element={<RankOfStudentPage activeItem="Rank of student"/>} />
           <Route path="/Queries/Students who failed" element={<StudentToEnrollInCourse activeItem="Students failed not enrolled"/>} />
-          <Route path="/Oueries/RankOfStudent" element={<RankOfStudentPage activeItem="Rank of student" />} />
+        <Route path="/Queries/CellsCount" element={<CellsCount/>}/>
+      <Route path="/Queries/pendingStudents" element={<PendingStudents/>}/>
+      <Route path="/Queries/courses-instructors" element={<CourseInstructors />} />
+       
+        {/* Requests */}
           <Route path="/Requests/MappedCourse" element={<MappedCourse />} />
           <Route
             path="/Requests/CreateAnOverload"
@@ -148,7 +147,7 @@ function App() {
             path="/Requests/CreateASelfStudy"
             element={<CreateASelfStudy />}
           />
-
+          
           <Route path="/Course/:id/bylaw/:bylawId" element={<CourseDetailsPage />} />
           <Route path="/Course/:courseId/schedule" element={<CourseSchedule />} />
           <Route path="/Course/:id/PrerequesitiesAndDependants" element={<CourseRulesPage />} />

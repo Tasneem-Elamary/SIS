@@ -216,8 +216,11 @@ Schedule.belongsTo(Slot, { foreignKey: 'SlotId' });
 Room.hasMany(Schedule, { foreignKey: 'RoomId' });
 Schedule.belongsTo(Room, { foreignKey: 'RoomId' });
 
-Instructor.hasMany(Schedule, { foreignKey: 'InstructorId' });
-Schedule.belongsTo(Instructor, { foreignKey: 'InstructorId' });
+Instructor.hasMany(Schedule, { foreignKey: 'InstructorId1', as: 'SchedulesAsInstructor1' });
+Schedule.belongsTo(Instructor, { foreignKey: 'InstructorId1', as: 'Instructor1' });
+
+Instructor.hasMany(Schedule, { foreignKey: 'InstructorId2', as: 'SchedulesAsInstructor2' });
+Schedule.belongsTo(Instructor, { foreignKey: 'InstructorId2', as: 'Instructor2' });
 
 Semester.hasMany(Schedule, { foreignKey: 'SemesterId' });
 Schedule.belongsTo(Semester, { foreignKey: 'SemesterId' });
@@ -262,7 +265,7 @@ StudentSchedule.belongsTo(Student, { foreignKey: 'StudentId' });
 // db.drop().then(() => {
 //   console.log('All tables dropped successfully!');
 // });
-// db.sync({ alter: true }).then(() => {
+// db.sync({alter:true}).then(() => {
 //   console.log('tables created successfully');
 // });
 export {

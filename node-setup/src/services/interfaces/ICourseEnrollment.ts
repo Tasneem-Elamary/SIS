@@ -1,4 +1,4 @@
-import { CourseEnrollmentType, CourseType } from '../../types';
+import { CourseEnrollmentType, CourseType, StudentType } from '../../types';
 
 interface ICourseEnrollment {
   create(enrollmentData: CourseEnrollmentType): Promise<CourseEnrollmentType | undefined>;
@@ -12,5 +12,6 @@ interface ICourseEnrollment {
   getAll(): Promise<CourseEnrollmentType[]|undefined>;
   update(id: string, updateData: Partial<CourseEnrollmentType>): Promise<CourseEnrollmentType | undefined>;
   delete(id: string): Promise<boolean>;
+  getEnrollmentRequests(): Promise<Partial<StudentType & CourseType>[]>
 }
 export default ICourseEnrollment;

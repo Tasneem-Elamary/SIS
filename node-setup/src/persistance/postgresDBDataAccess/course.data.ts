@@ -1,5 +1,7 @@
 import { Sequelize } from 'sequelize';
-import models, { Bylaw, BylawCourse, Course } from '../../models';
+import models, {
+  Bylaw, BylawCourse, Course, Schedule,
+} from '../../models';
 import { CourseRepo } from '../Repositories';
 import {
   BylawCourseType, BylawType, CourseType, CoursewithRegistedStudentsType, InstructorType,
@@ -407,6 +409,79 @@ class CourseData implements CourseRepo {
     } catch (error) {
       console.error('Error fetching distinct professors for course:', error);
       return undefined;
+    }
+  };
+
+  getAllCoursesInstructors = async (): Promise<
+  Array<{
+    courseName: string;
+    courseCode: string;
+    instructorId: string;
+    instructorFirstName: string;
+    instructorLastName: string;
+  }>> => {
+    try {
+      const courses = await models.Course.findAll({
+        attributes: ['name', 'code'],
+        include: [
+          {
+            model: models.Schedule,
+            attributes: ['InstructorId1', 'InstructorId2'],
+            include: [
+              {
+                model: models.Instructor,
+                as: 'Instructor1',
+                attributes: ['id', 'firstName', 'lastName'],
+                required: true,
+              },
+              {
+                model: models.Instructor,
+                as: 'Instructor2',
+                attributes: ['id', 'firstName', 'lastName'],
+                required: true,
+              },
+
+            ],
+
+          },
+        ],
+
+      });
+      const rawCoursesInstructors = courses.map((course) => (course.get({ plain: true })));
+      const coursesInstructors = [];
+      for (const item of rawCoursesInstructors) {
+        const instructorIdStore = new Set();
+
+        for (const schedule of item.Schedules) {
+          if (!instructorIdStore.has(schedule.InstructorId1)) {
+            coursesInstructors.push({
+              courseName: item.name,
+              courseCode: item.code,
+              instructorId: schedule.InstructorId1,
+              instructorFirstName: schedule.Instructor1.firstName,
+              instructorLastName: schedule.Instructor1.lastName,
+
+            });
+          }
+          instructorIdStore.add(schedule.InstructorId2);
+          if (!instructorIdStore.has(schedule.InstructorId1)) {
+            coursesInstructors.push({
+              courseName: item.name,
+              courseCode: item.code,
+              instructorId: schedule.InstructorId2,
+              instructorFirstName: schedule.Instructor2.firstName,
+              instructorLastName: schedule.Instructor2.lastName,
+
+            });
+          }
+          instructorIdStore.add(schedule.InstructorId2);
+        }
+      }
+
+      return coursesInstructors;
+    } catch (error) {
+      console.error('Error fetching distinct courses with instructors', error);
+      throw new Error("Couldn't get instructors teaching a course");
     }
   };
 }

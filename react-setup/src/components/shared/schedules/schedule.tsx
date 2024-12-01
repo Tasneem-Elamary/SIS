@@ -23,7 +23,8 @@ const Schedule = ({ schedules }) => {// need to change any
             <ul>{schedules.map((schedule) => (<li>
                 <div className='black-bold'><span className='blue-bold'>{schedule.Course.code} </span>- {schedule.Course.name}</div>
                 <div className='black-bold'><span className='blue-bold'>{schedule.Room.code} </span></div>
-                <div className='blue-bold'>{schedule.Instructor.firstName} {schedule.Instructor.lastName}</div>
+                <div className='blue-bold'>- {schedule.Instructor1.firstName} {schedule.Instructor1.lastName}</div>
+                <div className='blue-bold'>- {schedule.Instructor2.firstName} {schedule.Instructor2.lastName}</div>
                 <div className='blue-bold'>Group: {schedule.Group.groupCode} | Section: {schedule.Section.sectionCode}</div>
                 <div className='black-bold'>{schedule.scheduleType}</div></li>)
                 )

@@ -15,7 +15,7 @@ const AddRegulation = () => {
 
     const dispatch = useDispatch(); // Use dispatch
 
-    const handleGpaChange = (index, field, value) => {
+    const handleGpaChange = (index:number, field:string, value:string) => {
         const updatedData = [...gpaData];
         updatedData[index][field] = field === 'point' ? parseFloat(value) : value;
         setGpaData(updatedData);

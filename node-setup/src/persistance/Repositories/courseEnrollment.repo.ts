@@ -7,5 +7,6 @@ interface CourseEnrollmentRepo {
     update(id: string, updatedData: Partial<CourseEnrollmentType>): Promise<CourseEnrollmentType | undefined>;
     delete(id: string): Promise<boolean>;
     getCoursesStudentAllowedToEnroll(studentId: string): Promise<CourseType []|undefined>
+    getPendingEnrollmentRequests():Promise<CourseEnrollmentType[]>
   }
 export default CourseEnrollmentRepo;

@@ -3,7 +3,7 @@ import {
   Course, CourseEnrollment, Grade, Result, Student,
 } from '../../models';
 import course from '../../models/course.model';
-import { CourseEnrollmentType, CourseType } from '../../types';
+import { CourseEnrollmentType, CourseType, StudentType } from '../../types';
 import { CourseEnrollmentRepo } from '../Repositories';
 
 class CourseEnrollmentDataAccess implements CourseEnrollmentRepo {
@@ -98,15 +98,15 @@ class CourseEnrollmentDataAccess implements CourseEnrollmentRepo {
               {
                 model: Result,
                 where: {
-                  StudentId: studentId, // Check if the student passed the prerequisite course
+                  StudentId: studentId,
                 },
                 include: [
                   {
                     model: Grade,
-                    where: { letter: { [Op.ne]: 'F' } }, // Only include passing grades
+                    where: { letter: { [Op.ne]: 'F' } },
                   },
                 ],
-                attributes: [], // Exclude Result attributes in the result
+                attributes: [],
               },
             ],
           },
@@ -121,6 +121,21 @@ class CourseEnrollmentDataAccess implements CourseEnrollmentRepo {
       return AllowedCoursesToEnroll.map((course) => course.get({ plain: true }));
     } catch (error) {
       console.error('Error finding allowed courses to enroll in:', error);
+    }
+  }
+
+  public async getPendingEnrollmentRequests():Promise<CourseEnrollmentType[]> {
+    try {
+      const courseEnrollments = await CourseEnrollment.findAll({ where: { approvalStatus: 'pending' }, attributes: ['StudentId', 'CourseId'] });
+      if (!courseEnrollments) {
+        throw Error('Course enrollments Not found');
+      } else {
+        const courseEnrollmentIds = courseEnrollments.map((courseEnrollment) => courseEnrollment.get({ plain: true }));
+        return courseEnrollmentIds;
+      }
+    } catch (error) {
+      console.log(error);
+      throw Error('Failed to get course enrollments ');
     }
   }
 }

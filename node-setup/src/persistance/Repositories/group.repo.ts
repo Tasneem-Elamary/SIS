@@ -7,8 +7,8 @@ interface GroupRepo {
   getAll(): Promise<GroupType[] | undefined>;
   update(id: string, updateData: Partial<GroupType>): Promise<GroupType | undefined>;
   delete(id: string): Promise<boolean>;
-  getStudentsInASpecificGroup(CourseId: string, SectionId:string): Promise<StudentType[]>;
-  getSectionsInASpecificGroup(CourseId: string, GroupId: string):Promise<Partial<SectionType>[]>;
+  getStudentsInASpecificGroup(SectionId:string, CourseId: string): Promise<StudentType[]>;
+  getSectionsInASpecificGroup(GroupId: string, CourseId: string):Promise<Partial<SectionType>[]>;
 }
 
 export default GroupRepo;

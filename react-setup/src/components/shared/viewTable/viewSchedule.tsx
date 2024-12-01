@@ -12,7 +12,11 @@ interface Schedule {
     code: string;
     name: string;
   };
-  Instructor: {
+  Instructor1: {
+    firstName: string;
+    lastName: string;
+  };
+  Instructor2: {
     firstName: string;
     lastName: string;
   };
@@ -83,7 +87,8 @@ const ViewSchedule = ({ schedules }: { schedules: Schedule[] }) => {
                       <div className='black-bold'>
                         <span className='blue-bold'>{schedule?.Course?.code} </span>- {schedule?.Course?.name}
                       </div>
-                      <div className='blue-bold'>{schedule?.Instructor?.firstName} {schedule?.Instructor?.lastName}</div>
+                      <div className='blue-bold'>{schedule?.Instructor1?.firstName} {schedule?.Instructor1?.lastName}</div>
+                      <div className='blue-bold'>{schedule?.Instructor2?.firstName} {schedule?.Instructor2?.lastName}</div>
                       <div className='blue-bold'>Group: {schedule?.Group?.groupCode} | Section: {schedule?.Section?.sectionCode}</div>
                       <div className='blue-bold'>{schedule?.scheduleType}</div>
                     </div>

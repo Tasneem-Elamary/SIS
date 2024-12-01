@@ -131,6 +131,7 @@ private gradeData:GradesRepo,
       throw new Error('Error fetching results for ');
     }
   };
+
   deleteResults = async (ids:string[]) : Promise<number> => {
     try {
       let numOfDeleted = 0;

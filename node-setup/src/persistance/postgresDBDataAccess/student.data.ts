@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import models, {
+  Bylaw,
   CourseEnrollment, Grade, Result, Student, StudentSchedule, User,
 } from '../../models';
 import { StudentRepo } from '../Repositories';
@@ -20,7 +21,6 @@ interface StudentWithUser extends StudentType {
 class StudentDataAccess implements StudentRepo {
   private async getBylawIdByCode(bylawCode: string|undefined): Promise<string | undefined> {
     const bylaw = await models.Bylaw.findOne({ where: { code: bylawCode } });
-    console.log('Debugging***', bylaw?.getDataValue('id'));
     return bylaw ? bylaw.getDataValue('id') : undefined;
   }
 
@@ -188,6 +188,7 @@ class StudentDataAccess implements StudentRepo {
 
   getAll = async (): Promise<(StudentType & { email: string })[]> => {
     try {
+      console.log(hashPassword('PASS'));
       const studentModels = await models.Student.findAll({
         include: [
           {
@@ -301,7 +302,7 @@ class StudentDataAccess implements StudentRepo {
   // findStudentsForSpecificBylaw = async(BylawId: string):Promise<(StudentType&string)[]>=>{
   getStudentsForSpecificBylaw = async (BylawId: string):Promise<StudentType[]> => {
     try {
-      const students = await Student.findAll({ where: { BylawId }, include: [{ model: User, attributes: ['email'] }] });
+      const students = await Student.findAll({ where: { BylawId }, attributes: ['name', 'studentCode', 'level'], include: [{ model: User, attributes: ['email'] }, { model: Bylaw }] });
       return students.map((student) => student.get({ plain: true }));
     } catch (error) {
       console.log('Failed to find bylaw students due to error: ', error);

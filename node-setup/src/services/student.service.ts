@@ -133,16 +133,17 @@ class StudentService implements IStudent {
     }
   };
 
-  public studentFailedOrNotEnrolledCourse = async (courseId:string):Promise<Partial<StudentType&UserType>[] |undefined> => {
+  public studentFailedOrNotEnrolledCourse = async (courseId:string, level?:number, idPrefix?:string, lastNSemesters?:number):Promise<Partial<StudentType&UserType>[] |undefined> => {
     try {
-      const notEnrolledStudents = await this.StudentData.getFailedUnenrolledStudents(courseId);
-
+      let notEnrolledStudents = await this.StudentData.getFailedUnenrolledStudents(courseId);
+      if (level) notEnrolledStudents = notEnrolledStudents.filter((student) => student.level === level);
+      if (idPrefix) notEnrolledStudents = notEnrolledStudents.filter((student) => student.studentCode.startsWith(idPrefix));
       return notEnrolledStudents;
     } catch (error) {
       throw Error("Couldn't load student who failed or didn't enroll in a course");
     }
   };
-  // getByEmail = (email: string) => {w
+  // getByEmail = (email: string) => {
   //   try {
   //     return this.userData.getByEmail(email);
   //   } catch {

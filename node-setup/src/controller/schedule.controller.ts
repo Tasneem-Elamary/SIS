@@ -15,7 +15,8 @@ class ScheduleController {
   public createSchedule = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {
-        instructorCode,
+        instructor1Code,
+        instructor2Code,
         scheduleType,
         roomCode,
         groupCode,
@@ -29,7 +30,8 @@ class ScheduleController {
       } = req.body;
 
       const createdSchedule = await this.scheduleService.createSchedule(
-        instructorCode,
+        instructor1Code,
+        instructor2Code,
         scheduleType,
         roomCode,
         groupCode,
@@ -63,16 +65,9 @@ class ScheduleController {
   };
 
   public uploadCSVSchedules = async (req: Request, res: Response, next: NextFunction) => {
-    const filePath = req.file?.path;
-    if (!filePath) {
-      return res.status(400).send({
-        status: 'error',
-        message: 'CSV file is required',
-      });
-    }
+    const parsedData = req.body;
 
     try {
-      const parsedData = await parseCSV<ScheduleInputType>(filePath);
       const result = await this.scheduleService.createSchedules(parsedData);
 
       return res.status(201).send({
@@ -91,6 +86,36 @@ class ScheduleController {
     try {
       const schedules = await this.scheduleService.getAllSchedules();
       res.status(200).json({ message: 'Succeeded', schedules });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getGroupStudents = async (req: Request, res: Response, next: NextFunction) => {
+    const { GroupId, CourseId } = req.params;
+    try {
+      const students = await this.scheduleService.getStudentsInASpecificGroup(GroupId, CourseId);
+      res.status(200).json({ message: 'Succeeded', students });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getSectionStudents = async (req: Request, res: Response, next: NextFunction) => {
+    const { SectionId, CourseId } = req.params;
+    try {
+      const students = await this.scheduleService.getStudentsInASpecificSection(SectionId, CourseId);
+      res.status(200).json({ message: 'Succeeded', students });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getGroupSections = async (req: Request, res: Response, next: NextFunction) => {
+    const { GroupId, CourseId } = req.params;
+    try {
+      const sections = await this.scheduleService.getSectionsInASpecificGroup(GroupId, CourseId);
+      res.status(200).json({ message: 'Succeeded', sections });
     } catch (error) {
       next(error);
     }

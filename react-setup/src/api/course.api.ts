@@ -13,6 +13,7 @@ console.log(`mmmmmmmmmm${backendUrl}`)
 
 class Course {
   getAllcourses = () => axios.get(`${backendUrl}/course`,config);
+  getCoursesInstructors = () => axios.get(`${backendUrl}/course/courses/instructors`,config);
   getcourseBylevel = (level:number) => axios.get(`${backendUrl}/course/level/${level}`,config);
   getcourseDetails = (CourseId:string,bylawId:string) => axios.get(`${backendUrl}/course/${CourseId}/bylaw/${bylawId}`,config);
   getcoursePrerequisite = (CourseId:string) => axios.get(`${backendUrl}/course/${CourseId}/prerequisites`,config);

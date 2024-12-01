@@ -44,7 +44,9 @@
         "no-await-in-loop":"off",
         "import/no-duplicates":"off",
        "no-unused-expressions":"off",
-        "@typescript-eslint/no-unused-expressions":"off"
+        "@typescript-eslint/no-unused-expressions":"off",
+            "no-use-before-define":"off",
+    "no-empty":"off"
         
     }
 }

@@ -34,7 +34,7 @@ const UpdateSchedules = ({ getAllSchedules, uploadCsvSchedules }: SchedulesProps
             courseCode: schedule.Course.code,
             courseName: schedule.Course.name,
             roomCode: schedule.Room.code,
-            instructorName: `${schedule.Instructor.firstName} ${schedule.Instructor.lastName}`,
+            instructor1Name: `${schedule.Instructor1.firstName} ${schedule.Instructor1.lastName}`,
             groupCode: schedule.Group.groupCode,
             sectionCode: schedule.Section.sectionCode,
             scheduleType: schedule.scheduleType,

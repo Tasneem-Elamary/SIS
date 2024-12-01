@@ -62,6 +62,20 @@ class Course {
             return [];
         }
     };
+        getcoursesInstructorsAction = () => async (dispatch: Dispatch) => {
+        try {
+            dispatch(statusAction.clearStatus());
+            dispatch(fetchAction.fetchingTime());
+            const { data: { message, course } } = await courseApi.getCoursesInstructors();
+            dispatch(statusAction.addSuccessStatus(message));
+            dispatch(fetchAction.fetchingFailed());
+            return course;
+        } catch (e) {
+            dispatch(fetchAction.fetchingFailed());
+            dispatch(statusAction.addErrorStatus(e as Error));
+            return [];
+        }
+    };
     getcoursePrerequisitieAction = (CourseId:string) => async (dispatch: Dispatch) => {
         try {
             dispatch(statusAction.clearStatus());

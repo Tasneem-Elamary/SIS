@@ -17,13 +17,14 @@ const config={
 }
 class Regulation {
  
-  viewAllRegulations = () => axios.get(`http://localhost:5000/bylaw/`,config);
-  viewRegulationDetails = (regulationId: string) => axios.get(`http://localhost:5000/bylaw/${regulationId}`,config);
-  viewRegulationRules = (regulationId: string) => axios.get(`http://localhost:5000/bylaw/limits/${regulationId}`,config);
-  viewRegulationCourses = (regulationId: string) => axios.get(`http://localhost:5000/bylaw/${regulationId}/courses`,config);
-  addRegulationDetails = (FacultyId:string,regulationDetail:RegulationType) => axios.post(`http://localhost:5000/bylaw//createBylaw`,{...regulationDetail,FacultyId},config);
-  addRegulationLimits = (regulationId: string,limits:RegulationRuleType[]) => axios.post(`http://localhost:5000/bylaw/${regulationId}/limits`,limits,config);
-  addRegulationGrades = (regulationId: string,grades:GradeType[]) => axios.post(`http://localhost:5000/bylaw/${regulationId}/grades`,grades,config);
+  viewAllRegulations = () => axios.get(`${backendUrl}/bylaw/`,config);
+  viewRegulationDetails = (regulationId: string) => axios.get(`${backendUrl}/bylaw/${regulationId}`,config);
+  viewRegulationRules = (regulationId: string) => axios.get(`${backendUrl}/bylaw/limits/${regulationId}`,config);
+  viewRegulationCourses = (regulationId: string) => axios.get(`${backendUrl}/bylaw/${regulationId}/courses`,config);
+  viewRegulationStudents = (regulationId: string) => axios.get(`${backendUrl}/student/BylawStudents/${regulationId}`,config);
+  addRegulationDetails = (FacultyId:string,regulationDetail:RegulationType) => axios.post(`${backendUrl}/bylaw//createBylaw`,{...regulationDetail,FacultyId},config);
+  addRegulationLimits = (regulationId: string,limits:RegulationRuleType[]) => axios.post(`${backendUrl}/bylaw/${regulationId}/limits`,limits,config);
+  addRegulationGrades = (regulationId: string,grades:GradeType[]) => axios.post(`${backendUrl}/bylaw/${regulationId}/grades`,grades,config);
 }
 
 export default new Regulation();

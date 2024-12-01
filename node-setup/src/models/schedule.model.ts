@@ -25,11 +25,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // cell: {
-      //   type: DataTypes.INTEGER,
-      //   // defaultValue: 1,
-      //   // allowNull: false,
-      // },
+
       level: {
         type: DataTypes.INTEGER,
         defaultValue: 1,
@@ -38,8 +34,7 @@ const ScheduleModel = (sequelize: Sequelize) => {
       cell: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        // autoIncrement: true,
-        defaultValue: 1,
+        autoIncrement: true,
 
       },
       GroupId: {
@@ -93,9 +88,18 @@ const ScheduleModel = (sequelize: Sequelize) => {
         onDelete: 'CASCADE',
 
       },
-      InstructorId: {
+      InstructorId1: {
         type: DataTypes.UUID,
-        // allowNull: false,
+        allowNull: false,
+        references: {
+          model: 'Instructors',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      InstructorId2: {
+        type: DataTypes.UUID,
+        allowNull: false,
         references: {
           model: 'Instructors',
           key: 'id',

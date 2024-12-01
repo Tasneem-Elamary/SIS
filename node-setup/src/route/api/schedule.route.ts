@@ -9,18 +9,23 @@ import {
   validateRoomId,
   validateCourseId,
   validateSectionParams,
+  validateCSVScheduleUpload,
 } from '../../middleware/validation/scheduleValidation.middleware';
 import { uploadCSV } from '../../middleware/fileUpload';
+import { parseCSVFile } from '../../middleware/parseCSV';
 
 const router = Router();
 
 router.post('/createSchedule', validateScheduleCreation, ScheduleController.createSchedule);
-router.post('/uploadCSVSchedule', uploadCSV, ScheduleController.uploadCSVSchedules);
+router.post('/uploadCSVSchedule', uploadCSV, parseCSVFile, validateCSVScheduleUpload, ScheduleController.uploadCSVSchedules);
 router.get('/:id', ScheduleController.getSchedule);
 router.put('/:id', ScheduleController.updateSchedule);
 router.delete('/deleteSchedule/:id', ScheduleController.deleteSchedule);
 router.delete('/deleteSchedules', ScheduleController.deleteSchedules);
-router.get('/instructor/:id', ScheduleController.getInstructorSchedules);
+router.get('/instructor/:id', validateScheduleId, ScheduleController.getInstructorSchedules);
+router.get('/group/sections/:GroupId/:CourseId', ScheduleController.getGroupSections);
+router.get('/group/students/:GroupId/:CourseId', ScheduleController.getGroupStudents);
+router.get('/section/students/:SectionId/:CourseId', ScheduleController.getSectionStudents);
 router.get('/student/:id', ScheduleController.getStudentSchedules);
 router.get('/student/pending/:id', ScheduleController.getStudentPendingSchedules);
 router.get('/student/register/:id', ScheduleController.getStudentToRegisterSchedules);

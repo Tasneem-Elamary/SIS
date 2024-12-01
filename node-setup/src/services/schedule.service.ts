@@ -34,7 +34,7 @@ class Schedule {
   }
 
   public createSchedule = async (
-    instructorCode: string,
+    instructor1Code: string,
     scheduleType: 'lecture' | 'lab',
     roomCode: string,
     groupCode: string,
@@ -45,15 +45,22 @@ class Schedule {
     startTime: Date,
     endTime: Date,
     day: 'Saturday' | 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday',
+    instructor2Code?: string,
+
   ):
     Promise<ScheduleType> => {
     try {
-      const instructor = await this.instructor.getByCode(instructorCode);
+      const instructor1 = await this.instructor.getByCode(instructor1Code);
       const room = await this.room.getByCode(roomCode);
 
-      if (!instructor && instructorCode) {
-        throw new Error('Instructor does not exist.');
+      if (!instructor1 && instructor1Code) {
+        throw new Error('Instructor1 does not exist.');
       }
+      let instructor2;
+      if (instructor2Code) {
+        instructor2 = await this.instructor.getByCode(instructor2Code);
+      }
+
       if (!room) {
         throw new Error('Room does not exist.');
       }
@@ -74,7 +81,8 @@ class Schedule {
       const schedule: ScheduleType = {
         scheduleType,
         CourseId: course?.id,
-        InstructorId: instructor?.id,
+        InstructorId1: instructor1?.id,
+        InstructorId2: instructor2?.id,
         RoomId: room.id,
         SectionId: section.id,
         GroupId: group?.id,
@@ -92,7 +100,8 @@ class Schedule {
 
   public getScheduleById = async (id: string): Promise<Partial<ScheduleType>
     & {
-      instructor?: Partial<InstructorType>
+      instructor1?: Partial<InstructorType>
+      instructor2?: Partial<InstructorType>
       , course?: Partial<CourseType>
       , slot?: Partial<SlotType>
       , group?: Partial<GroupType>
@@ -112,7 +121,8 @@ class Schedule {
     try {
       const schedulePromises = schedules.map((scheduleData) => {
         const {
-          instructorCode,
+          instructor1Code,
+          instructor2Code,
           scheduleType,
           roomCode,
           groupCode,
@@ -126,7 +136,7 @@ class Schedule {
         } = scheduleData;
 
         return this.createSchedule(
-          instructorCode,
+          instructor1Code,
           scheduleType,
           roomCode,
           groupCode,
@@ -137,6 +147,8 @@ class Schedule {
           startTime,
           endTime,
           day,
+          instructor2Code,
+
         );
       });
 
@@ -150,13 +162,14 @@ class Schedule {
 
   public getAllSchedules = async (): Promise<ScheduleType[]> => {
     try {
+      console.log('get all schedule service');
       return await this.ScheduleData.getAll();
     } catch (error) {
       throw new Error('Failed to get all schedules, Please try again!');
     }
   };
 
-  public getInstructorSchedules = async (instructorId: string):Promise<{ schedules: ScheduleType[], instructorData:(InstructorType | undefined) }> => {
+  public getInstructorSchedules = async (instructorId: string): Promise<{ schedules: ScheduleType[], instructorData: (InstructorType | undefined) }> => {
     try {
       return await this.ScheduleData.getInstructorSchedules(instructorId);
     } catch (error) {
@@ -164,7 +177,7 @@ class Schedule {
     }
   };
 
-  public getStudentSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+  public getStudentSchedules = async (studentId: string): Promise<{ schedules: ScheduleType[] }> => {
     try {
       return await this.ScheduleData.getStudentSchedules(studentId);
     } catch (error) {
@@ -173,7 +186,7 @@ class Schedule {
     }
   };
 
-  public getStudentPendingSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+  public getStudentPendingSchedules = async (studentId: string): Promise<{ schedules: ScheduleType[] }> => {
     try {
       return await this.ScheduleData.getStudentPendingSchedules(studentId);
     } catch (error) {
@@ -182,7 +195,7 @@ class Schedule {
     }
   };
 
-  public getStudenToRegistertSchedules = async (studentId: string):Promise<{ schedules: ScheduleType[]}> => {
+  public getStudenToRegistertSchedules = async (studentId: string): Promise<{ schedules: ScheduleType[] }> => {
     try {
       return await this.ScheduleData.getStudentToReisterSchedules(studentId);
     } catch (error) {
@@ -191,7 +204,7 @@ class Schedule {
     }
   };
 
-  public getRoomSchedules = async (roomId:string): Promise<{schedules:ScheduleType[], roomData:RoomType}> => {
+  public getRoomSchedules = async (roomId: string): Promise<{ schedules: ScheduleType[], roomData: RoomType }> => {
     try {
       return await this.ScheduleData.getRoomSchedules(roomId);
     } catch (error) {
@@ -199,7 +212,7 @@ class Schedule {
     }
   };
 
-  public getCourseSchedules = async (courseId: string): Promise<{schedules:ScheduleType[], courseData:CourseType}> => {
+  public getCourseSchedules = async (courseId: string): Promise<{ schedules: ScheduleType[], courseData: CourseType }> => {
     try {
       return await this.ScheduleData.getCourseSchedules(courseId);
     } catch (error) {
@@ -246,34 +259,32 @@ class Schedule {
     }
   };
 
-  public getStudentsInASpecificSection = async (CourseId: string, SectionId: string): Promise<StudentType[]> => {
+  public getStudentsInASpecificSection = async (SectionId: string, CourseId: string): Promise<StudentType[]> => {
     try {
-      const students = this.section.getStudentsInASpecificSection(CourseId, SectionId);
+      const students = this.section.getStudentsInASpecificSection(SectionId, CourseId);
       return students;
     } catch (error) {
       throw new Error('Failed to et section students!');
     }
   };
 
-  public getStudentsInASpecificGroup = async (CourseId: string, GroupId: string): Promise<StudentType[]> => {
+  public getStudentsInASpecificGroup = async (GroupId: string, CourseId: string): Promise<StudentType[]> => {
     try {
-      const students = this.group.getStudentsInASpecificGroup(CourseId, GroupId);
+      const students = this.group.getStudentsInASpecificGroup(GroupId, CourseId);
       return students;
     } catch (error) {
       throw new Error('Failed to et group students!');
     }
   };
 
-  public getSectionsInASpecificGroup = async (CourseId: string, GroupId: string): Promise<Partial<SectionType>[]> => {
+  public getSectionsInASpecificGroup = async (GroupId: string, CourseId: string): Promise<Partial<SectionType>[]> => {
     try {
-      const sections = this.group.getSectionsInASpecificGroup(CourseId, GroupId);
+      const sections = this.group.getSectionsInASpecificGroup(GroupId, CourseId);
       return sections;
     } catch (error) {
       throw new Error('Failed to et group sections!');
     }
   };
-
-  //
 }
 
 export default Schedule;

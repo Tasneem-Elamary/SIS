@@ -5,7 +5,7 @@ export interface ISectionRepo {
     getById(id: string): Promise<SectionType | null>;
     getBySectionCode(sectionCode: string): Promise<SectionType | null>;
     getBySectionCodeAndCapacity(sectionCode: string, capacity:number): Promise<SectionType | null>;
-    getStudentsInASpecificSection(CourseId: string, SectionId: string): Promise<StudentType[]>
+    getStudentsInASpecificSection(SectionId: string, CourseId: string): Promise<StudentType[]>
     update(id: string, section: Partial<SectionType>): Promise<void>;
     delete(id: string): Promise<void>;
 }

@@ -70,11 +70,12 @@ const RoomSchedule = ({ getRoomSchedule }: RoomScheduleProps) => {
 
     const renderScheduleDetails = (schedule: any) => {
         if (!schedule) return null;
-        const { Course, Instructor, scheduleType, Group, Section } = schedule;
+        const { Course, Instructor1,Instructor2, scheduleType, Group, Section } = schedule;
         return (
             <div>
                 <div className='black-bold'><span className='blue-bold'>{Course.code} </span>- {Course.name}</div>
-                <div className='blue-bold'>{Instructor.firstName} {Instructor.lastName}</div>
+                <div className='blue-bold'><span className='black-bold'>- </span> {Instructor1.firstName} {Instructor2.lastName}</div>
+                <div className='blue-bold'><span className='black-bold'>- </span>  {Instructor2.firstName} {Instructor2.lastName}</div>
                 <div className='blue-bold'>Group: {Group.groupCode} | Section: {Section.sectionCode}</div>
                 <div className='blue-bold'>{scheduleType}</div>
             </div>

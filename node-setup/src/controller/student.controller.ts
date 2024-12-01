@@ -71,13 +71,9 @@ class StudentController {
   };
 
   public uploadCSVStudents = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const filePath = req.file?.path;
-    if (!filePath) {
-      return res.status(400).send({ msg: 'CSV file is required' });
-    }
+    const parsedData = req.body;
 
     try {
-      const parsedData = await parseCSV<StudentType & UserType>(filePath);
       await this.student.createStudents(parsedData);
       return res.status(201).send({ msg: 'Students created successfully' });
     } catch (error) {
@@ -114,7 +110,7 @@ class StudentController {
 
   public deleteStudents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { studentIds } = req.body;
-console.log(studentIds)
+    console.log(studentIds);
     try {
       const numOfDeletedRecords = await this.student.deleteStudents(studentIds);
       res.status(200).send({ msg: `${numOfDeletedRecords} records deleted successfully` });
@@ -158,9 +154,10 @@ console.log(studentIds)
 
   public getFailedOrNotEnrolledStudents = async (req: Request, res: Response) => {
     const { courseId } = req.params;
+    const { level, idPrefix } = req.body;
 
     try {
-      const students = await this.student.studentFailedOrNotEnrolledCourse(courseId);
+      const students = await this.student.studentFailedOrNotEnrolledCourse(courseId, level, idPrefix);
 
       if (students) {
         return res.status(200).json({
@@ -182,10 +179,10 @@ console.log(studentIds)
   };
 
   public getStudentsInASpecificBylaw = async (req: Request, res: Response) => {
-    const { courseId } = req.params;
+    const { BylawId } = req.params;
 
     try {
-      const students = await this.student.getStudentsForSpecificBylaw(courseId);
+      const students = await this.student.getStudentsForSpecificBylaw(BylawId);
 
       if (students) {
         return res.status(200).json({
@@ -195,7 +192,7 @@ console.log(studentIds)
       }
       return res.status(404).json({
         success: false,
-        message: 'No students found for this course',
+        message: 'No students found for this bylaw',
       });
     } catch (error) {
       return res.status(500).json({

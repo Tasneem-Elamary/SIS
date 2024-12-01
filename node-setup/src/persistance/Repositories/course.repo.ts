@@ -23,6 +23,13 @@ getMappedCoursesForBylawCourseId (BylawCourseId: string): Promise<Partial<BylawC
 getCourseMappedToCourseId (CourseId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}> | undefined>
 getBylawMappedCourses (bylawId: string): Promise<Partial<BylawCourseType&{Course:Partial<CourseType>}&{Bylaw:Partial<BylawType>}>[] | undefined>
 
-  getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>
-}
+getDistinctProfessorsByCourse (courseId: string): Promise<CourseType & { Schedules: InstructorType[] } | undefined>
+getAllCoursesInstructors(): Promise<
+Array<{
+  courseName: string;
+  courseCode: string;
+  instructorId: string;
+  instructorFirstName: string;
+  instructorLastName: string;
+}>>}
 export default CourseRepo;

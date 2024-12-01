@@ -235,6 +235,23 @@ private bylawDepartmentCourseData:BylawDepartmentCourseRepo,
       throw new Error('Failed to get professors teaches this course');
     }
   };
+
+  getAllCoursesInstructors = async (): Promise<
+  Array<{
+    courseName: string;
+    courseCode: string;
+    instructorId: string;
+    instructorFirstName: string;
+    instructorLastName: string;
+  }>> => {
+    try {
+      const courses = this.courseData.getAllCoursesInstructors();
+      return courses;
+    } catch (error) {
+      console.log(error);
+      throw Error('ERROR fetching courses with instructor names');
+    }
+  };
 }
 
 export default Course;

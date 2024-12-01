@@ -10,7 +10,8 @@ export const ValidateCreateInstructor = [
   body('type').isIn(['Professor', 'TA']).withMessage('Invalid type'),
   body('gender').isIn(['Male', 'Female']).withMessage('Invalid gender'),
   body('employmentType').isIn(['full time', 'part time']).withMessage('Invalid employment type'),
-  body('DepartmentCode').isString().isLength({ min: 2 }).withMessage('Department code must be at least 2 characters long'),
+  body('DepartmentCode').optional({ checkFalsy: true }).isString().isLength({ min: 2 })
+    .withMessage('Department code must be at least 2 characters long'),
 
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);

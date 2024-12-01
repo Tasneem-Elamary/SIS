@@ -39,6 +39,7 @@ router.get('/courses/:courseId/mapped-source', courseController.getCourseMappedT
 router.get('/bylaws/:bylawId/mapped-courses', courseController.getBylawMappedCourses);
 
 router.get('/:id/professors', isAuth, authorizeRoles('university admin', 'faculty admin', 'professor', 'teaching assistant', 'student'), courseController.getDistinctProfessorsByCourse);
+router.get('/courses/instructors', courseController.getCoursesWithInstructorName);
 
 router.delete('/:courseId/bylaw/:bylawId/department/:departmentId?', isAuth, authorizeRoles('university admin', 'faculty admin'), courseController.deleteCourseOfBylawAndDepartment);
 export default router;
