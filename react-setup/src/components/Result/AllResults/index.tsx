@@ -49,31 +49,8 @@ function AllResults() {
     //     );
     //     setrowValues(remainingRows);
 
-<<<<<<< HEAD
     //     setCheckedRows([]);
     // };
-=======
-    const onCheckedRowsChange = (selectedRowIds: number[]) => {
-        setCheckedRows(selectedRowIds);
-    };
-
-    // Function to delete selected rows
-    const handleDeleteSelectedRows =async () => {
-        // Here you can dispatch an action to delete rows from the backend
-        // Filter out the selected rows from `rowValues`
-        const remainingRows = rowValues.filter((_, index) => !checkedRows.includes(index));
-        const deletedRows = rowValues.filter((_, index) => checkedRows.includes(index));
-        await Promise.all(
-            deletedRows.map(async (row) => {
-                await dispatch(resultAction.deleteResultsAction(row.id));
-            })
-        );
-        setrowValues(remainingRows);
-       
-        setCheckedRows([]);
-    };
-
->>>>>>> origin/view-table-update
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         console.log(file);
@@ -142,7 +119,6 @@ function AllResults() {
                     <hr />
                 </div>
 
-<<<<<<< HEAD
                 {console.log('results', rowValues)}
                 <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade"]}
                     features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues}
@@ -151,11 +127,6 @@ function AllResults() {
 
 
 
-=======
-                <ViewTable headers={["", "Student Code", "Course Code", "Semster", "Course Work", "Midterm Grade", "Final Grade", "Grade Letter"]}
-                    features={["Student", "Course", "Semester", "courseWork", "midtermGrade", "finalGrade", "Grade"]} rowValues={rowValues} pathKey="/Course/:id/bylaw/:bylawId" 
-                    showSearchBars={true}  onCheckedRowsChange={onCheckedRowsChange}/>
->>>>>>> origin/view-table-update
             </div>
 
         </div>
