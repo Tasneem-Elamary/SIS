@@ -78,15 +78,15 @@ app.use(errorMiddleware);
 //   swaggerUi.setup(swaggerSpec),
 // );
 
-app.use(
-  '/docs',
-  swaggerUi.serve,
-  swaggerUi.setup(undefined, {
-    swaggerOptions: {
-      url: 'swagger.json',
-    },
-  }),
-);
+// app.use(
+//   '/docs',
+//   swaggerUi.serve,
+//   swaggerUi.setup(undefined, {
+//     swaggerOptions: {
+//       url: 'swagger.json',
+//     },
+//   }),
+// );
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response) => {

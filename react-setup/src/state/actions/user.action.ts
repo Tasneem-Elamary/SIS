@@ -29,7 +29,12 @@ class User {
       const { token, id, user } = userData;
       if (userData) {
         console.log('Token and role received:', token, user.role);
+<<<<<<< HEAD
         userData
+=======
+        // dispatch({ type: LOGGED_USER, payload: { token, user } })
+       
+>>>>>>> origin/view-table-update
 
         localStorage.setItem('token', token);
         localStorage.setItem('role', user.role);

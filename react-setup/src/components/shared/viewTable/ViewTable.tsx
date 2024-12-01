@@ -17,6 +17,7 @@ interface ViewTableProps {
   handleOnDeleteAction?: any;
 }
 
+<<<<<<< HEAD
 const ViewTable: React.FC<ViewTableProps> = ({
   headers,
   features,
@@ -62,6 +63,46 @@ const ViewTable: React.FC<ViewTableProps> = ({
       path = path.replace(':doctorId', row.id || '');
       if (row.Bylaws && Array.isArray(row.Bylaws) && row.Bylaws.length > 0) {
         path = path.replace(':bylawId', row.Bylaws[arrayIndex].id || '');
+=======
+const ViewTable: React.FC<ViewTableProps> = ({ headers, features, rowValues, pathKey, showSearchBars = false,  onAccept, onDecline, onCheckedRowsChange }) => {
+  const [filters, setFilters] = useState<{ [key: string]: string }>({});
+ 
+  const [checkedRows, setCheckedRows] = useState<number[]>([]);
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    if (rowValues.length > 0) {
+     
+      setCheckedRows([])// Update rows whenever rowValues changes
+    }
+  }, [rowValues]);
+
+  
+  useEffect(() => {
+    if (onCheckedRowsChange) {
+      onCheckedRowsChange(checkedRows);
+      
+    }
+  }, [checkedRows, onCheckedRowsChange]);
+
+  const handleRowClick = (row: any) => {
+    console.log(row)
+    if (pathKey) {
+      let path = pathKey;
+      if (path.includes(':courseId')) {
+        path = path.replace(':courseId', row.CourseId);
+      }
+      if (path.includes(':taId')) {
+        path = path.replace(':taId', row.id);
+      }
+      if (path.includes(':doctorId')) {
+        path = path.replace(':doctorId', row.id);
+      }
+      if (path.includes(':bylawId')) {
+        path = path.replace(':bylawId', row.BylawId);
+        
+>>>>>>> origin/view-table-update
       }
       navigate(path);
     }
@@ -76,6 +117,7 @@ const ViewTable: React.FC<ViewTableProps> = ({
     });
   };
 
+<<<<<<< HEAD
   // Filter rows based on search inputs
   const filteredRows = rows.filter((row) =>
     features.every((feature) =>
@@ -93,6 +135,13 @@ const ViewTable: React.FC<ViewTableProps> = ({
       prevCheckedRows.includes(rowId)
         ? prevCheckedRows.filter((id) => id !== rowId)
         : [...prevCheckedRows, rowId]
+=======
+  const handleCheckboxChange = (rowIndex: number) => {
+    setCheckedRows((prevCheckedRows) =>
+      prevCheckedRows.includes(rowIndex)
+        ? prevCheckedRows.filter((id) => id !== rowIndex) // Uncheck
+        : [...prevCheckedRows, rowIndex] // Check
+>>>>>>> origin/view-table-update
     );
 
     setCheckedData((prevCheckedData) =>
@@ -103,6 +152,7 @@ const ViewTable: React.FC<ViewTableProps> = ({
 
   };
 
+<<<<<<< HEAD
   const handleOnDelete = async () => {
     console.log("Deleting rows with IDs:", checkedData);
 
@@ -139,6 +189,20 @@ const ViewTable: React.FC<ViewTableProps> = ({
     setCheckedRows([]);
     setCheckedData([]);
   };
+=======
+  const filteredRows = rowValues.filter((row) =>
+    features.every((feature) => {
+      const featureValue = row[feature];
+  
+      if (filters[feature]) {
+        
+          return featureValue?.toString().toLowerCase().includes(filters[feature].toLowerCase());
+        
+      }
+      return true;
+    })
+  );
+>>>>>>> origin/view-table-update
 
   return (
     <div>
@@ -194,19 +258,29 @@ const ViewTable: React.FC<ViewTableProps> = ({
         </thead>
         <tbody>
           {filteredRows.map((row, rowIndex) => {
+<<<<<<< HEAD
             const arrayFeatures = features.filter(
               (feature) => row[feature] !== undefined && Array.isArray(row[feature])
             );
 
             if (arrayFeatures.length === 0) {
+=======
+           
+>>>>>>> origin/view-table-update
               return (
                 <tr key={rowIndex} style={{ cursor: 'pointer' }}>
                   <td>
                     {handleOnDeleteAction && <Input
                       type="checkbox"
+<<<<<<< HEAD
                       checked={checkedRows.includes(`${rowIndex}`)}
                       onChange={() => handleRowCheck(rowIndex)}
                     />}
+=======
+                      checked={checkedRows.includes(rowIndex)}
+                      onChange={() => handleCheckboxChange(rowIndex)}
+                    />
+>>>>>>> origin/view-table-update
                   </td>
                   {features.map((feature, featureIndex) => (
                     <td key={featureIndex} onClick={() => handleRowClick(row, rowIndex)}>
@@ -225,9 +299,13 @@ const ViewTable: React.FC<ViewTableProps> = ({
                   )}
                 </tr>
               );
+<<<<<<< HEAD
             }
 
 ;
+=======
+            
+>>>>>>> origin/view-table-update
           })}
         </tbody>
       </Table>

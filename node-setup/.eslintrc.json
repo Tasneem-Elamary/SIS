@@ -44,9 +44,13 @@
         "no-await-in-loop":"off",
         "import/no-duplicates":"off",
        "no-unused-expressions":"off",
+<<<<<<< HEAD
         "@typescript-eslint/no-unused-expressions":"off",
             "no-use-before-define":"off",
     "no-empty":"off"
+=======
+       "@typescript-eslint/no-unused-expressions":"off"
+>>>>>>> origin/view-table-update
         
     }
 }
