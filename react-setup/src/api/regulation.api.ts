@@ -21,10 +21,12 @@ class Regulation {
   viewRegulationDetails = (regulationId: string) => axios.get(`${backendUrl}/bylaw/${regulationId}`,config);
   viewRegulationRules = (regulationId: string) => axios.get(`${backendUrl}/bylaw/limits/${regulationId}`,config);
   viewRegulationCourses = (regulationId: string) => axios.get(`${backendUrl}/bylaw/${regulationId}/courses`,config);
+  viewCoursesNotInRegulation = (regulationId: string) => axios.get(`${backendUrl}/bylaw/${regulationId}/notInCourses`,config);
   viewRegulationStudents = (regulationId: string) => axios.get(`${backendUrl}/student/BylawStudents/${regulationId}`,config);
   addRegulationDetails = (FacultyId:string,regulationDetail:RegulationType) => axios.post(`${backendUrl}/bylaw//createBylaw`,{...regulationDetail,FacultyId},config);
   addRegulationLimits = (regulationId: string,limits:RegulationRuleType[]) => axios.post(`${backendUrl}/bylaw/${regulationId}/limits`,limits,config);
   addRegulationGrades = (regulationId: string,grades:GradeType[]) => axios.post(`${backendUrl}/bylaw/${regulationId}/grades`,grades,config);
+  addCourseToRegulation = (regulationId: string,courseId:string, isElective:boolean) => axios.post(`${backendUrl}/bylaw/${regulationId}/course/${courseId}`,{isElective},config);
 }
 
 export default new Regulation();

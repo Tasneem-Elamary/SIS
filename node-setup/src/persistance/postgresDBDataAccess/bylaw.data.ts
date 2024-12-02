@@ -1,4 +1,6 @@
-import { fn, col } from 'sequelize';
+import {
+  fn, col, Sequelize, Op,
+} from 'sequelize';
 import models, {
   Bylaw, Grade, BylawRule, Faculty, Course,
   BylawCourse,
@@ -16,7 +18,7 @@ import { BylawRepo } from '../Repositories';
 class BylawDataAccess implements BylawRepo {
   create = async (bylaw: BylawType, transaction?: any): Promise<BylawType | undefined> => {
     try {
-      const newBylaw = await models.Bylaw.create(bylaw, { transaction });
+      const newBylaw = await models.Bylaw.create({ ...bylaw, FacultyId: '16ebf90f-b3c4-4725-86c9-95a3d865fbdd' }, { transaction });// need to change facultyId passing
       return newBylaw.get();
     } catch (error) {
       console.error('Failed to create the bylaw:', error);
@@ -92,6 +94,26 @@ class BylawDataAccess implements BylawRepo {
     if (bylawDetails) return bylawDetails.get({ plain: true });
 
     throw Error('Failed to get bylaw courses');
+  };
+
+  getCoursesNotInBylaw = async (bylawId: string): Promise<CourseType[] | undefined> => {
+    try {
+      const courses = await Course.findAll({
+        where: {
+          id: {
+            [Op.notIn]: Sequelize.literal(
+              `(SELECT "CourseId" FROM "BylawCourses" WHERE "BylawId" = '${bylawId}')`
+            ),
+          },
+        },
+        attributes: ['id', 'code', 'name'],
+      });
+  
+      if (!courses) throw Error('Failed to get bylaw courses');
+      return courses.map((course) => course.get({ plain: true }));
+    }catch (error) {
+      throw Error('Failed to get bylaw courses');
+    }
   };
 
   addCourseToBylaw = async (bylawId: string, courseId: string, isElective: boolean): Promise<BylawCourseType | undefined> => {

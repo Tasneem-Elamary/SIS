@@ -116,6 +116,15 @@ class BylawService implements IBylaw {
     }
   };
 
+  public getCoursesNotInBylaw = async (bylawId:string): Promise<CourseType[] | undefined> => {
+    try {
+      const courses = await this.BylawData.getCoursesNotInBylaw(bylawId);
+      return courses;
+    } catch (error) {
+      throw new Error('Failed to retrieve bylaw courses, Please try again!');
+    }
+  };
+
   public getBylawDepartments = async (bylawId:string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined> => {
     try {
       const bylawDepartments = await this.BylawData.getBylawDepartments(bylawId);

@@ -18,6 +18,7 @@ router.post('/:bylawId/course/:courseId', bylawController.addCourseToBylaw);
 router.get('/courses', bylawController.getAllBylawCourses);
 router.delete('/:bylawId/course/:courseId', bylawController.removeCourseFromBylaw);
 router.get('/:id/courses', bylawController.getBylawCourses);
+router.get('/:id/notInCourses', bylawController.getCoursesNotInBylaw);
 
 // Routes for managing bylaw rules
 router.post('/:bylawId/limits', bylawController.createBylawRules);

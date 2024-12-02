@@ -80,6 +80,25 @@ class Regulation {
       return null;
     }
   };
+  viewCoursesNotInRegulationAction = (regulationId: string) => async (dispatch: Dispatch) => {
+    try {
+      dispatch(statusAction.clearStatus());
+      dispatch(fetchAction.fetchingTime());
+      const response= await regulationApi.viewCoursesNotInRegulation(regulationId); 
+    const {msg,courses}=response.data
+    console.log("Courses not in: ",response)
+
+    if(response)
+    console.log("Courses not in: ",courses)
+      dispatch(statusAction.addSuccessStatus(response.data.msg));
+      dispatch(fetchAction.fetchingFailed());
+      return courses;
+    } catch (e) {
+      dispatch(fetchAction.fetchingFailed());
+      dispatch(statusAction.addErrorStatus(e as Error));
+      return null;
+    }
+  };
   //action to get regulation students 
   viewRegulationStudentsAction = (regulationId: string) => async (dispatch: Dispatch) => {
     try {
@@ -141,6 +160,19 @@ class Regulation {
       dispatch(statusAction.addErrorStatus(e as Error));
     }
   };
+       // Action to add regulation course
+       addRegulationCourseAction = (regulationId: string, courseId:string, isElective:boolean) => async (dispatch: Dispatch) => {
+        try {
+          dispatch(statusAction.clearStatus());
+          dispatch(fetchAction.fetchingTime());
+          const { data: { msg } } = await regulationApi.addCourseToRegulation(regulationId, courseId,isElective);
+          dispatch(statusAction.addSuccessStatus(msg));
+          dispatch(fetchAction.fetchingFailed());
+        } catch (e) {
+          dispatch(fetchAction.fetchingFailed());
+          dispatch(statusAction.addErrorStatus(e as Error));
+        }
+      };
 }
 
 export default new Regulation();

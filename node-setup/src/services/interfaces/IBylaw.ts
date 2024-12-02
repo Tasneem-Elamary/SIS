@@ -18,6 +18,7 @@ interface IBylaw {
   getAllBylawCourses(): Promise<BylawCourseType[] | undefined>;
   removeCourseFromBylaw(bylawId: string, courseId: string): Promise<boolean>;
   getBylawCourses(bylawId: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[]; }> | undefined>;
+  getCoursesNotInBylaw (bylawId:string): Promise<CourseType[] | undefined>
   // methods for bylaw grades
   createBylawGrades(BylawId: string, grades: Partial<GradeType>[]): Promise<GradeType[] | undefined>
 

@@ -21,6 +21,7 @@ interface BylawRepo {
   getBylawCourses(id: string): Promise<Partial<BylawType & { Courses: Partial<CourseType>[] }> | undefined>;
   addDepartmentToBylaw (bylawId: string, departmentId: string): Promise<BylawDepartmentType | undefined>
   getBylawDepartments (id: string): Promise<Partial<BylawType & { Departments: Partial<DepartmentType>[] }> | undefined>
+  getCoursesNotInBylaw(id: string): Promise<CourseType[] | undefined>
 }
 
 export default BylawRepo;

@@ -250,6 +250,24 @@ class BylawController {
         next(e);
       }
     };
+
+    @Get('/{id}/notInCourses')
+  public getCoursesNotInBylaw = async (req: Request, res: Response, next: NextFunction) => {
+        const { id } = req.params;
+        try {
+          const courses = await this.bylaw.getCoursesNotInBylaw(id);
+          if (courses) {
+            res.send({
+              msg: 'Courses retrieved successfully',
+              courses,
+            });
+          } else {
+            res.status(404).send({ msg: 'Courses not found' });
+          }
+        } catch (e) {
+          next(e);
+        }
+      };
 }
 
 export default new BylawController();
